@@ -4,19 +4,7 @@ import NumberFlow from '@number-flow/react'
 import React from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-
-interface Plan {
-  name: string;
-  monthlyPrice: number;
-  popular?: boolean;
-}
-
-const plans: Plan[] = [
-  { name: "Basic", monthlyPrice: 19.99 },
-  { name: "Deluxe", monthlyPrice: 24.99, popular: true },
-  { name: "Works", monthlyPrice: 34.99 },
-  { name: "Works+", monthlyPrice: 39.99 },
-];
+import { plans, calculatePrice, type Plan } from "@/types/plan";
 
 export function PricingSelector() {
   const router = useRouter();
@@ -48,11 +36,8 @@ export function PricingSelector() {
   };
 
   const getPrice = (plan: Plan) => {
-    if (billingPeriod === 0) {
-      return plan.monthlyPrice;
-    } else {
-      return plan.monthlyPrice * 10; // Yearly = monthly × 10
-    }
+    const period = billingPeriod === 0 ? 'monthly' : 'yearly';
+    return calculatePrice(plan, period);
   };
 
   // const formatPrice = (price: number) => {
