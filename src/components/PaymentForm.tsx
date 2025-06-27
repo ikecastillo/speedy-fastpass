@@ -5,12 +5,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
+import { Input } from "@/components/ui/input";
+import { number as validateCard } from 'card-validator';
+import { CardIcon } from '@/components/ui/CardIcon';
 
 const paymentSchema = z.object({
   nameOnCard: z.string().min(2, "Name on card must be at least 2 characters"),
   cardNumber: z.string()
-    .regex(/^\d{16}$/, "Card number must be 16 digits")
-    .transform(val => val.replace(/\s/g, "")),
+    .transform(val => val.replace(/\s/g, ""))
+    .refine(val => /^\d{16}$/.test(val), "Card number must be 16 digits"),
   expiry: z.string()
     .regex(/^(0[1-9]|1[0-2])\/\d{2}$/, "Expiry must be MM/YY format"),
   cvc: z.string()
@@ -27,6 +30,7 @@ interface PaymentFormComponentProps {
 export function PaymentFormComponent({ planName, period }: PaymentFormComponentProps) {
   const router = useRouter();
   const [isProcessing, setIsProcessing] = React.useState(false);
+  const [cardType, setCardType] = React.useState<string | null>(null);
 
   const {
     register,
@@ -134,16 +138,13 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
           <label htmlFor="nameOnCard" className="block text-sm font-medium text-gray-700 mb-2">
             Name on Card
           </label>
-          <input
+          <Input
             {...register("nameOnCard")}
             type="text"
             id="nameOnCard"
             autoComplete="cc-name"
             aria-invalid={errors.nameOnCard ? "true" : "false"}
-            className={`
-              w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand
-              ${errors.nameOnCard ? "border-red-500" : "border-slate-300"}
-            `}
+            className={errors.nameOnCard ? "border-red-500" : ""}
             placeholder="John Doe"
             disabled={isProcessing}
           />
@@ -159,20 +160,27 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
           <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700 mb-2">
             Card Number
           </label>
-          <input
-            {...register("cardNumber")}
-            type="text"
-            id="cardNumber"
-            autoComplete="cc-number"
-            aria-invalid={errors.cardNumber ? "true" : "false"}
-            className={`
-              w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand
-              ${errors.cardNumber ? "border-red-500" : "border-slate-300"}
-            `}
-            placeholder="1234 5678 9012 3456"
-            maxLength={19}
-            disabled={isProcessing}
-          />
+          <div className="relative">
+            <Input
+              {...register("cardNumber")}
+              type="text"
+              id="cardNumber"
+              autoComplete="cc-number"
+              aria-invalid={errors.cardNumber ? "true" : "false"}
+              className={errors.cardNumber ? "border-red-500 pr-12" : "pr-12"}
+              placeholder="1234 5678 9012 3456"
+              maxLength={19}
+              disabled={isProcessing}
+              onChange={(e) => {
+                const value = e.target.value;
+                const validation = validateCard(value);
+                setCardType(validation.card?.type || null);
+              }}
+            />
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center">
+              <CardIcon type={cardType} />
+            </div>
+          </div>
           {errors.cardNumber && (
             <p className="mt-1 text-sm text-red-600" role="alert">
               {errors.cardNumber.message}
@@ -186,16 +194,13 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
             <label htmlFor="expiry" className="block text-sm font-medium text-gray-700 mb-2">
               Expiry Date
             </label>
-            <input
+            <Input
               {...register("expiry")}
               type="text"
               id="expiry"
               autoComplete="cc-exp"
               aria-invalid={errors.expiry ? "true" : "false"}
-              className={`
-                w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand
-                ${errors.expiry ? "border-red-500" : "border-slate-300"}
-              `}
+              className={errors.expiry ? "border-red-500" : ""}
               placeholder="MM/YY"
               maxLength={5}
               disabled={isProcessing}
@@ -211,16 +216,13 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
             <label htmlFor="cvc" className="block text-sm font-medium text-gray-700 mb-2">
               CVC
             </label>
-            <input
+            <Input
               {...register("cvc")}
               type="text"
               id="cvc"
               autoComplete="cc-csc"
               aria-invalid={errors.cvc ? "true" : "false"}
-              className={`
-                w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand
-                ${errors.cvc ? "border-red-500" : "border-slate-300"}
-              `}
+              className={errors.cvc ? "border-red-500" : ""}
               placeholder="123"
               maxLength={4}
               disabled={isProcessing}
