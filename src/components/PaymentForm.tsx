@@ -33,7 +33,8 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
     handleSubmit,
     formState: { errors, isValid },
     watch,
-    setValue
+    setValue,
+    trigger
   } = useForm<PaymentForm>({
     resolver: zodResolver(paymentSchema),
     mode: "onChange",
@@ -74,6 +75,23 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
       }
     }
   }, [expiryValue, setValue]);
+
+  const handleSimulate = async () => {
+    const simulateData = {
+      nameOnCard: "John Doe",
+      cardNumber: "4532123456789012",
+      expiry: "12/26",
+      cvc: "123"
+    };
+
+    // Set all values
+    Object.entries(simulateData).forEach(([key, value]) => {
+      setValue(key as keyof PaymentForm, value, { shouldValidate: true, shouldDirty: true });
+    });
+
+    // Trigger validation for all fields
+    await trigger();
+  };
 
   const onSubmit = async (data: PaymentForm) => {
     setIsProcessing(true);
@@ -225,6 +243,18 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 pt-6">
+          {/* Simulate Button (Dev Only) */}
+          {process.env.NODE_ENV !== "production" && (
+            <button
+              type="button"
+              onClick={handleSimulate}
+              disabled={isProcessing}
+              className="px-6 py-3 bg-slate-200 text-slate-800 rounded-lg font-medium hover:bg-slate-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Simulate
+            </button>
+          )}
+
           <button
             type="button"
             onClick={handleBack}

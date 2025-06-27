@@ -29,7 +29,7 @@ export function PackageSummary({ planName, period }: PackageSummaryProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md border border-brand/20 p-6 h-fit">
+    <div className="bg-white rounded-lg shadow-md p-6 h-fit">
       <h2 className="text-xl font-semibold text-gray-900 mb-4">
         Order Summary
       </h2>
