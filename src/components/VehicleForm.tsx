@@ -103,9 +103,6 @@ export function VehicleFormComponent() {
     
     // Navigate to payment
     router.push('/checkout/payment');
-    
-    console.log("Form data:", data);
-    console.log("Plan data:", planData);
   };
 
   const isNextDisabled = !isValid || !isDirty;
@@ -133,7 +130,7 @@ export function VehicleFormComponent() {
               placeholder="Enter your first name"
             />
             {errors.firstName && (
-              <p className="mt-1 text-sm text-red-600" role="alert">
+              <p className="mt-1 text-sm text-red-600" role="alert" aria-live="polite">
                 {errors.firstName.message}
               </p>
             )}
@@ -156,7 +153,7 @@ export function VehicleFormComponent() {
               placeholder="Enter your last name"
             />
             {errors.lastName && (
-              <p className="mt-1 text-sm text-red-600" role="alert">
+              <p className="mt-1 text-sm text-red-600" role="alert" aria-live="polite">
                 {errors.lastName.message}
               </p>
             )}
@@ -179,7 +176,7 @@ export function VehicleFormComponent() {
               placeholder="Enter your email address"
             />
             {errors.email && (
-              <p className="mt-1 text-sm text-red-600" role="alert">
+              <p className="mt-1 text-sm text-red-600" role="alert" aria-live="polite">
                 {errors.email.message}
               </p>
             )}

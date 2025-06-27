@@ -149,9 +149,9 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
             disabled={isProcessing}
           />
           {errors.nameOnCard && (
-            <p className="mt-1 text-sm text-red-600" role="alert">
-              {errors.nameOnCard.message}
-            </p>
+                          <p className="mt-1 text-sm text-red-600" role="alert" aria-live="polite">
+                {errors.nameOnCard.message}
+              </p>
           )}
         </div>
 

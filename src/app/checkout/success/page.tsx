@@ -41,7 +41,7 @@ export default function SuccessPage() {
       }
 
       // Get vehicle form data
-      const vehicleFormData = localStorage.getItem('vehicleForm');
+      const vehicleFormData = localStorage.getItem('vehicleFormData');
       if (vehicleFormData) {
         setVehicleData(JSON.parse(vehicleFormData));
       }
@@ -54,8 +54,9 @@ export default function SuccessPage() {
     // Clear all localStorage data
     if (typeof window !== 'undefined') {
       localStorage.removeItem('selectedPlan');
-      localStorage.removeItem('vehicleForm');
+      localStorage.removeItem('vehicleFormData');
       localStorage.removeItem('paymentSuccess');
+      localStorage.removeItem('checkoutPlan');
     }
     
     // Navigate to plan selection with reset flag
