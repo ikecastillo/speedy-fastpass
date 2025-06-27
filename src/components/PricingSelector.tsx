@@ -37,9 +37,9 @@ export function PricingSelector() {
     }
   };
 
-  const formatPrice = (price: number) => {
-    return price.toFixed(2);
-  };
+  // const formatPrice = (price: number) => {
+  //   return price.toFixed(2);
+  // };
 
   return (
     <div className="border-2 border-brand rounded-[32px] p-3 shadow-md max-w-sm w-full flex flex-col items-center gap-3 bg-white">
