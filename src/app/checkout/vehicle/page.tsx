@@ -1,6 +1,5 @@
 "use client";
 
-import { Suspense } from "react";
 import { Stepper } from "@/components/Stepper";
 import { VehicleFormComponent } from "@/components/VehicleForm";
 
@@ -13,9 +12,7 @@ export default function VehiclePage() {
           <h1 className="text-2xl font-bold text-gray-900 mb-6">
             Vehicle & Personal Information
           </h1>
-          <Suspense fallback={<div className="text-center py-4">Loading form...</div>}>
-            <VehicleFormComponent />
-          </Suspense>
+          <VehicleFormComponent />
         </div>
       </div>
     </div>

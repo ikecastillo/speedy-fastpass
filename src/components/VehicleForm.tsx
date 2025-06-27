@@ -3,12 +3,22 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { vehicleSchema, type VehicleForm, US_STATES } from "@/types/vehicle";
 
 export function VehicleFormComponent() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const [planData, setPlanData] = React.useState<{plan: string; period: string; price: number} | null>(null);
+  
+  // Read plan data from localStorage
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedPlan = localStorage.getItem('selectedPlan');
+      if (storedPlan) {
+        setPlanData(JSON.parse(storedPlan));
+      }
+    }
+  }, []);
   
   const {
     register,
@@ -80,15 +90,22 @@ export function VehicleFormComponent() {
   };
 
   const onSubmit = (data: VehicleForm) => {
-    // Get plan and period from URL params 
-    const plan = searchParams.get("plan") || "deluxe";
-    const period = searchParams.get("period") || "monthly";
+    // Store both plan and form data in localStorage for payment page
+    if (typeof window !== 'undefined') {
+      const planInfo = {
+        plan: planData?.plan || "deluxe",
+        period: planData?.period || "monthly",
+        price: planData?.price || 24.99
+      };
+      localStorage.setItem('vehicleFormData', JSON.stringify(data));
+      localStorage.setItem('checkoutPlan', JSON.stringify(planInfo));
+    }
     
-    // Navigate to payment with form data
-    router.push(`/checkout/payment?plan=${plan}&period=${period}`);
+    // Navigate to payment
+    router.push('/checkout/payment');
     
-    // TODO: Store form data in state management or localStorage for later use
     console.log("Form data:", data);
+    console.log("Plan data:", planData);
   };
 
   const isNextDisabled = !isValid || !isDirty;

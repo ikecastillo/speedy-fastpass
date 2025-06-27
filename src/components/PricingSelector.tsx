@@ -34,7 +34,17 @@ export function PricingSelector() {
   const handleGetStarted = () => {
     const selectedPlan = plans[activePlan].name.toLowerCase().replace('+', '-plus');
     const period = billingPeriod === 0 ? 'monthly' : 'yearly';
-    router.push(`/checkout/vehicle?plan=${selectedPlan}&period=${period}`);
+    
+    // Store plan data in localStorage to avoid search params issues
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('selectedPlan', JSON.stringify({
+        plan: selectedPlan,
+        period: period,
+        price: getPrice(plans[activePlan])
+      }));
+    }
+    
+    router.push('/checkout/vehicle');
   };
 
   const getPrice = (plan: Plan) => {
