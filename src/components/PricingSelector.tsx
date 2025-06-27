@@ -3,6 +3,7 @@
 import NumberFlow from '@number-flow/react'
 import React from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 interface Plan {
   name: string;
@@ -18,6 +19,7 @@ const plans: Plan[] = [
 ];
 
 export function PricingSelector() {
+  const router = useRouter();
   const [activePlan, setActivePlan] = React.useState(1); // Default to Deluxe (Popular)
   const [billingPeriod, setBillingPeriod] = React.useState(0); // 0 = Monthly, 1 = Yearly
 
@@ -27,6 +29,12 @@ export function PricingSelector() {
 
   const handleChangePeriod = (index: number) => {
     setBillingPeriod(index);
+  };
+
+  const handleGetStarted = () => {
+    const selectedPlan = plans[activePlan].name.toLowerCase().replace('+', '-plus');
+    const period = billingPeriod === 0 ? 'monthly' : 'yearly';
+    router.push(`/checkout/vehicle?plan=${selectedPlan}&period=${period}`);
   };
 
   const getPrice = (plan: Plan) => {
@@ -131,6 +139,7 @@ export function PricingSelector() {
       <motion.button 
         className="rounded-full bg-brand text-lg text-white w-full p-3 transition-transform duration-300"
         whileTap={{ scale: 0.95 }}
+        onClick={handleGetStarted}
       >
         Get Started
       </motion.button>

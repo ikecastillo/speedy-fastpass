@@ -1,0 +1,25 @@
+
+> speedy-fastpass@0.1.0 dev /Users/ikecastillo/Desktop/speedy-fastpass
+> next dev
+
+   ▲ Next.js 15.3.4
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.26:3000
+
+ ✓ Starting...
+ ✓ Ready in 1099ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 747ms (673 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /_next/static/webpack/bf80d3cad463f97b.webpack.hot-update.json 404 in 871ms
+ ✓ Compiled / in 78ms (695 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 307 in 161ms
+[ResponseAborted: ]
+[ResponseAborted: ]
+ GET / 307 in 15ms
+ ✓ Compiled /plan in 419ms (1506 modules)
+ GET /plan 200 in 531ms
+ GET /plan 200 in 23ms
+ GET /plan 200 in 27ms
+[?25h
