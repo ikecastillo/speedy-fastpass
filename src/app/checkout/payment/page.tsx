@@ -1,4 +1,5 @@
 import { Stepper } from "@/components/Stepper";
+// TODO: Import VehicleForm type from "@/types/vehicle" for later use in Phase 5
 
 export default function PaymentPage() {
   return (
