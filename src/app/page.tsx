@@ -1,5 +1,17 @@
-import { redirect } from 'next/navigation';
+import { Header } from '@/components/Header';
+import { Hero } from '@/components/Hero';
+import { PlansGrid } from '@/components/PlansGrid';
+import { Footer } from '@/components/Footer';
 
 export default function Home() {
-  redirect('/plan');
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-grow">
+        <Hero />
+        <PlansGrid />
+      </main>
+      <Footer />
+    </div>
+  );
 }
