@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import SuccessConfetti from "@/components/SuccessConfetti";
 import { OrderSummary } from "@/components/OrderSummary";
 import { Stepper } from "@/components/Stepper";
+import { confirmPayment } from "@/app/actions/createCheckout";
 
 interface VehicleData {
   firstName: string;
@@ -24,31 +25,64 @@ interface PaymentSuccessData {
   timestamp: string;
   planName: string;
   period: 'monthly' | 'yearly';
+  subscriptionId?: string;
 }
 
 export default function SuccessPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [paymentData, setPaymentData] = useState<PaymentSuccessData | null>(null);
   const [vehicleData, setVehicleData] = useState<VehicleData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Get payment success data
-      const paymentSuccessData = localStorage.getItem('paymentSuccess');
-      if (paymentSuccessData) {
-        setPaymentData(JSON.parse(paymentSuccessData));
-      }
+    async function loadSuccessData() {
+      if (typeof window !== 'undefined') {
+        // Get subscription ID from URL params
+        const subscriptionId = searchParams.get('subscription_id');
+        
+        // Get vehicle form data
+        const vehicleFormData = localStorage.getItem('vehicleFormData');
+        if (vehicleFormData) {
+          setVehicleData(JSON.parse(vehicleFormData));
+        }
 
-      // Get vehicle form data
-      const vehicleFormData = localStorage.getItem('vehicleFormData');
-      if (vehicleFormData) {
-        setVehicleData(JSON.parse(vehicleFormData));
-      }
+        // Try to get Stripe payment data first
+        if (subscriptionId) {
+          try {
+            const result = await confirmPayment(subscriptionId);
+            if (result.success && result.paymentMethod && result.subscription) {
+              const cardLast4 = result.paymentMethod.card?.last4 || '';
+              const planName = (result.subscription.metadata as any)?.plan || 'Unknown';
+              const period = (result.subscription.metadata as any)?.period || 'monthly';
+              
+              setPaymentData({
+                cardLast4: cardLast4 || '0000', // Fallback if no card data
+                timestamp: new Date().toISOString(),
+                planName,
+                period: period as 'monthly' | 'yearly',
+                subscriptionId,
+              });
+            }
+          } catch (error) {
+            console.error('Error confirming payment:', error);
+          }
+        }
 
-      setLoading(false);
+        // Fallback: try to get from localStorage (for backward compatibility)
+        if (!paymentData) {
+          const paymentSuccessData = localStorage.getItem('paymentSuccess');
+          if (paymentSuccessData) {
+            setPaymentData(JSON.parse(paymentSuccessData));
+          }
+        }
+
+        setLoading(false);
+      }
     }
-  }, []);
+
+    loadSuccessData();
+  }, [searchParams, paymentData]);
 
   const handleBackToHome = () => {
     // Clear all localStorage data
