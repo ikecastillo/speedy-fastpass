@@ -31,9 +31,9 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
             transition={{ duration: 0.3 }}
             className="rounded-[24px] border-2 border-slate-200 overflow-hidden bg-white"
           >
-            {/* Beautiful facility image */}
+            {/* Beautiful facility image - larger showcase */}
             <div 
-              className="h-32 w-full relative"
+              className="h-48 w-full relative"
               style={{
                 backgroundImage: 'url(/SpeedyAtDay.PNG)',
                 backgroundSize: 'cover',
@@ -42,20 +42,20 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
               }}
             >
               {/* Subtle gradient at bottom for text transition */}
-              <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white/80 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white/80 to-transparent"></div>
             </div>
             
-            {/* Clean text section below image */}
-            <div className="p-6 text-center bg-white">
-              <div className="mb-3 px-3 py-2 bg-slate-100 rounded-full inline-flex items-center justify-center">
+            {/* Compact text section below image */}
+            <div className="p-4 text-center bg-white">
+              <div className="mb-2 px-3 py-1.5 bg-slate-100 rounded-full inline-flex items-center justify-center">
                 <span className="text-xs font-bold text-gray-700 uppercase tracking-widest">
                   Speedy Wash
                 </span>
               </div>
-              <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">
+              <h3 className="text-base md:text-lg font-bold text-gray-900 mb-1">
                 Choose Your Plan
               </h3>
-              <p className="text-sm text-gray-600 mb-2">
+              <p className="text-sm text-gray-600 mb-1">
                 Please select a wash below for more details
               </p>
               <div className="text-xs text-gray-500 font-medium tracking-wide">
