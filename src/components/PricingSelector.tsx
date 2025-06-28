@@ -10,34 +10,28 @@ export function PricingSelector() {
   const router = useRouter();
   const [activePlan, setActivePlan] = React.useState(1); // Default to Deluxe (Popular)
   const [billingPeriod, setBillingPeriod] = React.useState(0); // 0 = Monthly, 1 = Yearly
+  const [mounted, setMounted] = React.useState(false);
+
+  // Prevent hydration mismatch by only showing animations after mount
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
   
-  // Calculate precise animation values accounting for Popular badge
+  // Calculate precise animation values based on actual rendered dimensions
   const getAnimationValues = React.useCallback(() => {
-    // Precise measurements accounting for Popular badge on Deluxe
-    const getItemHeight = (index: number) => {
-      const basePlan = plans[index];
-      // Base plan item height: p-3 (24px) + text content (~48px) = ~72px
-      let height = 72;
-      
-      // Popular badge adds extra height (~8px including margins)
-      if (basePlan.popular) {
-        height += 8;
-      }
-      
-      return height;
-    };
+    // Each plan item dimensions breakdown:
+    // Mobile (base): p-3 (24px) + text-lg title (28px) + text-sm price (20px) + spacing (4px) = 76px
+    // Desktop (md+): p-3 (24px) + text-xl title (32px) + text-md price (24px) + spacing (4px) = 84px
+    // Gap between items: 8px (gap-2)
     
-    // Calculate cumulative offset to the target plan
-    let totalOffset = 0;
-    const gap = 8; // gap-2 spacing
-    
-    for (let i = 0; i < activePlan; i++) {
-      totalOffset += getItemHeight(i) + gap;
-    }
+    // Use mobile dimensions by default (mobile-first)
+    const itemHeight = 76;
+    const gap = 8;
+    const totalOffset = itemHeight + gap; // 84px total
     
     return {
-      itemHeight: getItemHeight(activePlan),
-      translateY: totalOffset,
+      itemHeight,
+      translateY: activePlan * totalOffset,
     };
   }, [activePlan]);
 
@@ -100,26 +94,24 @@ export function PricingSelector() {
       {/* Billing Period Toggle */}
       <div className="rounded-full relative w-full bg-slate-100 p-1.5 flex items-center">
         <button
-          className="font-semibold rounded-full w-full p-1.5 text-slate-800 z-20"
+          className="font-semibold rounded-full w-full p-1.5 text-slate-800 z-20 relative"
           onClick={() => handleChangePeriod(0)}
         >
           Monthly
         </button>
         <button
-          className="font-semibold rounded-full w-full p-1.5 text-slate-800 z-20"
+          className="font-semibold rounded-full w-full p-1.5 text-slate-800 z-20 relative"
           onClick={() => handleChangePeriod(1)}
         >
           Yearly
         </button>
-        <motion.div
-          className="p-1.5 flex items-center justify-center absolute inset-0 w-1/2 z-10"
-          animate={{
-            transform: `translateX(${billingPeriod * 100}%)`,
-          }}
-          transition={{ duration: 0.3 }}
+        <div
+          className={`p-1.5 flex items-center justify-center absolute inset-0 w-1/2 z-10 transition-transform duration-300 ${
+            billingPeriod === 1 ? 'translate-x-full' : 'translate-x-0'
+          }`}
         >
           <div className="bg-white shadow-sm rounded-full w-full h-full"></div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Plans */}
@@ -152,34 +144,34 @@ export function PricingSelector() {
               </p>
             </div>
             <div
-              className="border-2 size-6 rounded-full mt-0.5 p-1 flex items-center justify-center transition-colors duration-300"
-              style={{
-                borderColor: activePlan === index ? "#1e40af" : "#64748b",
-              }}
+              className={`border-2 size-6 rounded-full mt-0.5 p-1 flex items-center justify-center transition-all duration-300 ${
+                activePlan === index ? 'border-brand' : 'border-gray-500'
+              }`}
             >
-              <motion.div
-                className="size-3 rounded-full"
-                style={{
-                  backgroundColor: "#1e40af",
-                }}
-                animate={{
-                  opacity: activePlan === index ? 1 : 0,
-                }}
-                transition={{ duration: 0.3 }}
+              <div
+                className={`size-3 rounded-full transition-all duration-300 ${
+                  activePlan === index ? 'bg-brand opacity-100' : 'bg-transparent opacity-0'
+                }`}
               />
             </div>
           </div>
         ))}
         
-        {/* Animated Selection Border */}
-        <motion.div
-          className="w-full absolute top-0 border-[3px] border-brand rounded-2xl pointer-events-none"
-          animate={{
-            transform: `translateY(${getAnimationValues().translateY}px)`,
-            height: `${getAnimationValues().itemHeight}px`,
-          }}
-          transition={{ duration: 0.3 }}
-        />
+        {/* Animated Selection Border - Only show after hydration */}
+        {mounted && (
+          <motion.div
+            className="w-full absolute top-0 border-[3px] border-brand rounded-2xl pointer-events-none"
+            initial={{
+              transform: `translateY(${getAnimationValues().translateY}px)`,
+              height: `${getAnimationValues().itemHeight}px`,
+            }}
+            animate={{
+              transform: `translateY(${getAnimationValues().translateY}px)`,
+              height: `${getAnimationValues().itemHeight}px`,
+            }}
+            transition={{ duration: 0.3 }}
+          />
+        )}
       </div>
 
       {/* Get Started Button */}
