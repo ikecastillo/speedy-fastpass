@@ -4,8 +4,15 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { ReactNode } from 'react';
 
+// Better environment variable handling with warnings
+const stripePublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+
+if (!stripePublishableKey || stripePublishableKey.includes('fake_key')) {
+  console.warn('⚠️ STRIPE WARNING: Missing or invalid NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY environment variable');
+}
+
 const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || 'pk_test_fake_key_replace_with_real_stripe_publishable_key'
+  stripePublishableKey || 'pk_test_fake_key_replace_with_real_stripe_publishable_key'
 );
 
 interface StripeProviderProps {

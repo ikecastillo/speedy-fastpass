@@ -2,8 +2,14 @@
 
 import Stripe from 'stripe';
 
-// Initialize Stripe with secret key
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_fake_key_replace_with_real_stripe_secret_key', {
+// Initialize Stripe with secret key and better error handling
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+
+if (!stripeSecretKey || stripeSecretKey.includes('fake_key')) {
+  console.error('🚨 STRIPE ERROR: Missing or invalid STRIPE_SECRET_KEY environment variable');
+}
+
+const stripe = new Stripe(stripeSecretKey || 'sk_test_fake_key_replace_with_real_stripe_secret_key', {
   apiVersion: '2025-05-28.basil',
 });
 
@@ -244,6 +250,17 @@ export async function createCheckout(data: CheckoutData) {
     };
   } catch (error) {
     console.error('Error creating checkout:', error);
+    
+    // Better error reporting for debugging
+    if (error instanceof Error) {
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        data: data,
+      });
+      throw new Error(`Checkout failed: ${error.message}`);
+    }
+    
     throw new Error('Failed to create checkout session');
   }
 }
