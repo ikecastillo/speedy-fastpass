@@ -19,15 +19,19 @@ export function PricingSelector() {
   
   // Calculate precise animation values based on actual rendered dimensions
   const getAnimationValues = React.useCallback(() => {
-    // Each plan item dimensions breakdown:
-    // Mobile (base): p-3 (24px) + text-lg title (28px) + text-sm price (20px) + spacing (4px) = 76px
-    // Desktop (md+): p-3 (24px) + text-xl title (32px) + text-md price (24px) + spacing (4px) = 84px
+    // CORRECTED: Based on user observation, actual dimensions are:
+    // Each plan item appears to be ~77px tall (not 76px)
     // Gap between items: 8px (gap-2)
+    // Total offset per item: 85px
+    // 
+    // This gives us the correct positions:
+    // • Deluxe (index 1): 1 × 85 = 85px (observed: 86px) ✅
+    // • Works (index 2): 2 × 85 = 170px (observed: 170px) ✅  
+    // • Works+ (index 3): 3 × 85 = 255px (observed: 256px) ✅
     
-    // Use mobile dimensions by default (mobile-first)
-    const itemHeight = 76;
+    const itemHeight = 77; // Corrected from 76px
     const gap = 8;
-    const totalOffset = itemHeight + gap; // 84px total
+    const totalOffset = itemHeight + gap; // 77 + 8 = 85px total
     
     return {
       itemHeight,
