@@ -5,10 +5,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { plans, calculatePrice, type Plan } from "@/types/plan";
+import { PlanDetailsCard } from "./PlanDetailsCard";
 
 export function PricingSelector() {
   const router = useRouter();
-  const [activePlan, setActivePlan] = React.useState(1); // Default to Deluxe (Popular)
+  const [activePlan, setActivePlan] = React.useState<number | null>(null); // No plan selected initially
   const [billingPeriod, setBillingPeriod] = React.useState(0); // 0 = Monthly, 1 = Yearly
   const [mounted, setMounted] = React.useState(false);
 
@@ -35,7 +36,7 @@ export function PricingSelector() {
     
     return {
       itemHeight,
-      translateY: activePlan * totalOffset,
+      translateY: activePlan !== null ? activePlan * totalOffset : 0,
     };
   }, [activePlan]);
 
@@ -48,7 +49,9 @@ export function PricingSelector() {
   };
 
   const handleGetStarted = () => {
-    const selectedPlan = plans[activePlan].name.toLowerCase().replace('+', '-plus');
+    if (activePlan === null) return; // No plan selected
+    
+    const selectedPlan = plans[activePlan as number].name.toLowerCase().replace('+', '-plus');
     const period = billingPeriod === 0 ? 'monthly' : 'yearly';
     
     // Store plan data in localStorage to avoid search params issues
@@ -56,33 +59,14 @@ export function PricingSelector() {
       localStorage.setItem('selectedPlan', JSON.stringify({
         plan: selectedPlan,
         period: period,
-        price: getPrice(plans[activePlan])
+        price: getPrice(plans[activePlan as number])
       }));
     }
     
     router.push('/checkout/vehicle');
   };
 
-  const handleAutoDemo = () => {
-    // Auto-select Deluxe plan (index 1) with yearly billing for best savings
-    setActivePlan(1); // Deluxe plan
-    setBillingPeriod(1); // Yearly
-    
-    // Small delay to show the selection animation, then proceed
-    setTimeout(() => {
-      const selectedPlan = plans[1].name.toLowerCase().replace('+', '-plus');
-      
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('selectedPlan', JSON.stringify({
-          plan: selectedPlan,
-          period: 'yearly',
-          price: getPrice(plans[1])
-        }));
-      }
-      
-      router.push('/checkout/vehicle');
-    }, 800); // 800ms to show the selection animation
-  };
+
 
   const getPrice = (plan: Plan) => {
     const period = billingPeriod === 0 ? 'monthly' : 'yearly';
@@ -95,19 +79,11 @@ export function PricingSelector() {
 
   return (
     <div className="border-2 border-brand rounded-[32px] p-3 shadow-md w-full md:max-w-sm flex flex-col items-center gap-2 bg-white">
-      {/* Speedy Wash Header */}
-      <div className="w-full mb-2">
-        <div className="w-full rounded-[24px] bg-slate-100 flex items-center justify-center p-4">
-          <div className="flex flex-col items-center justify-center text-center">
-            <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-1">
-              Speedy Wash
-            </h2>
-            <p className="text-xs md:text-sm text-gray-600 font-medium">
-              Premium Car Care Experience
-            </p>
-          </div>
-        </div>
-      </div>
+      {/* Dynamic Plan Details Card */}
+      <PlanDetailsCard 
+        selectedPlanIndex={activePlan} 
+        billingPeriod={billingPeriod === 0 ? 'monthly' : 'yearly'} 
+      />
 
       {/* Billing Period Toggle */}
       <div className="rounded-full relative w-full bg-slate-100 p-1.5 flex items-center">
@@ -175,8 +151,8 @@ export function PricingSelector() {
           </div>
         ))}
         
-        {/* Animated Selection Border - Only show after hydration */}
-        {mounted && (
+        {/* Animated Selection Border - Only show after hydration and when a plan is selected */}
+        {mounted && activePlan !== null && (
           <motion.div
             className="w-full absolute top-0 border-[3px] border-brand rounded-2xl pointer-events-none"
             initial={{
@@ -194,21 +170,19 @@ export function PricingSelector() {
 
       {/* Get Started Button */}
       <motion.button 
-        className="rounded-full bg-brand text-base md:text-lg text-white w-full p-2.5 md:p-3 transition-transform duration-300"
-        whileTap={{ scale: 0.95 }}
+        className={`rounded-full text-base md:text-lg w-full p-2.5 md:p-3 transition-all duration-300 ${
+          activePlan !== null 
+            ? 'bg-brand text-white hover:bg-brand/90 cursor-pointer' 
+            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+        }`}
+        whileTap={activePlan !== null ? { scale: 0.95 } : {}}
         onClick={handleGetStarted}
+        disabled={activePlan === null}
       >
-        Get Started
+        {activePlan !== null ? 'Get Started' : 'Select a plan to continue'}
       </motion.button>
 
-      {/* Auto Demo Button */}
-      <motion.button 
-        className="rounded-full bg-accent text-base md:text-lg text-gray-800 w-full p-2.5 md:p-3 transition-transform duration-300 border-2 border-yellow-600 font-semibold"
-        whileTap={{ scale: 0.95 }}
-        onClick={handleAutoDemo}
-      >
-        🎯 Auto-Demo (Deluxe + Yearly)
-      </motion.button>
+
     </div>
   );
 } 
