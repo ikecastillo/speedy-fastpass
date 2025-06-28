@@ -9,6 +9,8 @@ import { vehicleSchema, type VehicleForm, US_STATES } from "@/types/vehicle";
 export function VehicleFormComponent() {
   const router = useRouter();
   const [planData, setPlanData] = React.useState<{plan: string; period: string; price: number} | null>(null);
+  const [selectedImage, setSelectedImage] = React.useState<File | null>(null);
+  const [imagePreview, setImagePreview] = React.useState<string | null>(null);
   
   // Read plan data from localStorage
   React.useEffect(() => {
@@ -44,13 +46,23 @@ export function VehicleFormComponent() {
     }
   });
 
-  // Watch phone field to strip non-numeric characters
+  // Watch phone field to format as (###) ###-####
   const phoneValue = watch("phone");
   React.useEffect(() => {
     if (phoneValue) {
       const numericOnly = phoneValue.replace(/\D/g, "");
-      if (numericOnly !== phoneValue) {
-        setValue("phone", numericOnly, { shouldValidate: true });
+      let formatted = numericOnly;
+      
+      if (numericOnly.length >= 6) {
+        formatted = `(${numericOnly.slice(0, 3)}) ${numericOnly.slice(3, 6)}-${numericOnly.slice(6, 10)}`;
+      } else if (numericOnly.length >= 3) {
+        formatted = `(${numericOnly.slice(0, 3)}) ${numericOnly.slice(3)}`;
+      } else if (numericOnly.length > 0) {
+        formatted = numericOnly;
+      }
+      
+      if (formatted !== phoneValue) {
+        setValue("phone", formatted, { shouldValidate: true });
       }
     }
   }, [phoneValue, setValue]);
@@ -66,12 +78,31 @@ export function VehicleFormComponent() {
     }
   }, [plateValue, setValue]);
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      // Show toast notification
+      setTimeout(() => {
+        alert('Scan coming soon! For now, we\'re just showing your selected image.');
+      }, 500);
+    }
+  };
+
   const handleSimulate = async () => {
     const simulateData = {
       firstName: "Jane",
       lastName: "Doe", 
       email: "jane@example.com",
-      phone: "5551234567",
+      phone: "(555) 123-4567",
       plate: "ABC1234",
       state: "TX" as const,
       make: "Toyota",
@@ -116,7 +147,7 @@ export function VehicleFormComponent() {
       {/* Personal Information Section */}
       <div>
         <h2 className="text-xl font-semibold text-gray-900 mb-4">Personal Information</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-4">
           {/* First Name */}
           <div>
             <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
@@ -200,7 +231,7 @@ export function VehicleFormComponent() {
                 w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand
                 ${errors.phone ? "border-red-500" : "border-gray-300"}
               `}
-              placeholder="5551234567"
+              placeholder="(555) 123-4567"
             />
             {errors.phone && (
               <p className="mt-1 text-sm text-red-600" role="alert">
@@ -214,7 +245,7 @@ export function VehicleFormComponent() {
       {/* Vehicle Information Section */}
       <div>
         <h2 className="text-xl font-semibold text-gray-900 mb-4">Vehicle Information</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-4">
           {/* License Plate */}
           <div>
             <label htmlFor="plate" className="block text-sm font-medium text-gray-700 mb-2">
@@ -313,7 +344,7 @@ export function VehicleFormComponent() {
           </div>
 
           {/* Year */}
-          <div className="md:col-span-2">
+          <div>
             <label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-2">
               Vehicle Year
             </label>
@@ -323,7 +354,7 @@ export function VehicleFormComponent() {
               id="year"
               aria-invalid={errors.year ? "true" : "false"}
               className={`
-                w-full md:w-32 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand
+                w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand
                 ${errors.year ? "border-red-500" : "border-gray-300"}
               `}
               placeholder="2022"
@@ -334,6 +365,48 @@ export function VehicleFormComponent() {
                 {errors.year.message}
               </p>
             )}
+          </div>
+
+          {/* Insurance Card Scanner (Beta) */}
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 bg-blue-50">
+            <div className="text-center">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                📱 Scan Insurance Card (Beta)
+              </h3>
+              <p className="text-sm text-gray-600 mb-4">
+                Upload a photo of your insurance card for faster setup
+              </p>
+              
+              <input
+                type="file"
+                accept="image/*"
+                capture="environment"
+                onChange={handleImageChange}
+                className="hidden"
+                id="insurance-upload"
+              />
+              
+              <label
+                htmlFor="insurance-upload"
+                className="cursor-pointer inline-flex items-center px-4 py-2 border border-brand text-brand rounded-lg hover:bg-brand hover:text-white transition-colors"
+              >
+                📷 Take Photo
+              </label>
+
+              {imagePreview && (
+                <div className="mt-4">
+                  <p className="text-sm text-gray-600 mb-2">Selected image:</p>
+                  <img
+                    src={imagePreview}
+                    alt="Insurance card preview"
+                    className="mx-auto max-w-48 max-h-32 object-cover rounded border"
+                  />
+                  <p className="text-xs text-gray-500 mt-2">
+                    {selectedImage?.name}
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
