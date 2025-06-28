@@ -94,7 +94,21 @@ export function PricingSelector() {
   // };
 
   return (
-    <div className="border-2 border-brand rounded-[32px] p-3 shadow-md w-full flex flex-col items-center gap-2 bg-white">
+    <div className="border-2 border-brand rounded-[32px] p-3 shadow-md w-full md:max-w-sm flex flex-col items-center gap-2 bg-white">
+      {/* Hero Image - Perfectly nested */}
+      <div className="w-full mb-2">
+        <div className="aspect-video w-full rounded-[24px] bg-gradient-to-br from-blue-500 to-blue-600 overflow-hidden relative">
+          {/* Replace this entire div with your image */}
+          {/* Example: <img src="/your-image.jpg" alt="Car wash" className="w-full h-full object-cover" /> */}
+          <div className="absolute inset-0 flex items-center justify-center p-4">
+            <div className="text-white text-center">
+              <div className="text-2xl mb-2">🚗</div>
+              <div className="text-sm font-medium opacity-90">Your Car Wash Experience</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Billing Period Toggle */}
       <div className="rounded-full relative w-full bg-slate-100 p-1.5 flex items-center">
         <button
