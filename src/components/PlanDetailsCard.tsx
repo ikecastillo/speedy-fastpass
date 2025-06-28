@@ -29,17 +29,21 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="rounded-[24px] bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 p-6"
+            className="rounded-[24px] bg-gradient-to-br from-slate-50 to-slate-100 border-2 border-slate-200 p-8"
           >
             <div className="text-center">
-              <div className="text-3xl mb-3">🚗</div>
+              <div className="w-16 h-16 mx-auto mb-4 bg-brand/10 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-brand/20 rounded-full flex items-center justify-center">
+                  <div className="w-4 h-4 bg-brand rounded-full"></div>
+                </div>
+              </div>
               <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
                 Speedy Wash
               </h3>
               <p className="text-sm md:text-base text-gray-600 mb-4">
                 Please select a wash below for more details
               </p>
-              <div className="text-xs text-gray-500 italic">
+              <div className="text-xs text-gray-500 font-medium tracking-wide">
                 Choose from our premium car care packages
               </div>
             </div>
@@ -57,19 +61,23 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
             {planData && (
               <div>
                 {/* Plan Header */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{planData.icon}</span>
+                <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-brand/10 rounded-xl flex items-center justify-center flex-shrink-0 mt-1">
+                      <div className="w-6 h-6 bg-brand/30 rounded-lg flex items-center justify-center">
+                        <div className="w-3 h-3 bg-brand rounded-sm"></div>
+                      </div>
+                    </div>
                     <div>
-                      <h3 className="text-xl md:text-2xl font-bold text-gray-900 flex items-center gap-2">
+                      <h3 className="text-xl md:text-2xl font-bold text-gray-900 flex items-center gap-2 mb-1">
                         {planData.label}
                         {planData.popular && (
-                          <span className="px-2 py-1 bg-accent text-black text-xs font-medium rounded-lg">
-                            Popular
+                          <span className="px-3 py-1 bg-accent text-black text-xs font-semibold rounded-full border border-yellow-600">
+                            Most Popular
                           </span>
                         )}
                       </h3>
-                      <p className="text-sm text-gray-600">{planData.tagline}</p>
+                      <p className="text-sm text-gray-600 font-medium">{planData.tagline}</p>
                     </div>
                   </div>
                   
@@ -78,7 +86,7 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                     <div className="text-2xl md:text-3xl font-bold text-brand">
                       ${billingPeriod === 'monthly' ? planData.monthly.toFixed(2) : planData.yearly.toFixed(2)}
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-gray-500 font-medium">
                       per {billingPeriod === 'monthly' ? 'month' : 'year'}
                     </div>
                   </div>
@@ -90,11 +98,13 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="mb-4 p-3 bg-green-100 border border-green-200 rounded-lg"
+                    className="mb-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl"
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="text-green-600">🎉</span>
-                      <span className="text-sm font-medium text-green-800">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <div className="w-4 h-4 bg-green-500 rounded-full"></div>
+                      </div>
+                      <span className="text-sm font-semibold text-green-800">
                         Special Offer: {planData.promo.text}
                       </span>
                     </div>
@@ -102,31 +112,37 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                 )}
 
                 {/* Features List */}
-                <div className="space-y-2">
-                  <h4 className="text-sm font-semibold text-gray-900 mb-3">What&apos;s included:</h4>
-                  <div className="grid grid-cols-1 gap-2">
+                <div className="space-y-3">
+                  <h4 className="text-base font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+                    What&apos;s included:
+                  </h4>
+                  <div className="grid grid-cols-1 gap-3 max-h-64 overflow-y-auto">
                     {planData.features.map((feature, index) => (
                       <motion.div
                         key={feature.name}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.1 * index }}
-                        className={`flex items-center gap-3 text-sm ${
-                          feature.included ? 'text-gray-700' : 'text-gray-400'
+                        transition={{ delay: 0.05 * index }}
+                        className={`flex items-center gap-4 p-2 rounded-lg transition-all duration-200 ${
+                          feature.included 
+                            ? 'text-gray-800 bg-green-50 border border-green-100' 
+                            : 'text-gray-400 bg-gray-50 border border-gray-100'
                         }`}
                       >
-                        <div className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 ${
-                          feature.included ? 'bg-green-100' : 'bg-gray-100'
+                        <div className={`w-5 h-5 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
+                          feature.included ? 'bg-green-500' : 'bg-gray-300'
                         }`}>
                           {feature.included ? (
-                            <svg className="w-2.5 h-2.5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                           ) : (
-                            <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
+                            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                            </svg>
                           )}
                         </div>
-                        <span className={feature.included ? '' : 'line-through'}>
+                        <span className={`text-sm font-medium ${feature.included ? '' : 'line-through'}`}>
                           {feature.name}
                         </span>
                       </motion.div>
@@ -140,10 +156,15 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg"
+                    className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl"
                   >
-                    <div className="text-sm text-blue-800">
-                      💰 Save ${((planData.monthly * 12) - planData.yearly).toFixed(2)} with annual billing!
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
+                      </div>
+                      <div className="text-sm font-semibold text-blue-800">
+                        Save ${((planData.monthly * 12) - planData.yearly).toFixed(2)} with annual billing!
+                      </div>
                     </div>
                   </motion.div>
                 )}
