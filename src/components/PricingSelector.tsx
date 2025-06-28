@@ -113,49 +113,47 @@ export function PricingSelector() {
         {plans.map((plan, index) => (
           <div
             key={plan.name}
-            className="w-full flex justify-between cursor-pointer border-2 border-gray-400 p-3 rounded-2xl"
+            className="w-full flex justify-between cursor-pointer border-2 border-gray-400 p-3 rounded-2xl relative"
             onClick={() => handleChangePlan(index)}
           >
+            {/* Special Offer Badge - Outside the main layout */}
+            {(plan.name === 'Works' || plan.name === 'Works+') && (
+              <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg border border-red-600 z-10">
+                $5 First Month!
+              </div>
+            )}
+            
             <div className="flex flex-col items-start">
               <div className="flex items-center gap-2 mb-1">
                 <p className="font-semibold text-lg md:text-xl text-gray-950">
                   {plan.name}
                 </p>
                 {plan.popular && (
-                  <span className="px-3 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-bold rounded-full shadow-md border border-blue-700">
+                  <span className="px-2 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs font-bold rounded-full shadow-lg border border-blue-700">
                     Most Popular
                   </span>
                 )}
               </div>
               
-              <div className="flex items-center gap-2">
-                {/* Regular or crossed-out price */}
-                <p className={`text-slate-500 text-sm md:text-md flex ${(plan.name === 'Works' || plan.name === 'Works+') ? 'relative' : ''}`}>
-                  <span className={`text-black font-medium flex items-center ${(plan.name === 'Works' || plan.name === 'Works+') ? 'line-through text-gray-400' : ''}`}>
-                    $
-                    <NumberFlow
-                      className={`font-medium ${(plan.name === 'Works' || plan.name === 'Works+') ? 'text-gray-400' : 'text-black'}`}
-                      value={getPrice(plan)}
-                      format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
-                    />
-                  </span>
-                  /{billingPeriod === 0 ? 'month' : 'year'}
-                  
-                  {/* Red strikethrough line for special offers */}
-                  {(plan.name === 'Works' || plan.name === 'Works+') && (
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full h-0.5 bg-red-500"></div>
-                    </div>
-                  )}
-                </p>
+              {/* Regular or crossed-out price */}
+              <p className={`text-slate-500 text-sm md:text-md flex ${(plan.name === 'Works' || plan.name === 'Works+') ? 'relative' : ''}`}>
+                <span className={`text-black font-medium flex items-center ${(plan.name === 'Works' || plan.name === 'Works+') ? 'line-through text-gray-400' : ''}`}>
+                  $
+                  <NumberFlow
+                    className={`font-medium ${(plan.name === 'Works' || plan.name === 'Works+') ? 'text-gray-400' : 'text-black'}`}
+                    value={getPrice(plan)}
+                    format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
+                  />
+                </span>
+                /{billingPeriod === 0 ? 'month' : 'year'}
                 
-                {/* Special Offer Badge */}
+                {/* Red strikethrough line for special offers */}
                 {(plan.name === 'Works' || plan.name === 'Works+') && (
-                  <div className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg border border-red-600">
-                    $5 First Month!
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full h-0.5 bg-red-500"></div>
                   </div>
                 )}
-              </div>
+              </p>
             </div>
             <div
               className={`border-2 size-6 rounded-full mt-0.5 p-1 flex items-center justify-center transition-all duration-300 ${
