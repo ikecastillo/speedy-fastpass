@@ -81,8 +81,8 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                     </div>
                   </div>
                   
-                  {/* Enhanced Price Display */}
-                  <div className="text-right bg-brand/5 rounded-xl p-3 border border-brand/20">
+                  {/* Clean Price Display */}
+                  <div className="text-right">
                     <div className="flex items-baseline gap-1 justify-end">
                       <span className="text-lg font-black text-brand">$</span>
                       <span className="text-2xl font-black text-brand">

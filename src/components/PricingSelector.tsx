@@ -120,8 +120,8 @@ export function PricingSelector() {
               <p className="font-semibold text-lg md:text-xl flex items-center gap-2 text-gray-950">
                 {plan.name}
                 {plan.popular && (
-                  <span className="py-1 px-2 block rounded-lg bg-accent text-black text-sm font-medium">
-                    Popular
+                  <span className="px-3 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-bold rounded-full shadow-md border border-blue-700">
+                    Most Popular
                   </span>
                 )}
               </p>
