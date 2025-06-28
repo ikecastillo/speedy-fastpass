@@ -95,20 +95,7 @@ export function PricingSelector() {
 
   return (
     <div className="border-2 border-brand rounded-[32px] p-3 shadow-md w-full md:max-w-sm flex flex-col items-center gap-2 bg-white">
-      {/* Hero Section - Perfectly nested */}
-      <div className="w-full mb-2">
-        <div className="aspect-video w-full rounded-[24px] bg-slate-100 overflow-hidden relative flex items-center justify-center p-4">
-          {/* Speedy Wash Branding */}
-          <div className="flex flex-col items-center justify-center text-center">
-            <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-1">
-              Speedy Wash
-            </h2>
-            <p className="text-xs md:text-sm text-gray-600 font-medium">
-              Premium Car Care Experience
-            </p>
-          </div>
-        </div>
-      </div>
+
 
       {/* Billing Period Toggle */}
       <div className="rounded-full relative w-full bg-slate-100 p-1.5 flex items-center">
