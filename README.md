@@ -27,7 +27,7 @@ Speedy FastPass is a modern web application for car wash membership subscription
 
 ## 🎨 Brand Colors
 
-- **Primary Blue:** `#0050FF` (--color-brand)
+- **Primary Blue:** `#1e40af` (--color-brand) - Professional darker blue
 - **Accent Yellow:** `#FFCC00` (--color-accent)
 
 ## 🚀 Quick Start

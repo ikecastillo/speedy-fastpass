@@ -350,11 +350,11 @@ export function VehicleFormComponent() {
           />
           <label htmlFor="agreeTos" className="text-sm text-gray-700">
             I agree to the{" "}
-            <a href="#" className="text-brand underline hover:text-blue-700">
+            <a href="#" className="text-brand underline hover:text-blue-900">
               Terms of Service
             </a>{" "}
             and{" "}
-            <a href="#" className="text-brand underline hover:text-blue-700">
+            <a href="#" className="text-brand underline hover:text-blue-900">
               Privacy Policy
             </a>
           </label>
@@ -395,7 +395,7 @@ export function VehicleFormComponent() {
             ${
               isNextDisabled
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-brand text-white hover:bg-blue-700"
+                : "bg-brand text-white hover:bg-blue-900"
             }
           `}
         >

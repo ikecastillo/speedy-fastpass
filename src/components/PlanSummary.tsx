@@ -19,7 +19,7 @@ export function PlanSummary({ planName, period }: PlanSummaryProps) {
         <p className="text-gray-600">No plan selected</p>
         <Link
           href="/plan"
-          className="inline-block mt-4 px-4 py-2 bg-brand text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+          className="inline-block mt-4 px-4 py-2 bg-brand text-white rounded-lg font-medium hover:bg-blue-900 transition-colors"
         >
           Select Plan
         </Link>
@@ -36,7 +36,7 @@ export function PlanSummary({ planName, period }: PlanSummaryProps) {
         <h3 className="text-lg font-semibold text-gray-900">Selected Plan</h3>
         <Link
           href="/plan"
-          className="text-sm text-brand hover:text-blue-700 font-medium transition-colors"
+          className="text-sm text-brand hover:text-blue-900 font-medium transition-colors"
         >
           Change Plan
         </Link>

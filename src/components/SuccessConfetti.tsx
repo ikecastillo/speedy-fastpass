@@ -14,7 +14,7 @@ export default function SuccessConfetti() {
       height={height || 0} 
       recycle={false}
       aria-hidden="true"
-      colors={['#0050FF', '#FFCC00', '#0066FF', '#FFD700', '#004DCC', '#FFC107']}
+      colors={['#1e40af', '#FFCC00', '#2563eb', '#FFD700', '#1e3a8a', '#FFC107']}
       numberOfPieces={200}
     />
   );

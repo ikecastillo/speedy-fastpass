@@ -272,7 +272,7 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
               ${
                 !isValid || isProcessing
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-brand text-white hover:bg-blue-700"
+                  : "bg-brand text-white hover:bg-blue-900"
               }
             `}
           >

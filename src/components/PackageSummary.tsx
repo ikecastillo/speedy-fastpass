@@ -85,7 +85,7 @@ export function PackageSummary({ planName, period }: PackageSummaryProps) {
         <div className="pt-4 border-t border-gray-200">
           <button
             onClick={handleChangePlan}
-            className="text-brand hover:text-blue-700 text-sm font-medium underline"
+            className="text-brand hover:text-blue-900 text-sm font-medium underline"
           >
             Change plan
           </button>

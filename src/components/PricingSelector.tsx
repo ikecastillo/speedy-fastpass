@@ -124,13 +124,13 @@ export function PricingSelector() {
             <div
               className="border-2 size-6 rounded-full mt-0.5 p-1 flex items-center justify-center transition-colors duration-300"
               style={{
-                borderColor: activePlan === index ? "#0050FF" : "#64748b",
+                borderColor: activePlan === index ? "#1e40af" : "#64748b",
               }}
             >
               <motion.div
                 className="size-3 rounded-full"
                 style={{
-                  backgroundColor: "#0050FF",
+                  backgroundColor: "#1e40af",
                 }}
                 animate={{
                   opacity: activePlan === index ? 1 : 0,

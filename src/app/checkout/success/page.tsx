@@ -86,7 +86,7 @@ export default function SuccessPage() {
           </p>
           <button
             onClick={() => router.push('/plan')}
-            className="px-6 py-3 bg-brand text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            className="px-6 py-3 bg-brand text-white rounded-lg font-medium hover:bg-blue-900 transition-colors"
           >
             Start Over
           </button>
@@ -147,7 +147,7 @@ export default function SuccessPage() {
               {/* Back to Home - Primary */}
               <button
                 onClick={handleBackToHome}
-                className="w-full px-6 py-3 bg-brand text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                className="w-full px-6 py-3 bg-brand text-white rounded-lg font-medium hover:bg-blue-900 transition-colors"
               >
                 Back to Home
               </button>
