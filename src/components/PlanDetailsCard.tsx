@@ -16,7 +16,7 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
   
   return (
     <motion.div
-      className="w-full mb-4"
+      className="w-full"
       layout
       transition={{ duration: 0.4, ease: "easeInOut" }}
     >
