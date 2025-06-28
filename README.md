@@ -61,17 +61,21 @@ Copy `.env.example` to `.env.local` and configure:
 cp .env.example .env.local
 ```
 
-## 🧪 Testing with Simulate Buttons
+## 🧪 Quick Demo with Auto-Fill Buttons
 
-For quick testing, use the "Simulate" buttons (visible in development only):
+For instant demo experience, use the prominent **Auto-Fill** buttons (always visible):
 
-1. **Plan Selection** → Visit `/plan`, select any plan
-2. **Vehicle Form** → Click "Simulate" to auto-fill form
-3. **Payment Form** → Click "Simulate" to auto-fill with test card:
+1. **Plan Selection** → Click "🎯 Auto-Demo (Deluxe + Yearly)" to auto-select best plan
+2. **Vehicle Form** → Click "🚀 Auto-fill Demo Data" to populate:
+   - Name: Jane Doe
+   - Vehicle: 2022 Toyota Camry, Texas plate ABC1234
+   - Phone & email auto-filled
+3. **Payment Form** → Click "💳 Auto-fill Test Card" to populate:
    - Card: 4532 1234 5678 9012
-   - Expiry: 12/26
-   - CVC: 123
+   - Expiry: 12/26, CVC: 123
 4. **Success Page** → See confetti celebration! 🎉
+
+**Complete demo in under 10 seconds!** Perfect for showcasing the full flow.
 
 ## 📋 Phase Development
 
@@ -110,7 +114,7 @@ Plan        & Vehicle          Payment           Success
 
 ## 🚀 Live Demo
 
-**Production:** [https://speedy-fastpass-ba2jy7vwe-ikecastillos-projects.vercel.app](https://speedy-fastpass-ba2jy7vwe-ikecastillos-projects.vercel.app)
+**Production:** [https://speedy-fastpass-894wcxuq3-ikecastillos-projects.vercel.app](https://speedy-fastpass-894wcxuq3-ikecastillos-projects.vercel.app)
 
 ## 📊 Performance Scores
 
