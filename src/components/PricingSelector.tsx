@@ -11,21 +11,33 @@ export function PricingSelector() {
   const [activePlan, setActivePlan] = React.useState(1); // Default to Deluxe (Popular)
   const [billingPeriod, setBillingPeriod] = React.useState(0); // 0 = Monthly, 1 = Yearly
   
-  // Calculate precise animation values based on actual rendered dimensions
+  // Calculate precise animation values accounting for Popular badge
   const getAnimationValues = React.useCallback(() => {
-    // Each plan item dimensions breakdown:
-    // Mobile (base): p-3 (24px) + text-lg title (28px) + text-sm price (20px) + spacing (4px) = 76px
-    // Desktop (md+): p-3 (24px) + text-xl title (32px) + text-md price (24px) + spacing (4px) = 84px
-    // Gap between items: 8px (gap-2)
+    // Precise measurements accounting for Popular badge on Deluxe
+    const getItemHeight = (index: number) => {
+      const basePlan = plans[index];
+      // Base plan item height: p-3 (24px) + text content (~48px) = ~72px
+      let height = 72;
+      
+      // Popular badge adds extra height (~8px including margins)
+      if (basePlan.popular) {
+        height += 8;
+      }
+      
+      return height;
+    };
     
-    // Use mobile dimensions by default (mobile-first)
-    const itemHeight = 76;
-    const gap = 8;
-    const totalOffset = itemHeight + gap; // 84px total
+    // Calculate cumulative offset to the target plan
+    let totalOffset = 0;
+    const gap = 8; // gap-2 spacing
+    
+    for (let i = 0; i < activePlan; i++) {
+      totalOffset += getItemHeight(i) + gap;
+    }
     
     return {
-      itemHeight,
-      translateY: activePlan * totalOffset,
+      itemHeight: getItemHeight(activePlan),
+      translateY: totalOffset,
     };
   }, [activePlan]);
 
