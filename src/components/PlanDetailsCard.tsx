@@ -29,30 +29,36 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="rounded-[24px] border-2 border-slate-200 p-6 relative overflow-hidden"
-            style={{
-              backgroundImage: 'url(/SpeedyAtDay.PNG)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat'
-            }}
+            className="rounded-[24px] border-2 border-slate-200 overflow-hidden bg-white"
           >
-            {/* Dark overlay for better text readability */}
-            <div className="absolute inset-0 bg-black/40 rounded-[24px]"></div>
+            {/* Beautiful facility image */}
+            <div 
+              className="h-32 w-full relative"
+              style={{
+                backgroundImage: 'url(/SpeedyAtDay.PNG)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+              }}
+            >
+              {/* Subtle gradient at bottom for text transition */}
+              <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white/80 to-transparent"></div>
+            </div>
             
-            <div className="text-center relative z-10">
-              <div className="mb-3 px-3 py-2 bg-white/90 backdrop-blur-sm rounded-full inline-flex items-center justify-center shadow-lg">
-                <span className="text-xs font-bold text-gray-800 uppercase tracking-widest">
+            {/* Clean text section below image */}
+            <div className="p-6 text-center bg-white">
+              <div className="mb-3 px-3 py-2 bg-slate-100 rounded-full inline-flex items-center justify-center">
+                <span className="text-xs font-bold text-gray-700 uppercase tracking-widest">
                   Speedy Wash
                 </span>
               </div>
-              <h3 className="text-lg md:text-xl font-bold text-white mb-2 drop-shadow-lg">
+              <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">
                 Choose Your Plan
               </h3>
-              <p className="text-sm text-white/90 mb-2 drop-shadow-md">
+              <p className="text-sm text-gray-600 mb-2">
                 Please select a wash below for more details
               </p>
-              <div className="text-xs text-white/80 font-medium tracking-wide drop-shadow-md">
+              <div className="text-xs text-gray-500 font-medium tracking-wide">
                 Choose from our premium car care packages
               </div>
             </div>
