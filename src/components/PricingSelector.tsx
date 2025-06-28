@@ -94,7 +94,7 @@ export function PricingSelector() {
   // };
 
   return (
-    <div className="border-2 border-brand rounded-[32px] p-3 shadow-md max-w-sm w-full flex flex-col items-center gap-2 bg-white">
+    <div className="border-2 border-brand rounded-[32px] p-3 shadow-md w-full flex flex-col items-center gap-2 bg-white">
       {/* Billing Period Toggle */}
       <div className="rounded-full relative w-full bg-slate-100 p-1.5 flex items-center">
         <button
