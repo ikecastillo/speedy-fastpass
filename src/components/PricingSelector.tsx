@@ -10,6 +10,24 @@ export function PricingSelector() {
   const router = useRouter();
   const [activePlan, setActivePlan] = React.useState(1); // Default to Deluxe (Popular)
   const [billingPeriod, setBillingPeriod] = React.useState(0); // 0 = Monthly, 1 = Yearly
+  
+  // Calculate precise animation values based on actual rendered dimensions
+  const getAnimationValues = React.useCallback(() => {
+    // Each plan item dimensions breakdown:
+    // Mobile (base): p-3 (24px) + text-lg title (28px) + text-sm price (20px) + spacing (4px) = 76px
+    // Desktop (md+): p-3 (24px) + text-xl title (32px) + text-md price (24px) + spacing (4px) = 84px
+    // Gap between items: 8px (gap-2)
+    
+    // Use mobile dimensions by default (mobile-first)
+    const itemHeight = 76;
+    const gap = 8;
+    const totalOffset = itemHeight + gap; // 84px total
+    
+    return {
+      itemHeight,
+      translateY: activePlan * totalOffset,
+    };
+  }, [activePlan]);
 
   const handleChangePlan = (index: number) => {
     setActivePlan(index);
@@ -143,9 +161,10 @@ export function PricingSelector() {
         
         {/* Animated Selection Border */}
         <motion.div
-          className="w-full h-[82px] absolute top-0 border-[3px] border-brand rounded-2xl pointer-events-none"
+          className="w-full absolute top-0 border-[3px] border-brand rounded-2xl pointer-events-none"
           animate={{
-            transform: `translateY(${activePlan * 82 + 8 * activePlan}px)`,
+            transform: `translateY(${getAnimationValues().translateY}px)`,
+            height: `${getAnimationValues().itemHeight}px`,
           }}
           transition={{ duration: 0.3 }}
         />
