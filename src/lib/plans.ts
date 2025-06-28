@@ -51,7 +51,6 @@ export const plansMeta: PlanMeta[] = [
     yearly: 249.90,
     tagline: 'Enhanced cleaning power',
     icon: '',
-    popular: true,
     features: [
       { name: 'Free self vacuums', included: true },
       { name: 'Presoak treatment', included: true },
@@ -77,10 +76,7 @@ export const plansMeta: PlanMeta[] = [
     yearly: 349.90,
     tagline: 'Complete car care',
     icon: '',
-    promo: {
-      text: '$5 first month',
-      condition: 'works',
-    },
+    popular: true,
     features: [
       { name: 'Free self vacuums', included: true },
       { name: 'Presoak treatment', included: true },
@@ -106,10 +102,6 @@ export const plansMeta: PlanMeta[] = [
     yearly: 399.90,
     tagline: 'Ultimate protection',
     icon: '',
-    promo: {
-      text: '$5 first month',
-      condition: 'works-plus',
-    },
     features: [
       { name: 'Free self vacuums', included: true },
       { name: 'Presoak treatment', included: true },

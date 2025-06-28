@@ -72,8 +72,8 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                       <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
                         {planData.label}
                         {planData.popular && (
-                          <span className="px-2 py-0.5 bg-accent text-black text-xs font-semibold rounded-full">
-                            Popular
+                          <span className="px-3 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs font-bold rounded-full shadow-md border border-blue-700">
+                            Most Popular
                           </span>
                         )}
                       </h3>
@@ -81,13 +81,19 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                     </div>
                   </div>
                   
-                  {/* Compact Price */}
-                  <div className="text-right">
-                    <div className="text-xl font-bold text-brand">
-                      ${billingPeriod === 'monthly' ? planData.monthly.toFixed(2) : planData.yearly.toFixed(2)}
+                  {/* Enhanced Price Display */}
+                  <div className="text-right bg-brand/5 rounded-xl p-3 border border-brand/20">
+                    <div className="flex items-baseline gap-1 justify-end">
+                      <span className="text-lg font-black text-brand">$</span>
+                      <span className="text-2xl font-black text-brand">
+                        {billingPeriod === 'monthly' ? planData.monthly.toFixed(0) : planData.yearly.toFixed(0)}
+                      </span>
+                      <span className="text-sm font-semibold text-brand">
+                        .{billingPeriod === 'monthly' ? planData.monthly.toFixed(2).split('.')[1] : planData.yearly.toFixed(2).split('.')[1]}
+                      </span>
                     </div>
-                    <div className="text-xs text-gray-500">
-                      /{billingPeriod === 'monthly' ? 'mo' : 'yr'}
+                    <div className="text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      per {billingPeriod === 'monthly' ? 'month' : 'year'}
                     </div>
                   </div>
                 </div>
@@ -128,7 +134,6 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                         </motion.div>
                       ))}
                     </div>
-                    
                   </div>
                   
                   {/* Compact Savings at Bottom */}
