@@ -108,8 +108,8 @@ async function getOrCreateCoupon(): Promise<string> {
     // Check if coupon already exists
     await stripe.coupons.retrieve('first-month-five');
     return 'first-month-five';
-  } catch (error) {
-    // Create coupon if it doesn't exist
+      } catch {
+      // Create coupon if it doesn't exist
     await stripe.coupons.create({
       id: 'first-month-five',
       name: 'First Month $5 Off',
@@ -190,7 +190,7 @@ export async function createCheckout(data: CheckoutData) {
       throw new Error('No invoice found on subscription');
     }
 
-    let invoice: any;
+    let invoice: Stripe.Invoice & { payment_intent?: Stripe.PaymentIntent | string };
     if (typeof latestInvoice === 'string') {
       // If it's a string ID, retrieve the full invoice
       invoice = await stripe.invoices.retrieve(latestInvoice, {
@@ -223,7 +223,7 @@ export async function createCheckout(data: CheckoutData) {
             clientSecret: newPaymentIntent.client_secret,
             customerId: customerId,
           };
-                  } catch (piError) {
+                  } catch {
             // Failed to create manual payment intent, will throw error below
           }
       }
