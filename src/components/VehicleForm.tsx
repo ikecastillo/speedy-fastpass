@@ -149,50 +149,53 @@ export function VehicleFormComponent() {
       <div>
         <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 md:mb-4">Personal Information</h2>
         <div className="space-y-3 md:space-y-4">
-          {/* First Name */}
-          <div>
-            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-              First Name
-            </label>
-            <input
-              {...register("firstName")}
-              type="text"
-              id="firstName"
-              aria-invalid={errors.firstName ? "true" : "false"}
-              className={`
-                w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
-                ${errors.firstName ? "border-red-500" : "border-gray-300"}
-              `}
-              placeholder="Enter your first name"
-            />
-            {errors.firstName && (
-              <p className="mt-1 text-sm text-red-600" role="alert" aria-live="polite">
-                {errors.firstName.message}
-              </p>
-            )}
-          </div>
+          {/* First and Last Name - Side by side on mobile */}
+          <div className="grid grid-cols-2 gap-3">
+            {/* First Name */}
+            <div>
+              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+                First Name
+              </label>
+              <input
+                {...register("firstName")}
+                type="text"
+                id="firstName"
+                aria-invalid={errors.firstName ? "true" : "false"}
+                className={`
+                  w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
+                  ${errors.firstName ? "border-red-500" : "border-gray-300"}
+                `}
+                placeholder="First name"
+              />
+              {errors.firstName && (
+                <p className="mt-1 text-xs md:text-sm text-red-600" role="alert" aria-live="polite">
+                  {errors.firstName.message}
+                </p>
+              )}
+            </div>
 
-          {/* Last Name */}
-          <div>
-            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-              Last Name
-            </label>
-            <input
-              {...register("lastName")}
-              type="text"
-              id="lastName"
-              aria-invalid={errors.lastName ? "true" : "false"}
-              className={`
-                w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
-                ${errors.lastName ? "border-red-500" : "border-gray-300"}
-              `}
-              placeholder="Enter your last name"
-            />
-            {errors.lastName && (
-              <p className="mt-1 text-sm text-red-600" role="alert" aria-live="polite">
-                {errors.lastName.message}
-              </p>
-            )}
+            {/* Last Name */}
+            <div>
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+                Last Name
+              </label>
+              <input
+                {...register("lastName")}
+                type="text"
+                id="lastName"
+                aria-invalid={errors.lastName ? "true" : "false"}
+                className={`
+                  w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
+                  ${errors.lastName ? "border-red-500" : "border-gray-300"}
+                `}
+                placeholder="Last name"
+              />
+              {errors.lastName && (
+                <p className="mt-1 text-xs md:text-sm text-red-600" role="alert" aria-live="polite">
+                  {errors.lastName.message}
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Email */}
@@ -212,7 +215,7 @@ export function VehicleFormComponent() {
               placeholder="Enter your email address"
             />
             {errors.email && (
-              <p className="mt-1 text-sm text-red-600" role="alert" aria-live="polite">
+              <p className="mt-1 text-xs md:text-sm text-red-600" role="alert" aria-live="polite">
                 {errors.email.message}
               </p>
             )}
@@ -235,7 +238,7 @@ export function VehicleFormComponent() {
               placeholder="(555) 123-4567"
             />
             {errors.phone && (
-              <p className="mt-1 text-sm text-red-600" role="alert">
+              <p className="mt-1 text-xs md:text-sm text-red-600" role="alert">
                 {errors.phone.message}
               </p>
             )}
@@ -247,101 +250,107 @@ export function VehicleFormComponent() {
       <div>
         <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 md:mb-4">Vehicle Information</h2>
         <div className="space-y-3 md:space-y-4">
-          {/* License Plate */}
-          <div>
-            <label htmlFor="plate" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-              License Plate
-            </label>
-            <input
-              {...register("plate")}
-              type="text"
-              id="plate"
-              aria-invalid={errors.plate ? "true" : "false"}
-              className={`
-                w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand uppercase text-base md:text-sm
-                ${errors.plate ? "border-red-500" : "border-gray-300"}
-              `}
-              placeholder="ABC1234"
-              maxLength={8}
-            />
-            {errors.plate && (
-              <p className="mt-1 text-sm text-red-600" role="alert">
-                {errors.plate.message}
-              </p>
-            )}
+          {/* License Plate and State - Side by side */}
+          <div className="grid grid-cols-2 gap-3">
+            {/* License Plate */}
+            <div>
+              <label htmlFor="plate" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+                License Plate
+              </label>
+              <input
+                {...register("plate")}
+                type="text"
+                id="plate"
+                aria-invalid={errors.plate ? "true" : "false"}
+                className={`
+                  w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand uppercase text-base md:text-sm
+                  ${errors.plate ? "border-red-500" : "border-gray-300"}
+                `}
+                placeholder="ABC1234"
+                maxLength={8}
+              />
+              {errors.plate && (
+                <p className="mt-1 text-xs md:text-sm text-red-600" role="alert">
+                  {errors.plate.message}
+                </p>
+              )}
+            </div>
+
+            {/* State */}
+            <div>
+              <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+                State
+              </label>
+              <select
+                {...register("state")}
+                id="state"
+                aria-invalid={errors.state ? "true" : "false"}
+                className={`
+                  w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
+                  ${errors.state ? "border-red-500" : "border-gray-300"}
+                `}
+              >
+                {US_STATES.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+              {errors.state && (
+                <p className="mt-1 text-xs md:text-sm text-red-600" role="alert">
+                  {errors.state.message}
+                </p>
+              )}
+            </div>
           </div>
 
-          {/* State */}
-          <div>
-            <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-              State
-            </label>
-            <select
-              {...register("state")}
-              id="state"
-              aria-invalid={errors.state ? "true" : "false"}
-              className={`
-                w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
-                ${errors.state ? "border-red-500" : "border-gray-300"}
-              `}
-            >
-              {US_STATES.map((state) => (
-                <option key={state} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
-            {errors.state && (
-              <p className="mt-1 text-sm text-red-600" role="alert">
-                {errors.state.message}
-              </p>
-            )}
-          </div>
+          {/* Make and Model - Side by side */}
+          <div className="grid grid-cols-2 gap-3">
+            {/* Make */}
+            <div>
+              <label htmlFor="make" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+                Vehicle Make
+              </label>
+              <input
+                {...register("make")}
+                type="text"
+                id="make"
+                aria-invalid={errors.make ? "true" : "false"}
+                className={`
+                  w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
+                  ${errors.make ? "border-red-500" : "border-gray-300"}
+                `}
+                placeholder="Toyota"
+              />
+              {errors.make && (
+                <p className="mt-1 text-xs md:text-sm text-red-600" role="alert">
+                  {errors.make.message}
+                </p>
+              )}
+            </div>
 
-          {/* Make */}
-          <div>
-            <label htmlFor="make" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-              Vehicle Make
-            </label>
-            <input
-              {...register("make")}
-              type="text"
-              id="make"
-              aria-invalid={errors.make ? "true" : "false"}
-              className={`
-                w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
-                ${errors.make ? "border-red-500" : "border-gray-300"}
-              `}
-              placeholder="Toyota"
-            />
-            {errors.make && (
-              <p className="mt-1 text-sm text-red-600" role="alert">
-                {errors.make.message}
-              </p>
-            )}
-          </div>
-
-          {/* Model */}
-          <div>
-            <label htmlFor="model" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-              Vehicle Model
-            </label>
-            <input
-              {...register("model")}
-              type="text"
-              id="model"
-              aria-invalid={errors.model ? "true" : "false"}
-              className={`
-                w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
-                ${errors.model ? "border-red-500" : "border-gray-300"}
-              `}
-              placeholder="Camry"
-            />
-            {errors.model && (
-              <p className="mt-1 text-sm text-red-600" role="alert">
-                {errors.model.message}
-              </p>
-            )}
+            {/* Model */}
+            <div>
+              <label htmlFor="model" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+                Vehicle Model
+              </label>
+              <input
+                {...register("model")}
+                type="text"
+                id="model"
+                aria-invalid={errors.model ? "true" : "false"}
+                className={`
+                  w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
+                  ${errors.model ? "border-red-500" : "border-gray-300"}
+                `}
+                placeholder="Camry"
+              />
+              {errors.model && (
+                <p className="mt-1 text-xs md:text-sm text-red-600" role="alert">
+                  {errors.model.message}
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Year */}
@@ -362,7 +371,7 @@ export function VehicleFormComponent() {
               maxLength={4}
             />
             {errors.year && (
-              <p className="mt-1 text-sm text-red-600" role="alert">
+              <p className="mt-1 text-xs md:text-sm text-red-600" role="alert">
                 {errors.year.message}
               </p>
             )}

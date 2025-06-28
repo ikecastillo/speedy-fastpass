@@ -29,24 +29,27 @@ export default function VehiclePage() {
           Vehicle & Personal Information
         </h1>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-8">
-          {/* Main Form - 2/3 width */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-md p-4 md:p-8">
-              <VehicleFormComponent />
-            </div>
-          </div>
-          
-          {/* Plan Summary - 1/3 width */}
-          <div className="lg:col-span-1">
+        {/* Mobile-first: Plan Summary at top, then form */}
+        <div className="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8">
+          {/* Plan Summary - Mobile: full width at top, Desktop: 1/3 width sidebar */}
+          <div className="lg:col-span-1 lg:order-2">
             {planData ? (
-              <PlanSummary planName={planData.name} period={planData.period} />
+              <div className="sticky top-4">
+                <PlanSummary planName={planData.name} period={planData.period} />
+              </div>
             ) : (
               <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
                 <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-4">Selected Plan</h3>
                 <p className="text-gray-600">Loading plan information...</p>
               </div>
             )}
+          </div>
+          
+          {/* Main Form - Mobile: below summary, Desktop: 2/3 width */}
+          <div className="lg:col-span-2 lg:order-1">
+            <div className="bg-white rounded-lg shadow-md p-4 md:p-8">
+              <VehicleFormComponent />
+            </div>
           </div>
         </div>
       </div>
