@@ -138,7 +138,7 @@ export function VehicleFormComponent() {
   };
 
   const handleBack = () => {
-    router.push('/plan');
+    router.push('/');
   };
 
   const isNextDisabled = !isValid || !isDirty;

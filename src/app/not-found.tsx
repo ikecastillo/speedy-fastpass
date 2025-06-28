@@ -17,7 +17,7 @@ export default function NotFound() {
         
         <div className="space-y-4">
           <Link
-            href="/plan"
+            href="/"
             className="block w-full px-6 py-3 bg-brand text-white rounded-lg font-medium hover:bg-blue-900 transition-colors"
           >
             Choose Your Plan

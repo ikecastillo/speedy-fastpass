@@ -66,7 +66,7 @@ export function PricingSelector() {
   // };
 
   return (
-    <div className="border-2 border-brand rounded-[32px] p-3 shadow-md max-w-sm w-full flex flex-col items-center gap-3 bg-white">
+    <div className="border-2 border-brand rounded-[32px] p-3 shadow-md max-w-sm w-full flex flex-col items-center gap-2 bg-white">
       {/* Billing Period Toggle */}
       <div className="rounded-full relative w-full bg-slate-100 p-1.5 flex items-center">
         <button
@@ -93,15 +93,15 @@ export function PricingSelector() {
       </div>
 
       {/* Plans */}
-      <div className="w-full relative flex flex-col items-center justify-center gap-3">
+      <div className="w-full relative flex flex-col items-center justify-center gap-2">
         {plans.map((plan, index) => (
           <div
             key={plan.name}
-            className="w-full flex justify-between cursor-pointer border-2 border-gray-400 p-4 rounded-2xl"
+            className="w-full flex justify-between cursor-pointer border-2 border-gray-400 p-3 rounded-2xl"
             onClick={() => handleChangePlan(index)}
           >
             <div className="flex flex-col items-start">
-              <p className="font-semibold text-xl flex items-center gap-2 text-gray-950">
+              <p className="font-semibold text-lg md:text-xl flex items-center gap-2 text-gray-950">
                 {plan.name}
                 {plan.popular && (
                   <span className="py-1 px-2 block rounded-lg bg-accent text-black text-sm font-medium">
@@ -109,7 +109,7 @@ export function PricingSelector() {
                   </span>
                 )}
               </p>
-              <p className="text-slate-500 text-md flex">
+              <p className="text-slate-500 text-sm md:text-md flex">
                 <span className="text-black font-medium flex items-center">
                   $
                   <NumberFlow
@@ -143,9 +143,9 @@ export function PricingSelector() {
         
         {/* Animated Selection Border */}
         <motion.div
-          className="w-full h-[88px] absolute top-0 border-[3px] border-brand rounded-2xl pointer-events-none"
+          className="w-full h-[82px] absolute top-0 border-[3px] border-brand rounded-2xl pointer-events-none"
           animate={{
-            transform: `translateY(${activePlan * 88 + 12 * activePlan}px)`,
+            transform: `translateY(${activePlan * 82 + 8 * activePlan}px)`,
           }}
           transition={{ duration: 0.3 }}
         />
@@ -153,7 +153,7 @@ export function PricingSelector() {
 
       {/* Get Started Button */}
       <motion.button 
-        className="rounded-full bg-brand text-lg text-white w-full p-3 transition-transform duration-300"
+        className="rounded-full bg-brand text-base md:text-lg text-white w-full p-2.5 md:p-3 transition-transform duration-300"
         whileTap={{ scale: 0.95 }}
         onClick={handleGetStarted}
       >
@@ -162,7 +162,7 @@ export function PricingSelector() {
 
       {/* Auto Demo Button */}
       <motion.button 
-        className="rounded-full bg-accent text-lg text-gray-800 w-full p-3 transition-transform duration-300 border-2 border-yellow-600 font-semibold"
+        className="rounded-full bg-accent text-base md:text-lg text-gray-800 w-full p-2.5 md:p-3 transition-transform duration-300 border-2 border-yellow-600 font-semibold"
         whileTap={{ scale: 0.95 }}
         onClick={handleAutoDemo}
       >

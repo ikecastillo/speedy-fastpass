@@ -94,7 +94,7 @@ function SuccessPageContent() {
     }
     
     // Navigate to plan selection with reset flag
-    router.push('/plan?reset=1');
+            router.push('/?reset=1');
   };
 
   if (loading) {
@@ -119,7 +119,7 @@ function SuccessPageContent() {
             We couldn&apos;t find your order information. Please try again.
           </p>
           <button
-            onClick={() => router.push('/plan')}
+            onClick={() => router.push('/')}
             className="px-6 py-3 bg-brand text-white rounded-lg font-medium hover:bg-blue-900 transition-colors"
           >
             Start Over

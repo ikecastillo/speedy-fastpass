@@ -77,7 +77,7 @@ export function PlansGrid() {
 
                 {/* CTA Button */}
                 <Link
-                  href="/plan"
+                  href="/"
                   className={`block w-full text-center font-semibold py-3 px-6 rounded-xl transition-colors ${
                     plan.popular
                       ? 'bg-brand text-white hover:bg-blue-700'

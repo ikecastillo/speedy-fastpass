@@ -20,7 +20,7 @@ export function Hero() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link 
-              href="/plan"
+              href="/"
               className="bg-brand text-white text-lg font-semibold px-8 py-4 rounded-full hover:bg-blue-700 transition-colors w-full sm:w-auto"
             >
               Get Started

@@ -24,7 +24,7 @@ export default function PaymentPage() {
         // Get plan data
         const storedPlan = localStorage.getItem('selectedPlan') || localStorage.getItem('checkoutPlan');
         if (!storedPlan) {
-          router.push('/plan');
+          router.push('/');
           return;
         }
 
@@ -123,7 +123,7 @@ export default function PaymentPage() {
         <div className="text-center">
           <p className="text-red-600 mb-4">Payment session not available</p>
           <button
-            onClick={() => router.push('/plan')}
+            onClick={() => router.push('/')}
             className="bg-brand text-white px-4 py-2 rounded-lg"
           >
             Select Plan

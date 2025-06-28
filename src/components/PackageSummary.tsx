@@ -34,7 +34,7 @@ export function PackageSummary({ planName, period }: PackageSummaryProps) {
   const planName_display = newPlan ? newPlan.label : oldPlan!.name;
 
   const handleChangePlan = () => {
-    router.push('/plan');
+    router.push('/');
   };
 
   return (
