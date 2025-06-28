@@ -16,9 +16,9 @@ export const vehicleSchema = z.object({
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
   phone: z.string()
-    .min(10, "Phone number must be at least 10 digits")
-    .max(15, "Phone number must be at most 15 digits")
-    .regex(/^\d+$/, "Phone number must contain only digits"),
+    .min(14, "Phone number must be complete")
+    .max(14, "Phone number must be in (###) ###-#### format")
+    .regex(/^\(\d{3}\) \d{3}-\d{4}$/, "Phone number must be in (###) ###-#### format"),
   plate: z.string()
     .min(2, "License plate must be at least 2 characters")
     .max(8, "License plate must be at most 8 characters")

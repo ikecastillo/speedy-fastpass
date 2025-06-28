@@ -86,6 +86,10 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
                   email: 'auto',
                 },
               },
+              wallets: {
+                applePay: 'auto',
+                googlePay: 'never',
+              },
             }}
           />
         </div>

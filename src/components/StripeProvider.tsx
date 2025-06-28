@@ -22,9 +22,31 @@ export function StripeProvider({ children, clientSecret }: StripeProviderProps) 
         colorPrimary: '#1e40af',
         colorBackground: '#ffffff',
         colorText: '#1f2937',
-        fontFamily: 'var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif',
+        fontFamily: 'Geist, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        fontSize: '16px',
+        fontSizeBase: '16px',
         spacingUnit: '4px',
         borderRadius: '8px',
+        fontWeightNormal: '400',
+        fontWeightMedium: '500',
+      },
+      rules: {
+        '.Input': {
+          fontSize: '16px',
+          fontFamily: 'Geist, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        },
+        '.Label': {
+          fontSize: '14px',
+          fontWeight: '500',
+          fontFamily: 'Geist, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        },
+        '.Tab': {
+          fontFamily: 'Geist, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          fontWeight: '500',
+        },
+        '.Text': {
+          fontFamily: 'Geist, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        },
       },
     },
   } : {};
