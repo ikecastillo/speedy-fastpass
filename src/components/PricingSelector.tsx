@@ -35,6 +35,27 @@ export function PricingSelector() {
     router.push('/checkout/vehicle');
   };
 
+  const handleAutoDemo = () => {
+    // Auto-select Deluxe plan (index 1) with yearly billing for best savings
+    setActivePlan(1); // Deluxe plan
+    setBillingPeriod(1); // Yearly
+    
+    // Small delay to show the selection animation, then proceed
+    setTimeout(() => {
+      const selectedPlan = plans[1].name.toLowerCase().replace('+', '-plus');
+      
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('selectedPlan', JSON.stringify({
+          plan: selectedPlan,
+          period: 'yearly',
+          price: getPrice(plans[1])
+        }));
+      }
+      
+      router.push('/checkout/vehicle');
+    }, 800); // 800ms to show the selection animation
+  };
+
   const getPrice = (plan: Plan) => {
     const period = billingPeriod === 0 ? 'monthly' : 'yearly';
     return calculatePrice(plan, period);
@@ -137,6 +158,15 @@ export function PricingSelector() {
         onClick={handleGetStarted}
       >
         Get Started
+      </motion.button>
+
+      {/* Auto Demo Button */}
+      <motion.button 
+        className="rounded-full bg-accent text-lg text-gray-800 w-full p-3 transition-transform duration-300 border-2 border-yellow-600 font-semibold"
+        whileTap={{ scale: 0.95 }}
+        onClick={handleAutoDemo}
+      >
+        🎯 Auto-Demo (Deluxe + Yearly)
       </motion.button>
     </div>
   );

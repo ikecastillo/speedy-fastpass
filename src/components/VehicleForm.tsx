@@ -368,16 +368,14 @@ export function VehicleFormComponent() {
 
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 pt-6">
-        {/* Simulate Button (Dev Only) */}
-        {process.env.NODE_ENV !== "production" && (
-          <button
-            type="button"
-            onClick={handleSimulate}
-            className="px-6 py-3 bg-slate-200 text-slate-800 rounded-lg font-medium hover:bg-slate-300 transition-colors"
-          >
-            Simulate
-          </button>
-        )}
+        {/* Auto-fill Button */}
+        <button
+          type="button"
+          onClick={handleSimulate}
+          className="px-6 py-3 bg-accent text-gray-800 rounded-lg font-medium hover:bg-yellow-500 transition-colors border border-yellow-600"
+        >
+          🚀 Auto-fill Demo Data
+        </button>
 
         {/* Back Button */}
         <button

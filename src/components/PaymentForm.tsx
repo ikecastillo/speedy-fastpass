@@ -245,17 +245,15 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 pt-6">
-          {/* Simulate Button (Dev Only) */}
-          {process.env.NODE_ENV !== "production" && (
-            <button
-              type="button"
-              onClick={handleSimulate}
-              disabled={isProcessing}
-              className="px-6 py-3 bg-slate-200 text-slate-800 rounded-lg font-medium hover:bg-slate-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Simulate
-            </button>
-          )}
+          {/* Auto-fill Button */}
+          <button
+            type="button"
+            onClick={handleSimulate}
+            disabled={isProcessing}
+            className="px-6 py-3 bg-accent text-gray-800 rounded-lg font-medium hover:bg-yellow-500 transition-colors border border-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            💳 Auto-fill Test Card
+          </button>
 
           <button
             type="button"
