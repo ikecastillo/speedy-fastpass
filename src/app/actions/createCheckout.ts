@@ -1,7 +1,6 @@
 "use server";
 
 import Stripe from 'stripe';
-import { redirect } from 'next/navigation';
 
 // Initialize Stripe with secret key
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_fake_key_replace_with_real_stripe_secret_key', {
@@ -106,8 +105,8 @@ export async function createCheckout(data: CheckoutData) {
     const subscription = await stripe.subscriptions.create(subscriptionData);
 
     // Extract client secret from payment intent
-    const latestInvoice = subscription.latest_invoice as Stripe.Invoice;
-    const paymentIntent = (latestInvoice as any).payment_intent as Stripe.PaymentIntent;
+    const latestInvoice = subscription.latest_invoice as Stripe.Invoice & { payment_intent: Stripe.PaymentIntent };
+    const paymentIntent = latestInvoice.payment_intent;
 
     return {
       subscriptionId: subscription.id,
@@ -130,7 +129,7 @@ export async function confirmPayment(subscriptionId: string) {
         expand: ['payment_intent.payment_method'],
       });
       
-      const paymentIntent = (latestInvoice as any).payment_intent as Stripe.PaymentIntent;
+      const paymentIntent = (latestInvoice as unknown as { payment_intent: Stripe.PaymentIntent }).payment_intent;
       const paymentMethod = paymentIntent.payment_method as Stripe.PaymentMethod;
       
       return {

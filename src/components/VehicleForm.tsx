@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -396,9 +397,11 @@ export function VehicleFormComponent() {
               {imagePreview && (
                 <div className="mt-4">
                   <p className="text-sm text-gray-600 mb-2">Selected image:</p>
-                  <img
+                  <Image
                     src={imagePreview}
                     alt="Insurance card preview"
+                    width={192}
+                    height={128}
                     className="mx-auto max-w-48 max-h-32 object-cover rounded border"
                   />
                   <p className="text-xs text-gray-500 mt-2">

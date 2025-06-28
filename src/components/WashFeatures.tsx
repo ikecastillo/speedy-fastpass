@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { getPlanById, type PlanMeta } from '@/lib/plans';
+import { getPlanById } from '@/lib/plans';
 
 interface WashFeaturesProps {
   planId: string;
@@ -49,9 +49,9 @@ export function WashFeatures({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </button>
-      ) : (
-        <h4 className="font-medium text-gray-900 mb-3">What's Included</h4>
-      )}
+             ) : (
+         <h4 className="font-medium text-gray-900 mb-3">What&apos;s Included</h4>
+       )}
 
       {/* Features List */}
       {(isExpanded || !collapsible) && (

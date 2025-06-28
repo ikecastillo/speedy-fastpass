@@ -11,7 +11,6 @@ import { createCheckout, type CheckoutData } from "@/app/actions/createCheckout"
 export default function PaymentPage() {
   const router = useRouter();
   const [planData, setPlanData] = React.useState<{plan: string; period: string} | null>(null);
-  const [vehicleData, setVehicleData] = React.useState<any>(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [stripeData, setStripeData] = React.useState<{
     clientSecret: string;
@@ -43,7 +42,6 @@ export default function PaymentPage() {
           plan: planInfo.plan,
           period: planInfo.period
         });
-        setVehicleData(vehicleInfo);
 
         // Create Stripe checkout session
         try {

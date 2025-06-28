@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import SuccessConfetti from "@/components/SuccessConfetti";
 import { OrderSummary } from "@/components/OrderSummary";
@@ -28,7 +28,7 @@ interface PaymentSuccessData {
   subscriptionId?: string;
 }
 
-export default function SuccessPage() {
+function SuccessPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [paymentData, setPaymentData] = useState<PaymentSuccessData | null>(null);
@@ -51,10 +51,10 @@ export default function SuccessPage() {
         if (subscriptionId) {
           try {
             const result = await confirmPayment(subscriptionId);
-            if (result.success && result.paymentMethod && result.subscription) {
-              const cardLast4 = result.paymentMethod.card?.last4 || '';
-              const planName = (result.subscription.metadata as any)?.plan || 'Unknown';
-              const period = (result.subscription.metadata as any)?.period || 'monthly';
+                         if (result.success && result.paymentMethod && result.subscription) {
+               const cardLast4 = result.paymentMethod.card?.last4 || '';
+               const planName = result.subscription.metadata?.plan || 'Unknown';
+               const period = result.subscription.metadata?.period || 'monthly';
               
               setPaymentData({
                 cardLast4: cardLast4 || '0000', // Fallback if no card data
@@ -190,5 +190,20 @@ export default function SuccessPage() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    }>
+      <SuccessPageContent />
+    </Suspense>
   );
 } 
