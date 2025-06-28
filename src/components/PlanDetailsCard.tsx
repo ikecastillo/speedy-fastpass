@@ -46,11 +46,6 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                   Speedy Wash
                 </span>
               </div>
-              <div className="w-12 h-12 mx-auto mb-3 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border-2 border-white/30">
-                <div className="w-6 h-6 bg-white/30 rounded-full flex items-center justify-center">
-                  <div className="w-3 h-3 bg-white rounded-full"></div>
-                </div>
-              </div>
               <h3 className="text-lg md:text-xl font-bold text-white mb-2 drop-shadow-lg">
                 Choose Your Plan
               </h3>
