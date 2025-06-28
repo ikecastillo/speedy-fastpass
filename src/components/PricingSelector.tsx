@@ -5,6 +5,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { plans, calculatePrice, type Plan } from "@/types/plan";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 export function PricingSelector() {
   const router = useRouter();
@@ -95,16 +96,25 @@ export function PricingSelector() {
 
   return (
     <div className="border-2 border-brand rounded-[32px] p-3 shadow-md w-full md:max-w-sm flex flex-col items-center gap-2 bg-white">
-      {/* Hero Image - Perfectly nested */}
+      {/* Hero Section - Perfectly nested */}
       <div className="w-full mb-2">
-        <div className="aspect-video w-full rounded-[24px] bg-gradient-to-br from-blue-500 to-blue-600 overflow-hidden relative">
-          {/* Replace this entire div with your image */}
-          {/* Example: <img src="/your-image.jpg" alt="Car wash" className="w-full h-full object-cover" /> */}
-          <div className="absolute inset-0 flex items-center justify-center p-4">
-            <div className="text-white text-center">
-              <div className="text-2xl mb-2">🚗</div>
-              <div className="text-sm font-medium opacity-90">Your Car Wash Experience</div>
+        <div className="aspect-video w-full rounded-[24px] bg-slate-100 overflow-hidden relative flex items-center justify-center p-4">
+          {/* Speedy Wash with Lottie Animation */}
+          <div className="flex flex-col items-center justify-center text-center">
+            <div className="w-16 h-16 md:w-20 md:h-20 mb-2">
+              <DotLottieReact
+                src="https://lottie.host/bc8e11bd-4c71-4d1b-b54c-5cea5fa60b04/1yrrKTjlJd.lottie"
+                loop
+                autoplay
+                className="w-full h-full"
+              />
             </div>
+            <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-1">
+              Speedy Wash
+            </h2>
+            <p className="text-xs md:text-sm text-gray-600 font-medium">
+              Premium Car Care Experience
+            </p>
           </div>
         </div>
       </div>
