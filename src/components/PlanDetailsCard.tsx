@@ -29,9 +29,9 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="rounded-[24px] bg-gradient-to-br from-slate-50 to-slate-100 border-2 border-slate-200 p-6 h-48"
+            className="rounded-[24px] bg-gradient-to-br from-slate-50 to-slate-100 border-2 border-slate-200 p-6"
           >
-            <div className="text-center flex flex-col justify-center h-full">
+            <div className="text-center">
               <div className="w-12 h-12 mx-auto mb-3 bg-brand/10 rounded-full flex items-center justify-center">
                 <div className="w-6 h-6 bg-brand/20 rounded-full flex items-center justify-center">
                   <div className="w-3 h-3 bg-brand rounded-full"></div>
@@ -56,10 +56,10 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="rounded-[24px] bg-gradient-to-br from-brand/5 to-brand/10 border-2 border-brand/20 p-4 h-48 overflow-hidden"
+            className="rounded-[24px] bg-gradient-to-br from-brand/5 to-brand/10 border-2 border-brand/20 p-4"
           >
             {planData && (
-              <div className="h-full flex flex-col">
+              <div className="flex flex-col">
                 {/* Compact Header */}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
@@ -92,27 +92,12 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                   </div>
                 </div>
 
-                {/* Compact Promo Message */}
-                {planData.promo && (
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="mb-3 p-2 bg-green-50 border border-green-200 rounded-lg"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 bg-green-500 rounded-full flex-shrink-0"></div>
-                      <span className="text-xs font-semibold text-green-800">
-                        {planData.promo.text}
-                      </span>
-                    </div>
-                  </motion.div>
-                )}
+
 
                 {/* Compact Features - 2 Column Grid */}
-                <div className="flex-1 overflow-hidden">
+                <div>
                   <h4 className="text-sm font-bold text-gray-900 mb-2">What&apos;s included:</h4>
-                  <div className="h-full overflow-y-auto pr-1">
+                  <div>
                     <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                       {planData.features.map((feature, index) => (
                         <motion.div
@@ -144,23 +129,24 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                       ))}
                     </div>
                     
-                    {/* Compact Savings at Bottom */}
-                    {billingPeriod === 'yearly' && (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                        className="mt-2 p-2 bg-blue-50 rounded-lg"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="w-3 h-3 bg-blue-500 rounded-full flex-shrink-0"></div>
-                          <div className="text-xs font-semibold text-blue-800">
-                            Save ${((planData.monthly * 12) - planData.yearly).toFixed(2)} annually!
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
                   </div>
+                  
+                  {/* Compact Savings at Bottom */}
+                  {billingPeriod === 'yearly' && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                      className="mt-3 p-2 bg-blue-50 rounded-lg"
+                    >
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-blue-500 rounded-full flex-shrink-0"></div>
+                        <div className="text-xs font-semibold text-blue-800">
+                          Save ${((planData.monthly * 12) - planData.yearly).toFixed(2)} annually!
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
                 </div>
               </div>
             )}
