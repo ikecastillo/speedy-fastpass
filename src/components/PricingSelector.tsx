@@ -78,7 +78,7 @@ export function PricingSelector() {
   // };
 
   return (
-    <div className="border-2 border-brand rounded-[32px] p-3 shadow-md w-full md:max-w-sm flex flex-col items-center gap-2 bg-white">
+    <div className="rounded-[32px] p-3 shadow-md w-full md:max-w-sm flex flex-col items-center gap-2 bg-white">
       {/* Dynamic Plan Details Card */}
       <PlanDetailsCard 
         selectedPlanIndex={activePlan} 
