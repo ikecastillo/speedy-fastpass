@@ -32,13 +32,18 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
             className="rounded-[24px] bg-gradient-to-br from-slate-50 to-slate-100 border-2 border-slate-200 p-6"
           >
             <div className="text-center">
+              <div className="mb-3 px-3 py-1 bg-slate-200 rounded-full inline-block">
+                <span className="text-xs font-bold text-gray-700 uppercase tracking-widest">
+                  Speedy Wash
+                </span>
+              </div>
               <div className="w-12 h-12 mx-auto mb-3 bg-brand/10 rounded-full flex items-center justify-center">
                 <div className="w-6 h-6 bg-brand/20 rounded-full flex items-center justify-center">
                   <div className="w-3 h-3 bg-brand rounded-full"></div>
                 </div>
               </div>
               <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">
-                Speedy Wash
+                Choose Your Plan
               </h3>
               <p className="text-sm text-gray-600 mb-2">
                 Please select a wash below for more details
@@ -60,6 +65,15 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
           >
             {planData && (
               <div className="flex flex-col">
+                {/* Speedy Wash Branding */}
+                <div className="mb-3 text-center">
+                  <div className="px-3 py-1 bg-slate-200 rounded-full inline-block">
+                    <span className="text-xs font-bold text-gray-700 uppercase tracking-widest">
+                      Speedy Wash
+                    </span>
+                  </div>
+                </div>
+                
                 {/* Compact Header */}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">

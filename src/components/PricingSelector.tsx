@@ -116,15 +116,25 @@ export function PricingSelector() {
             className="w-full flex justify-between cursor-pointer border-2 border-gray-400 p-3 rounded-2xl"
             onClick={() => handleChangePlan(index)}
           >
-            <div className="flex flex-col items-start">
-              <p className="font-semibold text-lg md:text-xl flex items-center gap-2 text-gray-950">
-                {plan.name}
+            <div className="flex flex-col items-start relative">
+              <div className="flex items-center gap-2 mb-1">
+                <p className="font-semibold text-lg md:text-xl text-gray-950">
+                  {plan.name}
+                </p>
                 {plan.popular && (
                   <span className="px-3 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-bold rounded-full shadow-md border border-blue-700">
                     Most Popular
                   </span>
                 )}
-              </p>
+              </div>
+              
+              {/* Special Offer Badge */}
+              {(plan.name === 'Works' || plan.name === 'Works+') && (
+                <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg border-2 border-white transform rotate-12">
+                  $5 First Month!
+                </div>
+              )}
+              
               <p className="text-slate-500 text-sm md:text-md flex">
                 <span className="text-black font-medium flex items-center">
                   $
