@@ -3,6 +3,8 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { getPlanByName, calculatePrice } from "@/types/plan";
+import { getPlanById, calculatePlanPrice } from "@/lib/plans";
+import { WashFeatures } from "@/components/WashFeatures";
 
 interface PackageSummaryProps {
   planName: string;
@@ -11,7 +13,12 @@ interface PackageSummaryProps {
 
 export function PackageSummary({ planName, period }: PackageSummaryProps) {
   const router = useRouter();
-  const plan = getPlanByName(planName);
+  const oldPlan = getPlanByName(planName);
+  const newPlan = getPlanById(planName);
+
+  // Use the new plan system or fall back to old system
+  const plan = newPlan || oldPlan;
+  const planId = newPlan ? newPlan.id : planName;
 
   if (!plan) {
     return (
@@ -21,11 +28,13 @@ export function PackageSummary({ planName, period }: PackageSummaryProps) {
     );
   }
 
-  const price = calculatePrice(plan, period);
+  // Use new pricing if available
+  const price = newPlan ? calculatePlanPrice(newPlan, period) : calculatePrice(oldPlan!, period);
   const periodDisplay = period === 'monthly' ? 'month' : 'year';
+  const planName_display = newPlan ? newPlan.label : oldPlan!.name;
 
   const handleChangePlan = () => {
-    router.push('/plan');
+    router.push('/');
   };
 
   return (
@@ -39,9 +48,9 @@ export function PackageSummary({ planName, period }: PackageSummaryProps) {
         <div className="border-b border-gray-200 pb-4">
           <div className="flex items-center gap-2 mb-2">
             <h3 className="text-lg font-medium text-gray-900">
-              {plan.name}
+              {planName_display}
             </h3>
-            {plan.popular && (
+            {(newPlan?.popular || oldPlan?.popular) && (
               <span className="py-1 px-2 rounded-lg bg-accent text-black text-sm font-medium">
                 Popular
               </span>
@@ -57,28 +66,18 @@ export function PackageSummary({ planName, period }: PackageSummaryProps) {
           
           {period === 'yearly' && (
             <p className="text-sm text-green-600 mt-1">
-              Save ${(plan.monthlyPrice * 12 - price).toFixed(2)} annually
+              Save ${newPlan ? (newPlan.monthly * 12 - price).toFixed(2) : oldPlan ? (oldPlan.monthlyPrice * 12 - price).toFixed(2) : '0'} annually
             </p>
           )}
         </div>
 
         {/* Plan Features */}
         <div className="space-y-2">
-          <h4 className="font-medium text-gray-900">Includes:</h4>
-          <ul className="space-y-1 text-sm text-gray-600">
-            <li>• Unlimited car washes</li>
-            <li>• Premium soap & wax</li>
-            <li>• Interior vacuuming</li>
-            {(plan.name === 'Deluxe' || plan.name === 'Works' || plan.name === 'Works+') && (
-              <li>• Tire shine service</li>
-            )}
-            {(plan.name === 'Works' || plan.name === 'Works+') && (
-              <li>• Interior detailing</li>
-            )}
-            {plan.name === 'Works+' && (
-              <li>• Premium air freshener</li>
-            )}
-          </ul>
+          <WashFeatures 
+            planId={planId} 
+            expanded={true} 
+            collapsible={false}
+          />
         </div>
 
         {/* Change Plan Link */}

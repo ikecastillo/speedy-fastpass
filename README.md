@@ -182,3 +182,97 @@ MIT License - feel free to use this project as a reference for your own applicat
 ---
 
 **Built with ❤️ by Ike Castillo**
+
+## Environment Variables
+
+Create a `.env.local` file in the project root:
+
+```bash
+# Stripe Configuration
+# Insert real keys before production
+STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key_here
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key_here
+```
+
+## Development
+
+1. Install dependencies:
+```bash
+pnpm install
+```
+
+2. Start the development server:
+```bash
+pnpm dev
+```
+
+3. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Testing
+
+### Stripe Test Cards
+
+For testing payments, use these test card numbers:
+
+- **Success**: `4242 4242 4242 4242`
+- **Requires Authentication**: `4000 0025 0000 3155`
+- **Declined**: `4000 0000 0000 0002`
+
+Use any future expiry date and any 3-digit CVC.
+
+### Features to Test
+
+1. **Landing Page**: Navigate through plan selection
+2. **Mobile Responsiveness**: Test on various screen sizes
+3. **Form Validation**: Try invalid inputs in vehicle/customer forms
+4. **Phone Formatting**: Verify auto-formatting as `(###) ###-####`
+5. **Insurance Card Scanner**: Test file upload (shows preview)
+6. **Stripe Payment**: Complete checkout with test cards
+7. **Feature Collapsing**: Expand/collapse plan features on landing page
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── actions/           # Server actions (Stripe integration)
+│   ├── checkout/         # Multi-step checkout flow
+│   └── plan/            # Plan selection page
+├── components/
+│   ├── ui/              # Reusable UI components
+│   ├── Header.tsx       # Navigation header
+│   ├── Hero.tsx         # Landing page hero
+│   ├── PlansGrid.tsx    # Plan selection grid
+│   ├── WashFeatures.tsx # Collapsible feature lists
+│   └── Stripe*.tsx      # Stripe payment components
+├── lib/
+│   └── plans.ts         # Centralized plan metadata
+└── types/
+    ├── plan.ts          # Plan type definitions
+    └── vehicle.ts       # Vehicle form types
+```
+
+## Technologies Used
+
+- **Next.js 15** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first styling
+- **Stripe** - Payment processing
+- **Framer Motion** - Smooth animations
+- **React Hook Form** - Form management with validation
+- **Zod** - Schema validation
+
+## Production Notes
+
+Before deploying to production:
+
+1. Replace fake Stripe keys with real ones
+2. Create Stripe products and prices to match plan IDs
+3. Set up the `first-month-five` coupon in Stripe dashboard
+4. Configure proper domain for Stripe webhook endpoints
+5. Test payment flows end-to-end
+6. Run Lighthouse audit for performance optimization
+
+## License
+
+This project is for demonstration purposes.

@@ -7,7 +7,7 @@ interface StepperProps {
 }
 
 const steps = [
-  { number: 1, label: "Plan", path: "/plan" },
+  { number: 1, label: "Plan", path: "/" },
   { number: 2, label: "Vehicle", path: "/checkout/vehicle" },
   { number: 3, label: "Payment", path: "/checkout/payment" },
   { number: 4, label: "Success", path: "/checkout/success" },
@@ -15,7 +15,7 @@ const steps = [
 
 export function Stepper({ currentStep }: StepperProps) {
   return (
-    <div className="w-full max-w-4xl mx-auto p-6">
+    <div className="w-full max-w-4xl mx-auto px-4 py-3 md:p-6">
       <div className="flex items-center justify-between">
         {steps.map((step, index) => (
           <React.Fragment key={step.number}>
@@ -23,7 +23,7 @@ export function Stepper({ currentStep }: StepperProps) {
             <div className="flex flex-col items-center">
               <div
                 className={`
-                  w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold
+                  w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-xs md:text-sm font-semibold
                   ${
                     currentStep >= step.number
                       ? "bg-brand text-white"
@@ -34,7 +34,7 @@ export function Stepper({ currentStep }: StepperProps) {
               >
                 {currentStep > step.number ? (
                   <svg
-                    className="w-5 h-5"
+                    className="w-4 h-4 md:w-5 md:h-5"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -50,7 +50,7 @@ export function Stepper({ currentStep }: StepperProps) {
               </div>
               <span
                 className={`
-                  mt-2 text-sm font-medium
+                  mt-1 md:mt-2 text-xs md:text-sm font-medium
                   ${
                     currentStep >= step.number
                       ? "text-brand"
