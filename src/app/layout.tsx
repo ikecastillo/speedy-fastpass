@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -51,6 +51,18 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  other: {
+    // iOS Safari status bar color matching the blue sky in your facility image
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'default',
+    // Additional mobile browser theming
+    'msapplication-navbutton-color': '#2e57a7',
+    'msapplication-TileColor': '#2e57a7',
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#2e57a7',
 };
 
 export default function RootLayout({
