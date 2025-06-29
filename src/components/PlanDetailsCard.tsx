@@ -46,7 +46,7 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
             
             {/* Overlapping white container with modern design */}
             <div className="relative -mt-5 z-10">
-              <div className="bg-white rounded-t-3xl shadow-xl mx-4 md:mx-8">
+              <div className="bg-white rounded-t-3xl md:mx-8">
                 {/* Clean text section with modern typography */}
                 <div className="px-6 py-8 text-center">
                   {/* Clean brand typography - no badge */}
