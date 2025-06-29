@@ -23,44 +23,49 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
     >
       <AnimatePresence mode="wait">
         {selectedPlanIndex === null ? (
-          // Default State - No Plan Selected
+          // Default State - Full-screen layout with overlapping card
           <motion.div
             key="default"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="rounded-[24px] border-2 border-slate-200 overflow-hidden bg-white"
+            className="w-full"
           >
-            {/* Beautiful facility image - larger showcase */}
-            <div className="h-48 w-full relative overflow-hidden">
+            {/* Full-width hero image */}
+            <div className="h-64 w-full relative overflow-hidden">
               <Image
                 src="/SpeedyAtDay.PNG"
                 alt="Speedy Wash car wash facility exterior with modern equipment and professional signage"
                 fill
                 className="object-cover"
                 priority
-                sizes="(max-width: 768px) 100vw, 448px"
+                sizes="100vw"
               />
-              {/* Subtle gradient at bottom for text transition */}
-              <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white/80 to-transparent z-10"></div>
             </div>
             
-            {/* Compact text section below image */}
-            <div className="p-4 text-center bg-white">
-              <div className="mb-2 px-3 py-1.5 bg-slate-100 rounded-full inline-flex items-center justify-center">
-                <span className="text-xs font-bold text-gray-700 uppercase tracking-widest">
-                  Speedy Wash
-                </span>
-              </div>
-              <h3 className="text-base md:text-lg font-bold text-gray-900 mb-1">
-                Choose Your Plan
-              </h3>
-              <p className="text-sm text-gray-600 mb-1">
-                Please select a wash below for more details
-              </p>
-              <div className="text-xs text-gray-500 font-medium tracking-wide">
-                Choose from our premium car care packages
+            {/* Overlapping white container with modern design */}
+            <div className="relative -mt-5 z-10">
+              <div className="bg-white rounded-t-3xl shadow-xl mx-4 md:mx-8">
+                {/* Clean text section with modern typography */}
+                <div className="px-6 py-8 text-center">
+                  {/* Clean brand typography - no badge */}
+                  <div className="mb-6">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 uppercase tracking-wider mb-2">
+                      Speedy Wash
+                    </h2>
+                  </div>
+                  
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    Choose Your Plan
+                  </h3>
+                  <p className="text-sm md:text-base text-gray-600 mb-2 max-w-sm mx-auto">
+                    Please select a wash below for more details
+                  </p>
+                  <div className="text-xs md:text-sm text-gray-500 font-medium tracking-wide">
+                    Choose from our premium car care packages
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
