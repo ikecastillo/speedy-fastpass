@@ -56,13 +56,13 @@ export const metadata: Metadata = {
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
     // Additional mobile browser theming
-    'msapplication-navbutton-color': '#2e57a7',
-    'msapplication-TileColor': '#2e57a7',
+    'msapplication-navbutton-color': '#3b5ea8',
+    'msapplication-TileColor': '#3b5ea8',
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#2e57a7',
+  themeColor: '#3b5ea8',
 };
 
 export default function RootLayout({
