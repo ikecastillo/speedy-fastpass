@@ -9,38 +9,21 @@ export default function HomePage() {
   const [activePlan, setActivePlan] = useState<number | null>(null);
   const [billingPeriod, setBillingPeriod] = useState(0); // 0 = Monthly, 1 = Yearly
   
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
-
-  // Parallax transforms
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
-
   return (
-    <div ref={containerRef} className="min-h-screen bg-gray-50">
-      {/* Hero Section with Parallax */}
-      <motion.div 
-        style={{ y: heroY }}
-        className="relative"
-      >
+    <div className="relative">
+      {/* Fixed Hero Background */}
+      <div className="fixed top-0 left-0 w-full h-screen z-0">
         <PlanDetailsCard 
           selectedPlanIndex={activePlan} 
           billingPeriod={billingPeriod === 0 ? 'monthly' : 'yearly'} 
         />
-      </motion.div>
+      </div>
 
-      {/* Overlapping Content Section with Modern Shadow */}
-      <motion.div
-        style={{ 
-          y: contentY,
-          opacity: overlayOpacity
-        }}
-        className="relative -mt-20 md:-mt-32 lg:-mt-40 z-20"
-      >
+      {/* Spacer to allow scroll */}
+      <div className="h-screen"></div>
+
+      {/* Sliding Content that overlays the fixed hero */}
+      <div className="relative z-10 min-h-screen">
         <div 
           className="mx-4 md:mx-8"
           style={{
@@ -54,7 +37,7 @@ export default function HomePage() {
           }}
         >
           <div className="bg-white rounded-t-3xl overflow-hidden">
-            {/* Brand Header with Parallax */}
+            {/* Brand Header */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -139,12 +122,44 @@ export default function HomePage() {
                 />
               </div>
             </motion.div>
+
+            {/* Additional content to demonstrate the effect */}
+            <div className="px-6 py-16 bg-white">
+              <div className="max-w-4xl mx-auto text-center">
+                <h3 className="text-2xl font-bold mb-4" style={{ color: '#2F343A' }}>
+                  Premium Car Care Experience
+                </h3>
+                <p className="text-lg mb-8" style={{ color: '#6F7780' }}>
+                  Experience the difference with our state-of-the-art facility and professional-grade equipment.
+                </p>
+                <div className="grid md:grid-cols-3 gap-8">
+                  <div className="text-center">
+                    <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F5F7FA' }}>
+                      <span className="text-2xl">🚗</span>
+                    </div>
+                    <h4 className="font-bold mb-2" style={{ color: '#2F343A' }}>Drive-Through Convenience</h4>
+                    <p className="text-sm" style={{ color: '#6F7780' }}>Quick and easy access without leaving your vehicle</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F5F7FA' }}>
+                      <span className="text-2xl">⚡</span>
+                    </div>
+                    <h4 className="font-bold mb-2" style={{ color: '#2F343A' }}>Lightning Fast</h4>
+                    <p className="text-sm" style={{ color: '#6F7780' }}>Get your car cleaned in minutes, not hours</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ backgroundColor: '#F5F7FA' }}>
+                      <span className="text-2xl">✨</span>
+                    </div>
+                    <h4 className="font-bold mb-2" style={{ color: '#2F343A' }}>Premium Results</h4>
+                    <p className="text-sm" style={{ color: '#6F7780' }}>Professional-grade equipment for showroom shine</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </motion.div>
-
-      {/* Additional spacing for scroll effect */}
-      <div className="h-32"></div>
+      </div>
     </div>
   );
 }
