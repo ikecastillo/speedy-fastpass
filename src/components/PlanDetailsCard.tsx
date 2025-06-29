@@ -113,7 +113,7 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="rounded-[24px] bg-gradient-to-br from-brand/5 to-brand/10 border-2 border-brand/20 p-4"
+            className="rounded-[24px] bg-white p-4 shadow-lg shadow-gray-200/50"
           >
             {planData && (
               <div className="flex flex-col">
