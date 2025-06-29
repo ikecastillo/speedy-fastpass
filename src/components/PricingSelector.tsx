@@ -15,34 +15,6 @@ interface PricingSelectorProps {
 
 export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setBillingPeriod }: PricingSelectorProps) {
   const router = useRouter();
-  const [mounted, setMounted] = React.useState(false);
-
-  // Prevent hydration mismatch by only showing animations after mount
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-  
-  // Calculate precise animation values based on actual rendered dimensions
-  const getAnimationValues = React.useCallback(() => {
-    // CORRECTED: Based on user observation, actual dimensions are:
-    // Each plan item appears to be ~77px tall (not 76px)
-    // Gap between items: 8px (gap-2)
-    // Total offset per item: 85px
-    // 
-    // This gives us the correct positions:
-    // • Deluxe (index 1): 1 × 85 = 85px (observed: 86px) ✅
-    // • Works (index 2): 2 × 85 = 170px (observed: 170px) ✅  
-    // • Works+ (index 3): 3 × 85 = 255px (observed: 256px) ✅
-    
-    const itemHeight = 77; // Corrected from 76px
-    const gap = 8;
-    const totalOffset = itemHeight + gap; // 77 + 8 = 85px total
-    
-    return {
-      itemHeight,
-      translateY: activePlan !== null ? activePlan * totalOffset : 0,
-    };
-  }, [activePlan]);
 
   const handleChangePlan = (index: number) => {
     setActivePlan(index);
@@ -84,15 +56,17 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
   return (
     <div className="w-full md:max-w-sm flex flex-col items-center gap-2 bg-white rounded-[32px] p-3 shadow-md">
       {/* Billing Period Toggle */}
-      <div className="rounded-full relative w-full bg-slate-100 p-1.5 flex items-center">
+      <div className="rounded-full relative w-full p-1.5 flex items-center" style={{ backgroundColor: '#F5F7FA' }}>
         <button
-          className="font-semibold rounded-full w-full p-1.5 text-slate-800 z-20 relative"
+          className="font-semibold rounded-full w-full p-1.5 z-20 relative"
+          style={{ color: '#474D55' }}
           onClick={() => handleChangePeriod(0)}
         >
           Monthly
         </button>
         <button
-          className="font-semibold rounded-full w-full p-1.5 text-slate-800 z-20 relative"
+          className="font-semibold rounded-full w-full p-1.5 z-20 relative"
+          style={{ color: '#474D55' }}
           onClick={() => handleChangePeriod(1)}
         >
           Yearly
@@ -111,7 +85,11 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
         {plans.map((plan, index) => (
           <div
             key={plan.name}
-            className="w-full flex justify-between cursor-pointer border-2 border-gray-400 p-3 rounded-2xl"
+            className={`w-full flex justify-between cursor-pointer p-3 rounded-2xl transition-all duration-300 ${
+              activePlan === index 
+                ? 'bg-white shadow-lg shadow-blue-200/50 scale-[1.02]' 
+                : 'bg-white shadow-md shadow-gray-200/30 hover:shadow-lg hover:shadow-gray-200/50'
+            }`}
             onClick={() => handleChangePlan(index)}
           >
             <div className="flex flex-col items-start">
@@ -120,7 +98,13 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                   {plan.name}
                 </p>
                 {plan.popular && (
-                  <span className="px-2 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs font-bold rounded-full shadow-lg border border-blue-700">
+                  <span 
+                    className="px-2 py-1 text-white text-xs font-bold rounded-full shadow-lg border"
+                    style={{
+                      background: `linear-gradient(45deg, #1463B4, #12579C)`,
+                      borderColor: '#0E4377'
+                    }}
+                  >
                     Most Popular
                   </span>
                 )}
@@ -157,43 +141,48 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
             </div>
             <div
               className={`border-2 size-6 rounded-full mt-0.5 p-1 flex items-center justify-center transition-all duration-300 ${
-                activePlan === index ? 'border-brand' : 'border-gray-500'
+                activePlan === index ? 'border-gray-500' : 'border-gray-400'
               }`}
+              style={{
+                borderColor: activePlan === index ? '#1463B4' : '#9EA5AD'
+              }}
             >
               <div
                 className={`size-3 rounded-full transition-all duration-300 ${
-                  activePlan === index ? 'bg-brand opacity-100' : 'bg-transparent opacity-0'
+                  activePlan === index ? 'opacity-100' : 'bg-transparent opacity-0'
                 }`}
+                style={{
+                  backgroundColor: activePlan === index ? '#1463B4' : 'transparent'
+                }}
               />
             </div>
           </div>
         ))}
-        
-        {/* Animated Selection Border - Only show after hydration and when a plan is selected */}
-        {mounted && activePlan !== null && (
-          <motion.div
-            className="w-full absolute top-0 border-[3px] border-brand rounded-2xl pointer-events-none"
-            initial={{
-              transform: `translateY(${getAnimationValues().translateY}px)`,
-              height: `${getAnimationValues().itemHeight}px`,
-            }}
-            animate={{
-              transform: `translateY(${getAnimationValues().translateY}px)`,
-              height: `${getAnimationValues().itemHeight}px`,
-            }}
-            transition={{ duration: 0.3 }}
-          />
-        )}
+
       </div>
 
       {/* Get Started Button */}
       <motion.button 
         className={`rounded-full text-base md:text-lg w-full p-2.5 md:p-3 transition-all duration-300 ${
           activePlan !== null 
-            ? 'bg-brand text-white hover:bg-brand/90 cursor-pointer' 
-            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            ? 'text-white cursor-pointer' 
+            : 'cursor-not-allowed'
         }`}
+        style={{
+          backgroundColor: activePlan !== null ? '#1463B4' : '#C8CDD2',
+          color: activePlan !== null ? 'white' : '#6F7780'
+        }}
         whileTap={activePlan !== null ? { scale: 0.95 } : {}}
+        onMouseEnter={(e) => {
+          if (activePlan !== null) {
+            e.currentTarget.style.backgroundColor = '#12579C';
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (activePlan !== null) {
+            e.currentTarget.style.backgroundColor = '#1463B4';
+          }
+        }}
         onClick={handleGetStarted}
         disabled={activePlan === null}
       >
