@@ -5,12 +5,16 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { plans, calculatePrice, type Plan } from "@/types/plan";
-import { PlanDetailsCard } from "./PlanDetailsCard";
 
-export function PricingSelector() {
+interface PricingSelectorProps {
+  activePlan: number | null;
+  setActivePlan: (index: number | null) => void;
+  billingPeriod: number;
+  setBillingPeriod: (period: number) => void;
+}
+
+export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setBillingPeriod }: PricingSelectorProps) {
   const router = useRouter();
-  const [activePlan, setActivePlan] = React.useState<number | null>(null); // No plan selected initially
-  const [billingPeriod, setBillingPeriod] = React.useState(0); // 0 = Monthly, 1 = Yearly
   const [mounted, setMounted] = React.useState(false);
 
   // Prevent hydration mismatch by only showing animations after mount
@@ -78,13 +82,7 @@ export function PricingSelector() {
   // };
 
   return (
-    <div className="w-full md:max-w-sm flex flex-col items-center gap-2">
-      {/* Dynamic Plan Details Card */}
-      <PlanDetailsCard 
-        selectedPlanIndex={activePlan} 
-        billingPeriod={billingPeriod === 0 ? 'monthly' : 'yearly'} 
-      />
-
+    <div className="w-full md:max-w-sm flex flex-col items-center gap-2 bg-white rounded-[32px] p-3 shadow-md">
       {/* Billing Period Toggle */}
       <div className="rounded-full relative w-full bg-slate-100 p-1.5 flex items-center">
         <button
