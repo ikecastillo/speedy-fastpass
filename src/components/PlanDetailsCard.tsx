@@ -49,49 +49,22 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
               <div className="bg-white rounded-t-3xl md:mx-8">
                 {/* Clean text section with modern typography */}
                 <div className="px-6 py-8 text-center">
-                  {/* Enhanced brand typography with animated glowing plus */}
+                  {/* Enhanced brand typography with plus as exponent */}
                   <div className="mb-6">
-                    <div className="flex items-center justify-center gap-3 mb-2">
+                    <div className="flex items-start justify-center mb-2">
                       <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wider" style={{ color: '#2F343A' }}>
                         Speedy Wash
-                      </h2>
-                      <motion.div
-                        className="relative flex items-center justify-center"
-                        animate={{
-                          scale: [1, 1.1, 1],
-                        }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
-                      >
-                        {/* Animated glow background */}
-                        <motion.div
-                          className="absolute inset-0 rounded-full blur-lg opacity-60"
-                          style={{
-                            background: `linear-gradient(45deg, #1463B4, #FFD60A, #0B2545)`
-                          }}
-                          animate={{
-                            opacity: [0.4, 0.8, 0.4],
-                            scale: [0.8, 1.2, 0.8],
-                          }}
-                          transition={{
-                            duration: 3,
-                            repeat: Infinity,
-                            ease: "easeInOut"
-                          }}
-                        />
-                        {/* Plus symbol */}
-                        <div 
-                          className="relative w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg"
-                          style={{
-                            background: `linear-gradient(135deg, #0B2545, #1463B4)`
+                        <span 
+                          className="text-lg md:text-xl font-bold ml-1"
+                          style={{ 
+                            color: '#FFD60A',
+                            verticalAlign: 'super',
+                            fontSize: '0.7em'
                           }}
                         >
                           +
-                        </div>
-                      </motion.div>
+                        </span>
+                      </h2>
                     </div>
                   </div>
                   
@@ -144,52 +117,25 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
           >
             {planData && (
               <div className="flex flex-col">
-                {/* Enhanced Speedy Wash Branding with glowing plus */}
+                {/* Enhanced Speedy Wash Branding with plus as exponent */}
                 <div className="mb-3 text-center">
                   <div 
-                    className="px-4 py-2 rounded-full inline-flex items-center justify-center gap-2 shadow-sm"
+                    className="px-4 py-2 rounded-full inline-flex items-start justify-center shadow-sm"
                     style={{ backgroundColor: '#F5F7FA' }}
                   >
                     <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#474D55' }}>
                       Speedy Wash
-                    </span>
-                    <motion.div
-                      className="relative flex items-center justify-center"
-                      animate={{
-                        rotate: [0, 180, 360],
-                      }}
-                      transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: "linear"
-                      }}
-                    >
-                      {/* Smaller animated glow background */}
-                      <motion.div
-                        className="absolute inset-0 rounded-full blur-sm opacity-50"
-                        style={{
-                          background: `linear-gradient(45deg, #1463B4, #FFD60A)`
-                        }}
-                        animate={{
-                          opacity: [0.3, 0.7, 0.3],
-                          scale: [0.9, 1.1, 0.9],
-                        }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
-                      />
-                      {/* Plus symbol */}
-                      <div 
-                        className="relative w-4 h-4 rounded-full flex items-center justify-center text-white font-bold text-xs"
-                        style={{
-                          background: `linear-gradient(135deg, #0B2545, #1463B4)`
+                      <span 
+                        className="text-xs font-bold ml-1"
+                        style={{ 
+                          color: '#FFD60A',
+                          verticalAlign: 'super',
+                          fontSize: '0.7em'
                         }}
                       >
                         +
-                      </div>
-                    </motion.div>
+                      </span>
+                    </span>
                   </div>
                 </div>
                 
