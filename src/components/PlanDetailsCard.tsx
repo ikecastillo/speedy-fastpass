@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { getPlanById } from "@/lib/plans";
 
 interface PlanDetailsCardProps {
@@ -32,17 +33,17 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
             className="rounded-[24px] border-2 border-slate-200 overflow-hidden bg-white"
           >
             {/* Beautiful facility image - larger showcase */}
-            <div 
-              className="h-48 w-full relative"
-              style={{
-                backgroundImage: 'url(/SpeedyAtDay.PNG)',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
-              }}
-            >
+            <div className="h-48 w-full relative overflow-hidden">
+              <Image
+                src="/SpeedyAtDay.PNG"
+                alt="Speedy Wash car wash facility exterior with modern equipment and professional signage"
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 768px) 100vw, 448px"
+              />
               {/* Subtle gradient at bottom for text transition */}
-              <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white/80 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white/80 to-transparent z-10"></div>
             </div>
             
             {/* Compact text section below image */}
