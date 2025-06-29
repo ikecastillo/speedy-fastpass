@@ -46,13 +46,13 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
             
             {/* Overlapping white container with modern design */}
             <div className="relative -mt-5 z-10">
-            <div className="bg-white rounded-t-3xl md:mx-8">
+              <div className="bg-white rounded-t-3xl md:mx-8">
                 {/* Clean text section with modern typography */}
                 <div className="px-6 py-8 text-center">
                   {/* Enhanced brand typography with animated glowing plus */}
                   <div className="mb-6">
                     <div className="flex items-center justify-center gap-3 mb-2">
-                      <h2 className="text-2xl md:text-3xl font-bold text-gray-900 uppercase tracking-wider">
+                      <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wider" style={{ color: '#2F343A' }}>
                         Speedy Wash
                       </h2>
                       <motion.div
@@ -68,7 +68,10 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                       >
                         {/* Animated glow background */}
                         <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full blur-lg opacity-60"
+                          className="absolute inset-0 rounded-full blur-lg opacity-60"
+                          style={{
+                            background: `linear-gradient(45deg, #1463B4, #FFD60A, #0B2545)`
+                          }}
                           animate={{
                             opacity: [0.4, 0.8, 0.4],
                             scale: [0.8, 1.2, 0.8],
@@ -80,7 +83,12 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                           }}
                         />
                         {/* Plus symbol */}
-                        <div className="relative w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                        <div 
+                          className="relative w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg"
+                          style={{
+                            background: `linear-gradient(135deg, #0B2545, #1463B4)`
+                          }}
+                        >
                           +
                         </div>
                       </motion.div>
@@ -92,17 +100,30 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
                   >
-                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    <h3 
+                      className="text-xl md:text-2xl font-bold mb-3 bg-clip-text text-transparent"
+                      style={{
+                        background: `linear-gradient(45deg, #0B2545, #1463B4)`,
+                        WebkitBackgroundClip: 'text',
+                        backgroundClip: 'text'
+                      }}
+                    >
                       Get Your Fast Pass
                     </h3>
-                    <p className="text-base md:text-lg text-gray-700 mb-3 max-w-md mx-auto font-medium">
+                    <p className="text-base md:text-lg mb-3 max-w-md mx-auto font-medium" style={{ color: '#474D55' }}>
                       Unlock unlimited premium washes with your monthly membership
                     </p>
                     <div className="space-y-2">
-                      <div className="text-sm md:text-base text-gray-600 font-medium">
+                      <div className="text-sm md:text-base font-medium" style={{ color: '#6F7780' }}>
                         🚗 Drive up, flash your pass, drive clean
                       </div>
-                      <div className="text-xs md:text-sm text-blue-600 font-semibold tracking-wide uppercase bg-blue-50 py-2 px-4 rounded-full inline-block">
+                      <div 
+                        className="text-xs md:text-sm font-semibold tracking-wide uppercase py-2 px-4 rounded-full inline-block"
+                        style={{ 
+                          color: '#0B2545',
+                          backgroundColor: '#F5F7FA'
+                        }}
+                      >
                         Select your membership below to get started
                       </div>
                     </div>
@@ -125,8 +146,11 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
               <div className="flex flex-col">
                 {/* Enhanced Speedy Wash Branding with glowing plus */}
                 <div className="mb-3 text-center">
-                  <div className="px-4 py-2 bg-slate-100 rounded-full inline-flex items-center justify-center gap-2 shadow-sm">
-                    <span className="text-xs font-bold text-gray-700 uppercase tracking-widest">
+                  <div 
+                    className="px-4 py-2 rounded-full inline-flex items-center justify-center gap-2 shadow-sm"
+                    style={{ backgroundColor: '#F5F7FA' }}
+                  >
+                    <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#474D55' }}>
                       Speedy Wash
                     </span>
                     <motion.div
@@ -142,7 +166,10 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                     >
                       {/* Smaller animated glow background */}
                       <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur-sm opacity-50"
+                        className="absolute inset-0 rounded-full blur-sm opacity-50"
+                        style={{
+                          background: `linear-gradient(45deg, #1463B4, #FFD60A)`
+                        }}
                         animate={{
                           opacity: [0.3, 0.7, 0.3],
                           scale: [0.9, 1.1, 0.9],
@@ -154,7 +181,12 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                         }}
                       />
                       {/* Plus symbol */}
-                      <div className="relative w-4 h-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xs">
+                      <div 
+                        className="relative w-4 h-4 rounded-full flex items-center justify-center text-white font-bold text-xs"
+                        style={{
+                          background: `linear-gradient(135deg, #0B2545, #1463B4)`
+                        }}
+                      >
                         +
                       </div>
                     </motion.div>
@@ -170,15 +202,21 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                       </div>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                      <h3 className="text-lg font-bold flex items-center gap-2" style={{ color: '#2F343A' }}>
                         {planData.label}
                         {planData.popular && (
-                          <span className="px-3 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs font-bold rounded-full shadow-md border border-blue-700">
+                          <span 
+                            className="px-3 py-1 text-white text-xs font-bold rounded-full shadow-md border"
+                            style={{
+                              background: `linear-gradient(45deg, #1463B4, #12579C)`,
+                              borderColor: '#0E4377'
+                            }}
+                          >
                             Most Popular
                           </span>
                         )}
                       </h3>
-                      <p className="text-xs text-gray-600">{planData.tagline}</p>
+                      <p className="text-xs" style={{ color: '#6F7780' }}>{planData.tagline}</p>
                     </div>
                   </div>
                   
@@ -193,7 +231,7 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                         .{billingPeriod === 'monthly' ? planData.monthly.toFixed(2).split('.')[1] : planData.yearly.toFixed(2).split('.')[1]}
                       </span>
                     </div>
-                    <div className="text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <div className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#6F7780' }}>
                       per {billingPeriod === 'monthly' ? 'month' : 'year'}
                     </div>
                   </div>
@@ -203,7 +241,7 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
 
                 {/* Compact Features - 2 Column Grid */}
                 <div>
-                  <h4 className="text-sm font-bold text-gray-900 mb-2">What&apos;s included:</h4>
+                  <h4 className="text-sm font-bold mb-2" style={{ color: '#2F343A' }}>What&apos;s included:</h4>
                   <div>
                     <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                       {planData.features.map((feature, index) => (
@@ -213,8 +251,9 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                           animate={{ opacity: 1 }}
                           transition={{ delay: 0.03 * index }}
                           className={`flex items-center gap-1.5 text-xs ${
-                            feature.included ? 'text-gray-700' : 'text-gray-400'
+                            feature.included ? '' : ''
                           }`}
+                          style={{ color: feature.included ? '#474D55' : '#9EA5AD' }}
                         >
                           <div className={`w-3 h-3 rounded flex items-center justify-center flex-shrink-0 ${
                             feature.included ? 'bg-green-500' : 'bg-gray-300'
@@ -243,11 +282,15 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.2 }}
-                      className="mt-3 p-2 bg-blue-50 rounded-lg"
+                      className="mt-3 p-2 rounded-lg"
+                      style={{ backgroundColor: '#F5F7FA' }}
                     >
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-blue-500 rounded-full flex-shrink-0"></div>
-                        <div className="text-xs font-semibold text-blue-800">
+                        <div 
+                          className="w-3 h-3 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: '#1463B4' }}
+                        ></div>
+                        <div className="text-xs font-semibold" style={{ color: '#0B2545' }}>
                           Save ${((planData.monthly * 12) - planData.yearly).toFixed(2)} annually!
                         </div>
                       </div>
