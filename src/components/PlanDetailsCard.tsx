@@ -46,25 +46,67 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
             
             {/* Overlapping white container with modern design */}
             <div className="relative -mt-5 z-10">
-              <div className="bg-white rounded-t-3xl md:mx-8">
+            <div className="bg-white rounded-t-3xl md:mx-8">
                 {/* Clean text section with modern typography */}
                 <div className="px-6 py-8 text-center">
-                  {/* Clean brand typography - no badge */}
+                  {/* Enhanced brand typography with animated glowing plus */}
                   <div className="mb-6">
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 uppercase tracking-wider mb-2">
-                      Speedy Wash
-                    </h2>
+                    <div className="flex items-center justify-center gap-3 mb-2">
+                      <h2 className="text-2xl md:text-3xl font-bold text-gray-900 uppercase tracking-wider">
+                        Speedy Wash
+                      </h2>
+                      <motion.div
+                        className="relative flex items-center justify-center"
+                        animate={{
+                          scale: [1, 1.1, 1],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                      >
+                        {/* Animated glow background */}
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full blur-lg opacity-60"
+                          animate={{
+                            opacity: [0.4, 0.8, 0.4],
+                            scale: [0.8, 1.2, 0.8],
+                          }}
+                          transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                          }}
+                        />
+                        {/* Plus symbol */}
+                        <div className="relative w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                          +
+                        </div>
+                      </motion.div>
+                    </div>
                   </div>
                   
-                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
-                    Choose Your Plan
-                  </h3>
-                  <p className="text-sm md:text-base text-gray-600 mb-2 max-w-sm mx-auto">
-                    Please select a wash below for more details
-                  </p>
-                  <div className="text-xs md:text-sm text-gray-500 font-medium tracking-wide">
-                    Choose from our premium car care packages
-                  </div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                      Get Your Fast Pass
+                    </h3>
+                    <p className="text-base md:text-lg text-gray-700 mb-3 max-w-md mx-auto font-medium">
+                      Unlock unlimited premium washes with your monthly membership
+                    </p>
+                    <div className="space-y-2">
+                      <div className="text-sm md:text-base text-gray-600 font-medium">
+                        🚗 Drive up, flash your pass, drive clean
+                      </div>
+                      <div className="text-xs md:text-sm text-blue-600 font-semibold tracking-wide uppercase bg-blue-50 py-2 px-4 rounded-full inline-block">
+                        Select your membership below to get started
+                      </div>
+                    </div>
+                  </motion.div>
                 </div>
               </div>
             </div>
@@ -81,12 +123,41 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
           >
             {planData && (
               <div className="flex flex-col">
-                {/* Speedy Wash Branding */}
+                {/* Enhanced Speedy Wash Branding with glowing plus */}
                 <div className="mb-3 text-center">
-                  <div className="px-3 py-2 bg-slate-200 rounded-full inline-flex items-center justify-center">
+                  <div className="px-4 py-2 bg-slate-100 rounded-full inline-flex items-center justify-center gap-2 shadow-sm">
                     <span className="text-xs font-bold text-gray-700 uppercase tracking-widest">
                       Speedy Wash
                     </span>
+                    <motion.div
+                      className="relative flex items-center justify-center"
+                      animate={{
+                        rotate: [0, 180, 360],
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "linear"
+                      }}
+                    >
+                      {/* Smaller animated glow background */}
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur-sm opacity-50"
+                        animate={{
+                          opacity: [0.3, 0.7, 0.3],
+                          scale: [0.9, 1.1, 0.9],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                      />
+                      {/* Plus symbol */}
+                      <div className="relative w-4 h-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xs">
+                        +
+                      </div>
+                    </motion.div>
                   </div>
                 </div>
                 
