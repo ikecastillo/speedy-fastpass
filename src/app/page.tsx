@@ -2,32 +2,29 @@
 
 import { PlanDetailsCard } from "@/components/PlanDetailsCard";
 import { PricingSelector } from "@/components/PricingSelector";
-import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function HomePage() {
   const [activePlan, setActivePlan] = useState<number | null>(null);
   const [billingPeriod, setBillingPeriod] = useState(0); // 0 = Monthly, 1 = Yearly
   
   return (
-    <div className="relative">
-      {/* Fixed Hero Background */}
-      <div className="fixed top-0 left-0 w-full h-screen z-0">
+    <div className="relative bg-gray-50">
+      {/* Hero Image Section */}
+      <div className="relative h-screen w-full overflow-hidden">
         <PlanDetailsCard 
           selectedPlanIndex={activePlan} 
           billingPeriod={billingPeriod === 0 ? 'monthly' : 'yearly'} 
         />
       </div>
 
-      {/* Spacer to allow scroll */}
-      <div className="h-screen"></div>
-
-      {/* Sliding Content that overlays the fixed hero */}
-      <div className="relative z-10 min-h-screen">
+      {/* Overlapping White Card - Positioned to slide over hero */}
+      <div className="relative -mt-20 z-20">
         <div 
-          className="mx-4 md:mx-8"
+          className="mx-4 md:mx-8 min-h-screen"
           style={{
-            // Sophisticated shadow system
+            // Sophisticated shadow system for overlay effect
             boxShadow: `
               0 -25px 50px -15px rgba(11, 37, 69, 0.25),
               0 -15px 30px -10px rgba(11, 37, 69, 0.15),
@@ -37,12 +34,17 @@ export default function HomePage() {
           }}
         >
           <div className="bg-white rounded-t-3xl overflow-hidden">
+            {/* Drag Handle for Mobile - Visual indicator */}
+            <div className="px-6 pt-4 pb-2 bg-white">
+              <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto"></div>
+            </div>
+
             {/* Brand Header */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="px-6 py-8 text-center bg-gradient-to-b from-white to-gray-50/50"
+              className="px-6 py-6 text-center bg-gradient-to-b from-white to-gray-50/50"
             >
               {/* Speedy Wash+ Branding */}
               <div className="mb-6">
@@ -98,6 +100,7 @@ export default function HomePage() {
                       backgroundColor: '#FFD60A',
                       color: '#0B2545'
                     }}
+                    whileTap={{ scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
                     Select your membership below to get started
@@ -106,7 +109,7 @@ export default function HomePage() {
               </motion.div>
             </motion.div>
 
-            {/* Pricing Selector with Enhanced Spacing */}
+            {/* Pricing Selector */}
             <motion.div 
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
@@ -123,7 +126,7 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            {/* Additional content to demonstrate the effect */}
+            {/* Additional content for scroll demonstration */}
             <div className="px-6 py-16 bg-white">
               <div className="max-w-4xl mx-auto text-center">
                 <h3 className="text-2xl font-bold mb-4" style={{ color: '#2F343A' }}>
@@ -155,6 +158,29 @@ export default function HomePage() {
                     <p className="text-sm" style={{ color: '#6F7780' }}>Professional-grade equipment for showroom shine</p>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Extra content to ensure scroll behavior */}
+            <div className="px-6 py-12 bg-white border-t border-gray-100">
+              <div className="max-w-2xl mx-auto text-center">
+                <h3 className="text-xl font-bold mb-4" style={{ color: '#2F343A' }}>
+                  Ready to Get Started?
+                </h3>
+                <p className="text-base mb-6" style={{ color: '#6F7780' }}>
+                  Join thousands of satisfied customers who trust Speedy Wash+ for their car care needs.
+                </p>
+                <motion.button
+                  className="px-8 py-4 rounded-full font-bold text-lg shadow-lg"
+                  style={{
+                    background: `linear-gradient(45deg, #FFD60A, #FFCA00)`,
+                    color: '#0B2545'
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Start Your Membership
+                </motion.button>
               </div>
             </div>
           </div>
