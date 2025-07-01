@@ -10,8 +10,8 @@ interface PlanDetailsCardProps {
 }
 
 export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetailsCardProps) {
-  // Get plan data if one is selected
-  const planIds = ['basic', 'deluxe', 'works', 'works-plus'];
+  // Get plan data if one is selected - Updated order: Works+, Works, Deluxe, Basic
+  const planIds = ['works-plus', 'works', 'deluxe', 'basic'];
   const planData = selectedPlanIndex !== null ? getPlanById(planIds[selectedPlanIndex]) : null;
   
   return (
