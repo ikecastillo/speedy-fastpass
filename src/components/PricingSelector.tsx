@@ -203,10 +203,18 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
             )}
           </motion.button>
 
-          {/* Subtle footer text */}
-          <p className="text-center text-xs text-gray-500 mt-4">
-            Cancel anytime • No setup fees • 30-day guarantee
-          </p>
+          {/* Enhanced footer with location and trust indicators */}
+          <div className="text-center mt-4 space-y-1">
+            <p className="text-xs text-gray-500">
+              Cancel anytime • No setup fees • 30-day guarantee
+            </p>
+            <div className="flex items-center justify-center gap-1 text-xs text-gray-400">
+              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+              </svg>
+              <span>Serving Round Rock, Texas and surrounding areas</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
