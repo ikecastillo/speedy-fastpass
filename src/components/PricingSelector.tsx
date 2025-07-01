@@ -54,7 +54,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
   // };
 
   return (
-    <div className="w-full md:max-w-sm flex flex-col items-center gap-2 bg-white rounded-[32px] p-3 shadow-md">
+    <div className="w-full md:max-w-sm flex flex-col items-center gap-2 bg-transparent p-0 shadow-none">
       {/* Billing Period Toggle */}
       <div className="rounded-full relative w-full p-1.5 flex items-center" style={{ backgroundColor: '#F5F7FA' }}>
         <button

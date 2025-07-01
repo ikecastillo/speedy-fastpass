@@ -23,27 +23,11 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
     >
       <AnimatePresence mode="wait">
         {selectedPlanIndex === null ? (
-          // Default State - Full-screen layout with overlapping card
+          // Default State - Overlapping card without hero image (now fixed in page.tsx)
           <motion.div
             key="default"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
             className="w-full"
           >
-            {/* Full-width hero image */}
-            <div className="h-64 w-full relative overflow-hidden">
-              <Image
-                src="/SpeedyAtDay.PNG"
-                alt="Speedy Wash car wash facility exterior with modern equipment and professional signage"
-                fill
-                className="object-cover"
-                priority
-                sizes="100vw"
-              />
-            </div>
-            
             {/* Overlapping white container with modern design */}
             <div className="relative -mt-5 z-10">
               <div className="bg-white md:mx-8" style={{ borderTopLeftRadius: '2rem', borderTopRightRadius: '2rem' }}>
