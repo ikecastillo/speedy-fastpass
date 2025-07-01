@@ -17,6 +17,7 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
   return (
     <motion.div
       className="w-full"
+      style={{ backgroundColor: '#b48b62' }}
       layout
       transition={{ duration: 0.4, ease: "easeInOut" }}
     >
@@ -26,6 +27,7 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
           <motion.div
             key="default"
             className="w-full"
+            style={{ backgroundColor: '#b48b62' }}
           >
             {/* Overlapping white container with modern design */}
             <div className="relative -mt-5 z-10">
