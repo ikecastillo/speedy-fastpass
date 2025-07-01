@@ -17,7 +17,6 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
   return (
     <motion.div
       className="w-full"
-      style={{ backgroundColor: '#b48b62' }}
       layout
       transition={{ duration: 0.4, ease: "easeInOut" }}
     >
@@ -27,7 +26,6 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
           <motion.div
             key="default"
             className="w-full"
-            style={{ backgroundColor: '#b48b62' }}
           >
             {/* Overlapping white container with modern design */}
             <div className="relative -mt-5 z-10">
@@ -37,7 +35,7 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                   {/* Enhanced brand typography with plus as exponent */}
                   <div className="mb-6">
                     <div className="flex items-start justify-center mb-2">
-                      <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wider" style={{ color: '#2F343A' }}>
+                      <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wider" style={{ color: '#0B2545' }}>
                         Speedy Wash
                         <span 
                           className="text-lg md:text-xl font-bold ml-1"
@@ -79,9 +77,6 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                       Unlock unlimited premium washes with your monthly membership
                     </p>
                     <div className="space-y-2">
-                      <div className="text-sm md:text-base font-medium" style={{ color: '#6F7780' }}>
-                        🚗 Drive up, flash your pass, drive clean
-                      </div>
                       <div 
                         className="text-xs md:text-sm font-semibold tracking-wide uppercase py-2 px-4 rounded-full inline-block"
                         style={{ 
@@ -140,7 +135,7 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                       </div>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold flex items-center gap-2" style={{ color: '#2F343A' }}>
+                      <h3 className="text-lg font-bold flex items-center gap-2" style={{ color: '0B2545' }}>
                         {planData.label}
                         {planData.popular && (
                           <span 
@@ -179,7 +174,7 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
 
                 {/* Compact Features - 2 Column Grid */}
                 <div>
-                  <h4 className="text-sm font-bold mb-2" style={{ color: '#2F343A' }}>What&apos;s included:</h4>
+                  <h4 className="text-sm font-bold mb-2" style={{ color: '#0B2545' }}>What&apos;s included:</h4>
                   <div>
                     <div className="grid grid-cols-2 gap-x-2 gap-y-1">
                       {planData.features.map((feature, index) => (
