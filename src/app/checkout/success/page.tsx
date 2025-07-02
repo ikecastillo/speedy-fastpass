@@ -41,39 +41,72 @@ function SuccessPageContent() {
         // Get subscription ID from URL params
         const subscriptionId = searchParams.get('subscription_id');
         
-        // Get vehicle form data
-        const vehicleFormData = localStorage.getItem('vehicleFormData');
-        if (vehicleFormData) {
-          setVehicleData(JSON.parse(vehicleFormData));
-        }
-
-        // Try to get Stripe payment data first
-        if (subscriptionId) {
-          try {
-            const result = await confirmPayment(subscriptionId);
-                         if (result.success && result.paymentMethod && result.subscription) {
-               const cardLast4 = result.paymentMethod.card?.last4 || '';
-               const planName = result.subscription.metadata?.plan || 'Unknown';
-               const period = result.subscription.metadata?.period || 'monthly';
-              
-              setPaymentData({
-                cardLast4: cardLast4 || '0000', // Fallback if no card data
-                timestamp: new Date().toISOString(),
-                planName,
-                period: period as 'monthly' | 'yearly',
-                subscriptionId,
-              });
-            }
-          } catch (error) {
-            console.error('Error confirming payment:', error);
+        // Get vehicle form data from new checkout system
+        const checkoutData = localStorage.getItem('speedy_checkout_data');
+        if (checkoutData) {
+          const parsed = JSON.parse(checkoutData);
+          if (parsed.vehicle) {
+            setVehicleData(parsed.vehicle);
+          }
+        } else {
+          // Fallback to old system for backward compatibility
+          const vehicleFormData = localStorage.getItem('vehicleFormData');
+          if (vehicleFormData) {
+            setVehicleData(JSON.parse(vehicleFormData));
           }
         }
 
-        // Fallback: try to get from localStorage (for backward compatibility)
+        // Handle both real and mock subscription IDs
+        if (subscriptionId) {
+          // Check if this is a mock subscription ID
+          if (subscriptionId.includes('mock')) {
+            console.log('🎭 Mock subscription detected, using localStorage data');
+            // For mock payments, rely on localStorage data
+          } else {
+            // Try to get real Stripe payment data
+            try {
+              const result = await confirmPayment(subscriptionId);
+              if (result.success && result.paymentMethod && result.subscription) {
+                const cardLast4 = result.paymentMethod.card?.last4 || '';
+                const planName = result.subscription.metadata?.plan || 'Unknown';
+                const period = result.subscription.metadata?.period || 'monthly';
+                
+                setPaymentData({
+                  cardLast4: cardLast4 || '0000', // Fallback if no card data
+                  timestamp: new Date().toISOString(),
+                  planName,
+                  period: period as 'monthly' | 'yearly',
+                  subscriptionId,
+                });
+              }
+            } catch (error) {
+              console.error('Error confirming payment:', error);
+              // Fall back to localStorage data if Stripe confirmation fails
+            }
+          }
+        }
+
+        // Fallback: try to get from localStorage (for backward compatibility and mock payments)
         if (!paymentData) {
           const paymentSuccessData = localStorage.getItem('paymentSuccess');
           if (paymentSuccessData) {
-            setPaymentData(JSON.parse(paymentSuccessData));
+            const successData = JSON.parse(paymentSuccessData);
+            setPaymentData(successData);
+          } else {
+            // Last resort: construct data from checkout system
+            const checkoutData = localStorage.getItem('speedy_checkout_data');
+            if (checkoutData) {
+              const parsed = JSON.parse(checkoutData);
+              if (parsed.plan) {
+                setPaymentData({
+                  cardLast4: '4242', // Default for simulation
+                  timestamp: new Date().toISOString(),
+                  planName: parsed.plan.displayName || parsed.plan.name,
+                  period: parsed.plan.period,
+                  subscriptionId: subscriptionId || 'sim_success',
+                });
+              }
+            }
           }
         }
 

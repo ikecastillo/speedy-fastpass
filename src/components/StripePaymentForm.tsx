@@ -55,13 +55,14 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
       // Simulate processing delay
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Store mock payment success
+      // Store mock payment success with more complete data
       if (typeof window !== 'undefined') {
         localStorage.setItem('paymentSuccess', JSON.stringify({
           subscriptionId,
           timestamp: new Date().toISOString(),
           planName,
           period,
+          cardLast4: '4242', // Mock test card
           mockPayment: true
         }));
       }
