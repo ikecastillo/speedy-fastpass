@@ -10,7 +10,7 @@ export function Header() {
             <div className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">S</span>
             </div>
-            <span className="text-xl font-bold text-gray-900">Speedy FastPass</span>
+            <span className="text-xl font-bold text-gray-900">Speedy Stop+</span>
           </Link>
 
           {/* Navigation */}

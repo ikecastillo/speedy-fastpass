@@ -51,7 +51,7 @@ export default function VehiclePage() {
       <div className="fixed inset-x-0 top-0 h-72 md:h-96 z-0 overflow-hidden">
         <Image 
           src="/SpeedyAtNight.PNG" 
-          alt="Speedy Wash exterior" 
+          alt="Speedy Stop exterior" 
           fill 
           className="object-cover" 
           priority 
@@ -92,7 +92,7 @@ export default function VehiclePage() {
                 <h1 
                   className="text-2xl sm:text-3xl font-bold uppercase tracking-tight italic"
                   style={{ 
-                    color: '#0B2545',
+                    color: '#22c55e',
                     letterSpacing: '-0.02em'
                   }}
                 >
@@ -101,11 +101,11 @@ export default function VehiclePage() {
                 <h1 
                   className="text-2xl sm:text-3xl font-bold uppercase tracking-tight"
                   style={{ 
-                    color: '#0B2545',
+                    color: '#FFD60A',
                     letterSpacing: '-0.02em'
                   }}
                 >
-                  Wash
+                  Stop
                 </h1>
                 <span 
                   className="text-lg font-bold"
@@ -117,6 +117,13 @@ export default function VehiclePage() {
                 >
                   +
                 </span>
+              </div>
+              
+              {/* Powered by auzi badge */}
+              <div className="flex justify-center mb-4">
+                <div className="bg-gray-100 px-3 py-1 rounded-full">
+                  <span className="text-xs font-medium text-gray-600">powered by auzi</span>
+                </div>
               </div>
               
               {/* CTA Section */}

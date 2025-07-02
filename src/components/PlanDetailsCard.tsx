@@ -35,8 +35,9 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                   {/* Enhanced brand typography with plus as exponent */}
                   <div className="mb-6">
                     <div className="flex items-start justify-center mb-2">
-                      <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wider" style={{ color: '#0B2545' }}>
-                        Speedy Wash
+                      <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wider">
+                        <span style={{ color: '#22c55e' }}>Speedy</span>{' '}
+                        <span style={{ color: '#FFD60A' }}>Stop</span>
                         <span 
                           className="text-lg md:text-xl font-bold ml-1"
                           style={{ 
@@ -49,6 +50,14 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                         </span>
                       </h2>
                     </div>
+                    
+                    {/* Powered by auzi badge */}
+                    <div className="flex justify-center mb-2">
+                      <div className="bg-gray-100 px-3 py-1 rounded-full">
+                        <span className="text-xs font-medium text-gray-600">powered by auzi</span>
+                      </div>
+                    </div>
+                    
                     {/* Location subtitle */}
                     <div className="flex items-center justify-center gap-1 text-sm font-medium" style={{ color: '#6F7780' }}>
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -104,14 +113,15 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
           >
             {planData && (
               <div className="flex flex-col">
-                {/* Enhanced Speedy Wash Branding with plus as exponent */}
+                {/* Enhanced Speedy Stop Branding with plus as exponent */}
                 <div className="mb-3 text-center">
                   <div 
                     className="px-4 py-2 rounded-full inline-flex items-start justify-center shadow-sm"
                     style={{ backgroundColor: '#F5F7FA' }}
                   >
-                    <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#474D55' }}>
-                      Speedy Wash
+                    <span className="text-xs font-bold uppercase tracking-widest">
+                      <span style={{ color: '#22c55e' }}>Speedy</span>{' '}
+                      <span style={{ color: '#FFD60A' }}>Stop</span>
                       <span 
                         className="text-xs font-bold ml-1"
                         style={{ 
@@ -123,6 +133,13 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                         +
                       </span>
                     </span>
+                  </div>
+                  
+                  {/* Powered by auzi badge */}
+                  <div className="mt-2">
+                    <div className="bg-gray-100 px-2 py-1 rounded-full inline-block">
+                      <span className="text-xs font-medium text-gray-600">powered by auzi</span>
+                    </div>
                   </div>
                 </div>
                 

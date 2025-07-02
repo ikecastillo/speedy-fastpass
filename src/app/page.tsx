@@ -12,7 +12,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
       {/* Fixed hero – Full height display */}
       <div className="fixed inset-x-0 top-0 h-72 md:h-96 z-0 overflow-hidden">
-        <Image src="/SpeedyAtDay.PNG" alt="Speedy Wash exterior" fill className="object-cover" priority sizes="100vw" />
+        <Image src="/SpeedyAtDay.PNG" alt="Speedy Stop exterior" fill className="object-cover" priority sizes="100vw" />
         
         {/* Location Badge Overlay - Transparent */}
         <div className="absolute top-4 right-4 z-10">
@@ -45,7 +45,7 @@ export default function HomePage() {
               WebkitBackdropFilter: 'blur(10px)',
             }}
           >
-            {/* Speedy Wash+ Branding */}
+            {/* Speedy Stop+ Branding */}
             <div className="text-center" data-id="brand-section">
               {/* Main Brand Logo */}
               <div className="mb-6" data-id="brand-logo">
@@ -53,7 +53,7 @@ export default function HomePage() {
                   <h1 
                     className="text-3xl sm:text-4xl font-bold uppercase tracking-tight italic"
                     style={{ 
-                      color: '#0B2545',
+                      color: '#22c55e',
                       letterSpacing: '-0.02em'
                     }}
                     data-id="speedy-text"
@@ -63,12 +63,12 @@ export default function HomePage() {
                   <h1 
                     className="text-3xl sm:text-4xl font-bold uppercase tracking-tight"
                     style={{ 
-                      color: '#0B2545',
+                      color: '#FFD60A',
                       letterSpacing: '-0.02em'
                     }}
-                    data-id="wash-text"
+                    data-id="stop-text"
                   >
-                    Wash
+                    Stop
                   </h1>
                   <span 
                     className="text-lg sm:text-xl font-bold"
@@ -81,6 +81,13 @@ export default function HomePage() {
                   >
                     +
                   </span>
+                </div>
+                
+                {/* Powered by auzi badge */}
+                <div className="flex justify-center mb-3">
+                  <div className="bg-gray-100 px-3 py-1 rounded-full">
+                    <span className="text-xs font-medium text-gray-600">powered by auzi</span>
+                  </div>
                 </div>
               </div>
         

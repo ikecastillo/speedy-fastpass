@@ -127,7 +127,7 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
+    <div className="bg-white">
       <h2 className="text-xl font-semibold text-gray-900 mb-6">
         Payment Information
       </h2>

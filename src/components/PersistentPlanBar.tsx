@@ -215,7 +215,10 @@ export function PersistentPlanBar({
             <div className="flex justify-center">
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+                className="flex items-center gap-1 text-sm font-medium transition-colors"
+                style={{ color: '#22c55e' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#16a34a'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#22c55e'}
               >
                 <span className="hidden sm:inline">Show All Features</span>
                 <span className="sm:hidden">Features</span>
