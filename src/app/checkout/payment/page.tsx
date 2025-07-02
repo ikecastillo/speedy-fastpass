@@ -332,7 +332,7 @@ export default function PaymentPage() {
         {/* Pure white content area for payment form */}
         <div style={{ backgroundColor: '#ffffff' }}>
           {/* Wash Details Summary */}
-          <div className="px-4 md:px-8 pb-6">
+          <div className="px-4 md:px-8">
             <div className="max-w-2xl mx-auto">
               {(() => {
                 const checkoutData = getCheckoutData();

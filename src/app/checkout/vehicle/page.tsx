@@ -50,7 +50,7 @@ export default function VehiclePage() {
       {/* Hero section matching home page style */}
       <div className="fixed inset-x-0 top-0 h-72 md:h-96 z-0 overflow-hidden">
         <Image 
-          src="/SpeedyAtDay.PNG" 
+          src="/SpeedyAtNight.PNG" 
           alt="Speedy Wash exterior" 
           fill 
           className="object-cover" 
