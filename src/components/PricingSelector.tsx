@@ -5,7 +5,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { plans, calculatePrice, type Plan } from "@/types/plan";
-import { plansMeta, type PlanMeta } from "@/lib/plans";
+import { plansMeta } from "@/lib/plans";
 
 interface PricingSelectorProps {
   activePlan: number | null;
