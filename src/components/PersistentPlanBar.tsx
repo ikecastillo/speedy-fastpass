@@ -214,9 +214,9 @@ export function PersistentPlanBar({
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
                 className="flex items-center gap-1 text-sm font-medium transition-colors"
-                style={{ color: '#22c55e' }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#16a34a'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#22c55e'}
+                style={{ color: '#1463B4' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#0B2545'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#1463B4'}
               >
                 <span className="hidden sm:inline">Show All Features</span>
                 <span className="sm:hidden">Features</span>
