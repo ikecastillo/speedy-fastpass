@@ -2,10 +2,12 @@
 
 import NumberFlow from '@number-flow/react'
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { plans, calculatePrice, type Plan } from "@/types/plan";
 import { plansMeta } from "@/lib/plans";
 import { PersistentPlanBar } from "./PersistentPlanBar";
+import { savePlanSelection } from "@/lib/checkout-data";
 
 interface PricingSelectorProps {
   activePlan: number | null;
@@ -15,6 +17,7 @@ interface PricingSelectorProps {
 }
 
 export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setBillingPeriod }: PricingSelectorProps) {
+  const router = useRouter();
   const [expandedPlan, setExpandedPlan] = useState<number | null>(null);
 
   // Auto-expand details when a plan is selected
@@ -437,34 +440,27 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
           currentStep="pricing"
           continueText="Get Started"
           onContinue={() => {
-            // Explicit navigation from pricing page to vehicle page
-            console.log('PricingSelector: Navigating to vehicle page', {
+            console.log('🚀 PricingSelector: Navigating to vehicle page', {
               activePlan,
               selectedPlan: activePlan !== null ? plans[activePlan]?.name : null,
               billingPeriod,
-              currentUrl: typeof window !== 'undefined' ? window.location.href : 'unknown'
             });
             
-            // Save selected plan data to localStorage
-            if (activePlan !== null && typeof window !== 'undefined') {
-              const selectedPlan = plans[activePlan];
-              const selectedPlanName = selectedPlan.name.toLowerCase().replace('+', '-plus');
-              const period = billingPeriod === 0 ? 'monthly' : 'yearly';
-              const price = getPrice(selectedPlan);
-              
-              localStorage.setItem('selectedPlan', JSON.stringify({
-                plan: selectedPlanName,
-                period: period,
-                price: price
-              }));
-              
-              console.log('Plan data saved:', { plan: selectedPlanName, period, price });
-            }
-            
-            // Navigate to vehicle page
-            if (typeof window !== 'undefined') {
-              console.log('Navigating to /checkout/vehicle');
-              window.location.href = '/checkout/vehicle';
+            // Save selected plan data using new system
+            if (activePlan !== null) {
+              try {
+                savePlanSelection(activePlan, billingPeriod);
+                console.log('✅ Plan selection saved successfully');
+                
+                // Navigate to vehicle page
+                console.log('➡️ Navigating to /checkout/vehicle');
+                router.push('/checkout/vehicle');
+              } catch (error) {
+                console.error('❌ Failed to save plan selection:', error);
+                // Could show error message to user here
+              }
+            } else {
+              console.error('❌ No plan selected');
             }
           }}
         />

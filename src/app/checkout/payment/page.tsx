@@ -8,7 +8,12 @@ import { StripeProvider } from "@/components/StripeProvider";
 import { StripePaymentForm } from "@/components/StripePaymentForm";
 import { PersistentPlanBar } from "@/components/PersistentPlanBar";
 import { createCheckout, type CheckoutData } from "@/app/actions/createCheckout";
-import { plans } from "@/types/plan";
+import { 
+  getCheckoutData, 
+  validateCheckoutData, 
+  migrateOldCheckoutData,
+  getPlanData 
+} from "@/lib/checkout-data";
 
 export default function PaymentPage() {
   const router = useRouter();
@@ -30,75 +35,79 @@ export default function PaymentPage() {
       console.log('🚀 Payment page: Starting initialization...');
       
       if (typeof window !== 'undefined') {
-        // Get plan data
-        const storedPlan = localStorage.getItem('selectedPlan') || localStorage.getItem('checkoutPlan');
-        console.log('📋 Stored plan data:', storedPlan);
+        // Migrate old data format if needed
+        migrateOldCheckoutData();
         
-        if (!storedPlan) {
-          console.log('❌ No plan data found, redirecting to home');
+        // Validate we have all required data
+        const validation = validateCheckoutData();
+        if (!validation.isValid) {
+          console.log('❌ Missing required data:', validation.missingData);
+          
+          if (validation.missingData.includes('plan selection')) {
+            console.log('➡️ Redirecting to home for plan selection');
+            router.push('/');
+            return;
+          }
+          
+          if (validation.missingData.includes('vehicle information')) {
+            console.log('➡️ Redirecting to vehicle form');
+            router.push('/checkout/vehicle');
+            return;
+          }
+          
+          console.log('❌ Unknown missing data, redirecting to home');
           router.push('/');
           return;
         }
 
-        // Get vehicle and customer data
-        const vehicleFormData = localStorage.getItem('vehicleFormData');
-        console.log('🚗 Vehicle form data:', vehicleFormData);
-        
-        if (!vehicleFormData) {
-          console.log('❌ No vehicle data found, redirecting to vehicle form');
-          router.push('/checkout/vehicle');
+        // Get checkout data using new system
+        const checkoutData = getCheckoutData();
+        if (!checkoutData?.plan || !checkoutData?.vehicle) {
+          console.log('❌ Checkout data incomplete, redirecting to home');
+          router.push('/');
           return;
         }
 
-        const planInfo = JSON.parse(storedPlan);
-        const vehicleInfo = JSON.parse(vehicleFormData);
-        
-        console.log('✅ Parsed data:', { planInfo, vehicleInfo });
+        console.log('✅ Checkout data loaded:', checkoutData);
 
-        // Find the plan index based on the stored plan name
-        const planIndex = plans.findIndex(plan => 
-          plan.name.toLowerCase().replace('+', '-plus') === planInfo.plan.toLowerCase()
-        );
-
-        setPlanData({
-          plan: planInfo.plan,
-          period: planInfo.period,
-          activePlan: planIndex >= 0 ? planIndex : null,
-          billingPeriod: planInfo.period === 'yearly' ? 1 : 0
-        });
-
-        console.log('📊 Set plan data:', {
-          plan: planInfo.plan,
-          period: planInfo.period,
-          activePlan: planIndex >= 0 ? planIndex : null,
-          billingPeriod: planInfo.period === 'yearly' ? 1 : 0
-        });
+        // Get plan data for UI
+        const planInfo = getPlanData();
+        if (planInfo) {
+          setPlanData({
+            plan: checkoutData.plan.displayName,
+            period: checkoutData.plan.period,
+            activePlan: planInfo.activePlan,
+            billingPeriod: planInfo.billingPeriod
+          });
+          
+          console.log('📊 Plan data set for UI:', planInfo);
+        }
 
         // Create Stripe checkout session
         try {
           console.log('💳 Creating Stripe checkout session...');
           
-          const checkoutData: CheckoutData = {
-            plan: planInfo.plan,
-            period: planInfo.period,
+          const stripeCheckoutData: CheckoutData = {
+            plan: checkoutData.plan.name,
+            period: checkoutData.plan.period,
             customerInfo: {
-              email: vehicleInfo.email,
-              firstName: vehicleInfo.firstName,
-              lastName: vehicleInfo.lastName,
-              phone: vehicleInfo.phone,
+              email: checkoutData.vehicle.email,
+              firstName: checkoutData.vehicle.firstName,
+              lastName: checkoutData.vehicle.lastName,
+              phone: checkoutData.vehicle.phone,
             },
             vehicleInfo: {
-              make: vehicleInfo.make,
-              model: vehicleInfo.model,
-              year: vehicleInfo.year,
-              color: vehicleInfo.color || 'Unknown',
-              plate: vehicleInfo.plate,
+              make: checkoutData.vehicle.make,
+              model: checkoutData.vehicle.model,
+              year: checkoutData.vehicle.year,
+              color: 'Unknown', // Vehicle form doesn't collect color
+              plate: checkoutData.vehicle.plate,
             },
           };
 
-          console.log('📤 Sending checkout data:', checkoutData);
+          console.log('📤 Sending checkout data:', stripeCheckoutData);
           
-          const result = await createCheckout(checkoutData);
+          const result = await createCheckout(stripeCheckoutData);
           
           console.log('📥 Received checkout result:', result);
           

@@ -69,27 +69,27 @@ function createMockPaymentConfirmation(subscriptionId: string) {
   };
 }
 
-// Plan pricing structure
+// Plan pricing structure - must match frontend plan.ts pricing
 const planPricing = {
   'basic': {
-    name: 'Basic Wash',
-    monthly: 999, // $9.99 in cents
-    yearly: 9900, // $99.00 in cents
+    name: 'Basic',
+    monthly: 1999, // $19.99 in cents
+    yearly: 19990, // $199.90 in cents (10 months worth)
   },
   'deluxe': {
-    name: 'Deluxe Wash',
-    monthly: 1499, // $14.99 in cents
-    yearly: 14900, // $149.00 in cents
+    name: 'Deluxe',
+    monthly: 2499, // $24.99 in cents
+    yearly: 24990, // $249.90 in cents (10 months worth)
   },
   'works': {
-    name: 'The Works',
-    monthly: 1999, // $19.99 in cents
-    yearly: 19900, // $199.00 in cents
+    name: 'Works',
+    monthly: 3499, // $34.99 in cents
+    yearly: 34990, // $349.90 in cents (10 months worth)
   },
   'works-plus': {
-    name: 'The Works+',
-    monthly: 2499, // $24.99 in cents
-    yearly: 24900, // $249.00 in cents
+    name: 'Works+',
+    monthly: 3999, // $39.99 in cents
+    yearly: 39990, // $399.90 in cents (10 months worth)
   },
 };
 

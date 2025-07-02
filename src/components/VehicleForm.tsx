@@ -4,20 +4,33 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { vehicleSchema, type VehicleForm, US_STATES } from "@/types/vehicle";
+import { 
+  saveVehicleData, 
+  getCheckoutData, 
+  migrateOldCheckoutData 
+} from "@/lib/checkout-data";
 
 interface VehicleFormProps {
   onValidityChange?: (isValid: boolean) => void;
 }
 
 export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}) {
-  const [planData, setPlanData] = React.useState<{plan: string; period: string; price: number} | null>(null);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
   
-  // Read plan data from localStorage
+  // Initialize form with any existing data and migrate old data if needed
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
-      const storedPlan = localStorage.getItem('selectedPlan');
-      if (storedPlan) {
-        setPlanData(JSON.parse(storedPlan));
+      // Migrate old data format if it exists
+      migrateOldCheckoutData();
+      
+      // Load existing vehicle data if available
+      const checkoutData = getCheckoutData();
+      if (checkoutData?.vehicle) {
+        console.log('Loading existing vehicle data:', checkoutData.vehicle);
+        // Populate form with existing data
+        Object.entries(checkoutData.vehicle).forEach(([key, value]) => {
+          setValue(key as keyof VehicleForm, value, { shouldValidate: true });
+        });
       }
     }
   }, []);
@@ -103,30 +116,44 @@ export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}
     await trigger();
   };
 
-  const onSubmit = (data: VehicleForm) => {
-    // Store both plan and form data in localStorage for payment page
-    if (typeof window !== 'undefined') {
-      const planInfo = {
-        plan: planData?.plan || "deluxe",
-        period: planData?.period || "monthly",
-        price: planData?.price || 24.99
-      };
-      localStorage.setItem('vehicleFormData', JSON.stringify(data));
-      localStorage.setItem('checkoutPlan', JSON.stringify(planInfo));
-    }
+  const onSubmit = async (data: VehicleForm) => {
+    console.log('🚀 Vehicle form submitted:', data);
+    setIsSubmitting(true);
     
-    // Navigate to payment - navigation is handled by the persistent bar
-    console.log('Form submitted:', data);
+    try {
+      // Save vehicle data using new system
+      saveVehicleData(data);
+      console.log('✅ Vehicle data saved successfully');
+      
+      // Form submission successful - navigation will be handled by PersistentPlanBar
+      // The form validity will trigger the continue button to become enabled
+    } catch (error) {
+      console.error('❌ Failed to save vehicle data:', error);
+      // Could show error message to user here if needed
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
 
 
-  // Notify parent of form validity changes
+  // Notify parent of form validity changes and auto-save when valid
   React.useEffect(() => {
     if (onValidityChange) {
       onValidityChange(isValid);
     }
-  }, [isValid, onValidityChange]);
+    
+    // Auto-save form data when valid (so navigation can proceed immediately)
+    if (isValid && !isSubmitting) {
+      const formData = watch();
+      try {
+        saveVehicleData(formData);
+        console.log('🔄 Auto-saved vehicle data on validation change');
+      } catch (error) {
+        console.error('❌ Failed to auto-save vehicle data:', error);
+      }
+    }
+  }, [isValid, onValidityChange, isSubmitting, watch]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

@@ -1,12 +1,19 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { VehicleFormComponent } from "@/components/VehicleForm";
 import { PersistentPlanBar } from "@/components/PersistentPlanBar";
-import { plans } from "@/types/plan";
+import { 
+  getPlanData, 
+  getCheckoutData, 
+  migrateOldCheckoutData,
+  validateCheckoutData 
+} from "@/lib/checkout-data";
 
 export default function VehiclePage() {
+  const router = useRouter();
   const [planData, setPlanData] = React.useState<{
     activePlan: number | null;
     billingPeriod: number;
@@ -18,23 +25,25 @@ export default function VehiclePage() {
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
-      const storedPlan = localStorage.getItem('selectedPlan');
-      if (storedPlan) {
-        const parsed = JSON.parse(storedPlan);
-        const planName = parsed.name || parsed.plan;
-        
-        // Find the plan index based on the stored plan name
-        const planIndex = plans.findIndex(plan => 
-          plan.name.toLowerCase().replace('+', '-plus') === planName.toLowerCase()
-        );
-        
-        setPlanData({
-          activePlan: planIndex >= 0 ? planIndex : null,
-          billingPeriod: parsed.period === 'yearly' ? 1 : 0
-        });
+      // Migrate old data if needed
+      migrateOldCheckoutData();
+      
+      // Check if we have plan data
+      const checkoutData = getCheckoutData();
+      if (!checkoutData?.plan) {
+        console.log('❌ No plan data found, redirecting to home');
+        router.push('/');
+        return;
+      }
+      
+      // Get plan data using new system
+      const planInfo = getPlanData();
+      if (planInfo) {
+        setPlanData(planInfo);
+        console.log('✅ Plan data loaded:', planInfo);
       }
     }
-  }, []);
+  }, [router]);
 
   return (
     <div className="min-h-screen bg-white pb-32">
@@ -150,12 +159,22 @@ export default function VehiclePage() {
         showBackButton={true}
         isFormValid={isFormValid}
         onBack={() => {
-          // Navigate back to home page
-          window.location.href = '/';
+          console.log('🔙 Navigating back to home page');
+          router.push('/');
         }}
         onContinue={() => {
-          // Navigate to payment page
-          window.location.href = '/checkout/payment';
+          console.log('➡️ Attempting to navigate to payment page');
+          
+          // Validate that we have all required data before proceeding
+          const validation = validateCheckoutData();
+          if (!validation.isValid) {
+            console.error('❌ Missing required data:', validation.missingData);
+            // Could show user-friendly error message here
+            return;
+          }
+          
+          console.log('✅ All data valid, navigating to payment');
+          router.push('/checkout/payment');
         }}
       />
     </div>

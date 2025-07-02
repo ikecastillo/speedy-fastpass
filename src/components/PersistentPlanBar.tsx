@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { plans, calculatePrice, type Plan } from "@/types/plan";
 import { plansMeta } from "@/lib/plans";
+import { savePlanSelection } from "@/lib/checkout-data";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 interface PersistentPlanBarProps {
   activePlan: number | null;
@@ -32,6 +34,7 @@ export function PersistentPlanBar({
 }: PersistentPlanBarProps) {
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   if (activePlan === null) return null;
 
@@ -45,7 +48,7 @@ export function PersistentPlanBar({
     return calculatePrice(plan, period);
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     // Add debugging to understand what's happening
     console.log('PersistentPlanBar handleContinue called', {
       onContinue: !!onContinue,
@@ -54,30 +57,33 @@ export function PersistentPlanBar({
       currentPath: typeof window !== 'undefined' ? window.location.pathname : 'unknown'
     });
 
-    if (onContinue) {
-      console.log('Using provided onContinue function');
-      onContinue();
-    } else {
-      // Default behavior for pricing page - go to vehicle form
-      console.log('Using default navigation to /checkout/vehicle');
-      
-      const selectedPlanName = selectedPlan.name.toLowerCase().replace('+', '-plus');
-      const period = billingPeriod === 0 ? 'monthly' : 'yearly';
-      
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('selectedPlan', JSON.stringify({
-          plan: selectedPlanName,
-          period: period,
-          price: getPrice(selectedPlan)
-        }));
-      }
-      
-      // Use window.location.href for more reliable navigation
-      if (typeof window !== 'undefined') {
-        window.location.href = '/checkout/vehicle';
+    setIsNavigating(true);
+
+    try {
+      if (onContinue) {
+        console.log('Using provided onContinue function');
+        onContinue();
       } else {
+        // Default behavior for pricing page - go to vehicle form
+        console.log('🚀 Using default navigation to /checkout/vehicle');
+        
+        // Save plan selection using new system
+        savePlanSelection(activePlan, billingPeriod);
+        console.log('✅ Plan selection saved via PersistentPlanBar');
+        
+        // Small delay to show loading state
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
+        // Navigate to vehicle page
         router.push('/checkout/vehicle');
       }
+    } catch (error) {
+      console.error('❌ Failed during navigation:', error);
+      // Fallback - still try to navigate but user might lose data
+      router.push('/checkout/vehicle');
+    } finally {
+      // Reset loading state after a delay (in case navigation is instant)
+      setTimeout(() => setIsNavigating(false), 1000);
     }
   };
 
@@ -165,28 +171,38 @@ export function PersistentPlanBar({
                         console.log('Button clicked, calling handleContinue');
                         handleContinue();
                       }}
-                      disabled={!isFormValid}
+                      disabled={!isFormValid || isNavigating}
                       type="button"
                       className={`px-8 py-2.5 rounded-lg font-bold transition-all duration-300 shadow-lg flex items-center gap-2 min-w-[140px] justify-center ${
-                        !isFormValid ? 'bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300' : 'text-white'
+                        !isFormValid || isNavigating ? 'bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300' : 'text-white'
                       }`}
-                      style={isFormValid ? (isWorksPlus ? {
+                      style={(isFormValid && !isNavigating) ? (isWorksPlus ? {
                         background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)',
                         boxShadow: '0 4px 16px rgba(11, 37, 69, 0.15)'
                       } : {
                         background: 'linear-gradient(135deg, rgb(37 99 235) 0%, rgb(29 78 216) 100%)',
                         boxShadow: '0 4px 16px rgba(37, 99, 235, 0.15)'
                       }) : {}}
-                      whileTap={isFormValid ? { scale: 0.98 } : {}}
-                      whileHover={isFormValid ? { y: -1 } : {}}
+                      whileTap={(isFormValid && !isNavigating) ? { scale: 0.98 } : {}}
+                      whileHover={(isFormValid && !isNavigating) ? { y: -1 } : {}}
                     >
-                      <span className="hidden sm:inline">{continueText}</span>
-                      <span className="sm:hidden">
-                        {currentStep === 'pricing' ? 'Start' : currentStep === 'vehicle' ? 'Next' : 'Pay'}
-                      </span>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
+                      {isNavigating ? (
+                        <>
+                          <LoadingSpinner size="sm" />
+                          <span className="hidden sm:inline">Processing...</span>
+                          <span className="sm:hidden">...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="hidden sm:inline">{continueText}</span>
+                          <span className="sm:hidden">
+                            {currentStep === 'pricing' ? 'Start' : currentStep === 'vehicle' ? 'Next' : 'Pay'}
+                          </span>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                          </svg>
+                        </>
+                      )}
                     </motion.button>
                   )}
                 </div>
