@@ -221,21 +221,22 @@ export default function PaymentPage() {
                 </span>
               </div>
               
-              {/* CTA Section */}
-              <div 
-                className="inline-block px-6 py-3 rounded-2xl mb-2"
-                style={{
-                  background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)',
-                  boxShadow: '0 4px 16px rgba(11, 37, 69, 0.15)',
-                }}
-              >
-                <h2 className="text-lg font-bold text-white mb-1">
-                  Complete Your Payment
-                </h2>
-                <p className="text-sm text-blue-100 opacity-90">
-                  Secure checkout powered by Stripe
-                </p>
-              </div>
+                             {/* CTA Section */}
+               <div 
+                 className="inline-block px-8 py-3 rounded-2xl mb-3 max-w-sm mx-auto"
+                 style={{
+                   background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)',
+                   boxShadow: '0 4px 16px rgba(11, 37, 69, 0.15)',
+                   width: '100%'
+                 }}
+               >
+                 <h2 className="text-lg sm:text-xl font-bold text-white mb-1">
+                   Complete Your Payment
+                 </h2>
+                 <p className="text-sm text-blue-100 opacity-90">
+                   Secure checkout powered by Stripe
+                 </p>
+               </div>
             </div>
           </div>
         </div>

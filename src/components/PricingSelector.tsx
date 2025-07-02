@@ -121,7 +121,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                     <h3 className="font-bold text-2xl mb-2 text-gray-900">
                       {isWorksPlus ? (
                         <>
-                          <span style={{ color: '#1e40af' }}>Works</span>
+                          <span style={{ color: '#0B2545' }}>Works</span>
                           <span style={{ color: '#fbbf24' }}>+</span>
                         </>
                       ) : (
@@ -281,7 +281,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                         <h3 className="font-bold text-lg text-gray-900">
                           {isWorksPlus ? (
                             <>
-                              <span style={{ color: '#1e40af' }}>Works</span>
+                              <span style={{ color: '#0B2545' }}>Works</span>
                               <span style={{ color: '#fbbf24' }}>+</span>
                             </>
                           ) : (

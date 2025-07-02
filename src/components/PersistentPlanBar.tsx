@@ -92,7 +92,7 @@ export function PersistentPlanBar({
                     <h3 className="font-bold text-lg text-gray-900 truncate">
                       {isWorksPlus ? (
                         <>
-                          <span style={{ color: '#1e40af' }}>Works</span>
+                          <span style={{ color: '#0B2545' }}>Works</span>
                           <span style={{ color: '#fbbf24' }}>+</span>
                         </>
                       ) : (
