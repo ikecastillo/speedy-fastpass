@@ -4,7 +4,7 @@ import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import SuccessConfetti from "@/components/SuccessConfetti";
 import { OrderSummary } from "@/components/OrderSummary";
-import { Stepper } from "@/components/Stepper";
+
 import { confirmPayment } from "@/app/actions/createCheckout";
 
 interface VehicleData {
@@ -136,10 +136,7 @@ function SuccessPageContent() {
       
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="container mx-auto px-4">
-          {/* Stepper */}
-          <div className="mb-8">
-            <Stepper currentStep={4} />
-          </div>
+
 
           {/* Success Content */}
           <div className="max-w-lg mx-auto text-center space-y-8">

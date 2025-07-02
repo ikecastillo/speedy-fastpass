@@ -154,9 +154,14 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                     <div className="space-y-3">
                       {planMeta?.features?.filter(f => f.included).slice(0, 3).map((feature, featureIndex) => (
                         <div key={featureIndex} className="flex items-center gap-3">
-                          <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                            isWorksPlus ? 'bg-gradient-to-r from-blue-800 to-yellow-400' : 'bg-green-500'
-                          }`}>
+                          <div 
+                            className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
+                              isWorksPlus ? '' : 'bg-green-500'
+                            }`}
+                            style={isWorksPlus ? {
+                              background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)'
+                            } : {}}
+                          >
                             <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
@@ -189,9 +194,14 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                           <div className="space-y-3 pt-3 border-t border-gray-100">
                             {planMeta.features.filter(f => f.included).slice(3).map((feature, featureIndex) => (
                               <div key={featureIndex} className="flex items-center gap-3">
-                                <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                  isWorksPlus ? 'bg-gradient-to-r from-blue-800 to-yellow-400' : 'bg-green-500'
-                                }`}>
+                                <div 
+                                  className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                    isWorksPlus ? '' : 'bg-green-500'
+                                  }`}
+                                  style={isWorksPlus ? {
+                                    background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)'
+                                  } : {}}
+                                >
                                   <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                   </svg>
@@ -367,11 +377,16 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                               <div key={featureIndex} className={`flex items-center gap-2 text-xs ${
                                 feature.included ? 'text-gray-700' : 'text-gray-400'
                               }`}>
-                                <div className={`w-3 h-3 rounded flex items-center justify-center flex-shrink-0 ${
-                                  feature.included 
-                                    ? isWorksPlus ? 'bg-gradient-to-r from-blue-800 to-yellow-400' : 'bg-green-500'
-                                    : 'bg-gray-300'
-                                }`}>
+                                <div 
+                                  className={`w-3 h-3 rounded flex items-center justify-center flex-shrink-0 ${
+                                    feature.included 
+                                      ? isWorksPlus ? '' : 'bg-green-500'
+                                      : 'bg-gray-300'
+                                  }`}
+                                  style={feature.included && isWorksPlus ? {
+                                    background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)'
+                                  } : {}}
+                                >
                                   {feature.included ? (
                                     <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
                                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />

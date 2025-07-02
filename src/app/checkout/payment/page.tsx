@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Stepper } from "@/components/Stepper";
+
 import { StripeProvider } from "@/components/StripeProvider";
 import { StripePaymentForm } from "@/components/StripePaymentForm";
 import { PersistentPlanBar } from "@/components/PersistentPlanBar";
@@ -148,7 +148,7 @@ export default function PaymentPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-32">
-      <Stepper currentStep={3} />
+
       <div className="max-w-4xl mx-auto p-8">
         <h1 className="text-lg md:text-2xl font-bold text-gray-900 mb-4 md:mb-8">
           Payment Information

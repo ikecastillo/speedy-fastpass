@@ -144,16 +144,23 @@ export function VehicleFormComponent() {
   const isNextDisabled = !isValid || !isDirty;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Personal Information Section */}
       <div>
-        <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 md:mb-4">Personal Information</h2>
-        <div className="space-y-3 md:space-y-4">
-          {/* First and Last Name - Side by side on mobile */}
-          <div className="grid grid-cols-2 gap-3">
+        <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 flex items-center justify-center">
+            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+            </svg>
+          </div>
+          Personal Information
+        </h2>
+        <div className="space-y-4">
+          {/* First and Last Name - Side by side */}
+          <div className="grid grid-cols-2 gap-4">
             {/* First Name */}
             <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
                 First Name
               </label>
               <input
@@ -162,13 +169,16 @@ export function VehicleFormComponent() {
                 id="firstName"
                 aria-invalid={errors.firstName ? "true" : "false"}
                 className={`
-                  w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
-                  ${errors.firstName ? "border-red-500" : "border-gray-300"}
+                  w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all
+                  ${errors.firstName ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
                 `}
-                placeholder="First name"
+                placeholder="John"
               />
               {errors.firstName && (
-                <p className="mt-1 text-xs md:text-sm text-red-600" role="alert" aria-live="polite">
+                <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert" aria-live="polite">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
                   {errors.firstName.message}
                 </p>
               )}
@@ -176,7 +186,7 @@ export function VehicleFormComponent() {
 
             {/* Last Name */}
             <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
                 Last Name
               </label>
               <input
@@ -185,76 +195,95 @@ export function VehicleFormComponent() {
                 id="lastName"
                 aria-invalid={errors.lastName ? "true" : "false"}
                 className={`
-                  w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
-                  ${errors.lastName ? "border-red-500" : "border-gray-300"}
+                  w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all
+                  ${errors.lastName ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
                 `}
-                placeholder="Last name"
+                placeholder="Doe"
               />
               {errors.lastName && (
-                <p className="mt-1 text-xs md:text-sm text-red-600" role="alert" aria-live="polite">
+                <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert" aria-live="polite">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
                   {errors.lastName.message}
                 </p>
               )}
             </div>
           </div>
 
-          {/* Email */}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-              Email Address
-            </label>
-            <input
-              {...register("email")}
-              type="email"
-              id="email"
-              aria-invalid={errors.email ? "true" : "false"}
-              className={`
-                w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
-                ${errors.email ? "border-red-500" : "border-gray-300"}
-              `}
-              placeholder="Enter your email address"
-            />
-            {errors.email && (
-              <p className="mt-1 text-xs md:text-sm text-red-600" role="alert" aria-live="polite">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
+          {/* Email and Phone - Side by side */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Email */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                Email Address
+              </label>
+              <input
+                {...register("email")}
+                type="email"
+                id="email"
+                aria-invalid={errors.email ? "true" : "false"}
+                className={`
+                  w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all
+                  ${errors.email ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
+                `}
+                placeholder="john@example.com"
+              />
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert" aria-live="polite">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
 
-          {/* Phone */}
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-              Phone Number
-            </label>
-            <input
-              {...register("phone")}
-              type="tel"
-              id="phone"
-              aria-invalid={errors.phone ? "true" : "false"}
-              className={`
-                w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
-                ${errors.phone ? "border-red-500" : "border-gray-300"}
-              `}
-              placeholder="(555) 123-4567"
-            />
-            {errors.phone && (
-              <p className="mt-1 text-xs md:text-sm text-red-600" role="alert">
-                {errors.phone.message}
-              </p>
-            )}
+            {/* Phone */}
+            <div>
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                Phone Number
+              </label>
+              <input
+                {...register("phone")}
+                type="tel"
+                id="phone"
+                aria-invalid={errors.phone ? "true" : "false"}
+                className={`
+                  w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all
+                  ${errors.phone ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
+                `}
+                placeholder="(555) 123-4567"
+              />
+              {errors.phone && (
+                <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  {errors.phone.message}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Vehicle Information Section */}
       <div>
-        <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 md:mb-4">Vehicle Information</h2>
-        <div className="space-y-3 md:space-y-4">
-          {/* License Plate and State - Side by side */}
-          <div className="grid grid-cols-2 gap-3">
+        <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-600 to-green-700 flex items-center justify-center">
+            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm2 6a2 2 0 114 0 2 2 0 01-4 0zm8 0a2 2 0 114 0 2 2 0 01-4 0z" clipRule="evenodd" />
+            </svg>
+          </div>
+          Vehicle Information
+        </h2>
+        <div className="space-y-4">
+          {/* License Plate and State */}
+          <div className="grid grid-cols-2 gap-4">
             {/* License Plate */}
             <div>
-              <label htmlFor="plate" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+              <label htmlFor="plate" className="block text-sm font-medium text-gray-700 mb-2">
                 License Plate
               </label>
               <input
@@ -263,14 +292,17 @@ export function VehicleFormComponent() {
                 id="plate"
                 aria-invalid={errors.plate ? "true" : "false"}
                 className={`
-                  w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand uppercase text-base md:text-sm
-                  ${errors.plate ? "border-red-500" : "border-gray-300"}
+                  w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 uppercase text-[16px] transition-all font-mono
+                  ${errors.plate ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
                 `}
                 placeholder="ABC1234"
                 maxLength={8}
               />
               {errors.plate && (
-                <p className="mt-1 text-xs md:text-sm text-red-600" role="alert">
+                <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
                   {errors.plate.message}
                 </p>
               )}
@@ -278,7 +310,7 @@ export function VehicleFormComponent() {
 
             {/* State */}
             <div>
-              <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+              <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-2">
                 State
               </label>
               <select
@@ -286,8 +318,8 @@ export function VehicleFormComponent() {
                 id="state"
                 aria-invalid={errors.state ? "true" : "false"}
                 className={`
-                  w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
-                  ${errors.state ? "border-red-500" : "border-gray-300"}
+                  w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all
+                  ${errors.state ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
                 `}
               >
                 {US_STATES.map((state) => (
@@ -297,19 +329,22 @@ export function VehicleFormComponent() {
                 ))}
               </select>
               {errors.state && (
-                <p className="mt-1 text-xs md:text-sm text-red-600" role="alert">
+                <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
                   {errors.state.message}
                 </p>
               )}
             </div>
           </div>
 
-          {/* Make and Model - Side by side */}
-          <div className="grid grid-cols-2 gap-3">
+          {/* Make, Model and Year */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {/* Make */}
             <div>
-              <label htmlFor="make" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-                Vehicle Make
+              <label htmlFor="make" className="block text-sm font-medium text-gray-700 mb-2">
+                Make
               </label>
               <input
                 {...register("make")}
@@ -317,13 +352,16 @@ export function VehicleFormComponent() {
                 id="make"
                 aria-invalid={errors.make ? "true" : "false"}
                 className={`
-                  w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
-                  ${errors.make ? "border-red-500" : "border-gray-300"}
+                  w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all
+                  ${errors.make ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
                 `}
                 placeholder="Toyota"
               />
               {errors.make && (
-                <p className="mt-1 text-xs md:text-sm text-red-600" role="alert">
+                <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
                   {errors.make.message}
                 </p>
               )}
@@ -331,8 +369,8 @@ export function VehicleFormComponent() {
 
             {/* Model */}
             <div>
-              <label htmlFor="model" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-                Vehicle Model
+              <label htmlFor="model" className="block text-sm font-medium text-gray-700 mb-2">
+                Model
               </label>
               <input
                 {...register("model")}
@@ -340,83 +378,45 @@ export function VehicleFormComponent() {
                 id="model"
                 aria-invalid={errors.model ? "true" : "false"}
                 className={`
-                  w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
-                  ${errors.model ? "border-red-500" : "border-gray-300"}
+                  w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all
+                  ${errors.model ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
                 `}
                 placeholder="Camry"
               />
               {errors.model && (
-                <p className="mt-1 text-xs md:text-sm text-red-600" role="alert">
+                <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
                   {errors.model.message}
                 </p>
               )}
             </div>
-          </div>
 
-          {/* Year */}
-          <div>
-            <label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-              Vehicle Year
-            </label>
-            <input
-              {...register("year")}
-              type="text"
-              id="year"
-              aria-invalid={errors.year ? "true" : "false"}
-              className={`
-                w-full px-3 py-3 md:py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand text-base md:text-sm
-                ${errors.year ? "border-red-500" : "border-gray-300"}
-              `}
-              placeholder="2022"
-              maxLength={4}
-            />
-            {errors.year && (
-              <p className="mt-1 text-xs md:text-sm text-red-600" role="alert">
-                {errors.year.message}
-              </p>
-            )}
-          </div>
-
-          {/* Insurance Card Scanner (Beta) */}
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-3 md:p-4 bg-blue-50">
-            <div className="text-center">
-              <h3 className="text-base md:text-lg font-medium text-gray-900 mb-1 md:mb-2">
-                📱 Scan Insurance Card (Beta)
-              </h3>
-              <p className="text-xs md:text-sm text-gray-600 mb-3 md:mb-4">
-                Upload a photo of your insurance card for faster setup
-              </p>
-              
-              <input
-                type="file"
-                accept="image/*"
-                capture="environment"
-                onChange={handleImageChange}
-                className="hidden"
-                id="insurance-upload"
-              />
-              
-              <label
-                htmlFor="insurance-upload"
-                className="cursor-pointer inline-flex items-center px-3 py-2 md:px-4 border border-brand text-brand rounded-lg hover:bg-brand hover:text-white transition-colors text-sm md:text-base"
-              >
-                📷 Take Photo
+            {/* Year */}
+            <div className="col-span-2 md:col-span-1">
+              <label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-2">
+                Year
               </label>
-
-              {imagePreview && (
-                <div className="mt-3 md:mt-4">
-                  <p className="text-xs md:text-sm text-gray-600 mb-2">Selected image:</p>
-                  <Image
-                    src={imagePreview}
-                    alt="Insurance card preview"
-                    width={144}
-                    height={96}
-                    className="mx-auto max-w-36 max-h-24 md:max-w-48 md:max-h-32 object-cover rounded border"
-                  />
-                  <p className="text-xs text-gray-500 mt-1 md:mt-2">
-                    {selectedImage?.name}
-                  </p>
-                </div>
+              <input
+                {...register("year")}
+                type="text"
+                id="year"
+                aria-invalid={errors.year ? "true" : "false"}
+                className={`
+                  w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all
+                  ${errors.year ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
+                `}
+                placeholder="2022"
+                maxLength={4}
+              />
+              {errors.year && (
+                <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  {errors.year.message}
+                </p>
               )}
             </div>
           </div>
@@ -424,42 +424,48 @@ export function VehicleFormComponent() {
       </div>
 
       {/* Terms of Service */}
-      <div>
-        <div className="flex items-start space-x-2 md:space-x-3">
+      <div className="bg-gray-50 rounded-xl p-4">
+        <div className="flex items-start space-x-3">
           <input
             {...register("agreeTos")}
             type="checkbox"
             id="agreeTos"
             aria-invalid={errors.agreeTos ? "true" : "false"}
-            className="mt-0.5 md:mt-1 h-4 w-4 md:h-5 md:w-5 text-brand focus:ring-brand border-gray-300 rounded"
+            className="mt-1 h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
-          <label htmlFor="agreeTos" className="text-xs md:text-sm text-gray-700">
+          <label htmlFor="agreeTos" className="text-sm text-gray-700 leading-relaxed">
             I agree to the{" "}
-            <a href="#" className="text-brand underline hover:text-blue-900">
+            <a href="#" className="text-blue-600 underline hover:text-blue-800 font-medium">
               Terms of Service
             </a>{" "}
             and{" "}
-            <a href="#" className="text-brand underline hover:text-blue-900">
+            <a href="#" className="text-blue-600 underline hover:text-blue-800 font-medium">
               Privacy Policy
             </a>
           </label>
         </div>
         {errors.agreeTos && (
-          <p className="mt-1 text-xs md:text-sm text-red-600" role="alert">
+          <p className="mt-2 text-sm text-red-600 flex items-center gap-1" role="alert">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
             {errors.agreeTos.message}
           </p>
         )}
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-col gap-3 pt-4 md:pt-6">
+      <div className="flex flex-col gap-3 pt-4">
         {/* Auto-fill Button */}
         <button
           type="button"
           onClick={handleSimulate}
-          className="w-full px-4 py-3 bg-accent text-gray-800 rounded-lg font-medium hover:bg-yellow-500 transition-colors border border-yellow-600 text-sm md:text-base"
+          className="w-full px-4 py-3 bg-yellow-100 text-yellow-800 rounded-xl font-medium hover:bg-yellow-200 transition-colors border border-yellow-300 flex items-center justify-center gap-2"
         >
-          🚀 Auto-fill Demo Data
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+          </svg>
+          Auto-fill Demo Data
         </button>
 
         {/* Navigation Buttons Row */}
@@ -468,8 +474,11 @@ export function VehicleFormComponent() {
           <button
             type="button"
             onClick={handleBack}
-            className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors text-sm md:text-base"
+            className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
           >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
             Back to Plans
           </button>
 
@@ -478,15 +487,22 @@ export function VehicleFormComponent() {
             type="submit"
             disabled={isNextDisabled}
             className={`
-              flex-1 px-4 py-3 rounded-lg font-medium transition-colors text-sm md:text-base
+              flex-1 px-4 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2
               ${
                 isNextDisabled
-                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  : "bg-brand text-white hover:bg-blue-900"
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300"
+                  : "text-white shadow-lg hover:shadow-xl"
               }
             `}
+            style={!isNextDisabled ? {
+              background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)',
+              boxShadow: '0 4px 16px rgba(11, 37, 69, 0.15)'
+            } : {}}
           >
-            Next
+            Continue
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </button>
         </div>
       </div>

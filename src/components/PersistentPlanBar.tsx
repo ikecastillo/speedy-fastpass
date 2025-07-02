@@ -120,11 +120,14 @@ export function PersistentPlanBar({
                 {showContinueButton && (
                   <motion.button
                     onClick={handleContinue}
-                    className={`px-8 py-2.5 rounded-lg font-bold text-white transition-all duration-300 shadow-lg flex items-center gap-2 min-w-[140px] justify-center ${
-                      isWorksPlus
-                        ? 'bg-gradient-to-r from-blue-800 to-yellow-400 hover:from-blue-900 hover:to-yellow-500 shadow-blue-200/50 hover:shadow-blue-300/60'
-                        : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-blue-200/50 hover:shadow-blue-200/60'
-                    }`}
+                    className="px-8 py-2.5 rounded-lg font-bold text-white transition-all duration-300 shadow-lg flex items-center gap-2 min-w-[140px] justify-center"
+                    style={isWorksPlus ? {
+                      background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)',
+                      boxShadow: '0 4px 16px rgba(11, 37, 69, 0.15)'
+                    } : {
+                      background: 'linear-gradient(135deg, rgb(37 99 235) 0%, rgb(29 78 216) 100%)',
+                      boxShadow: '0 4px 16px rgba(37, 99, 235, 0.15)'
+                    }}
                     whileTap={{ scale: 0.98 }}
                     whileHover={{ y: -1 }}
                   >
@@ -177,11 +180,16 @@ export function PersistentPlanBar({
                         <div key={featureIndex} className={`flex items-center gap-2 text-xs ${
                           feature.included ? 'text-gray-700' : 'text-gray-400'
                         }`}>
-                          <div className={`w-3 h-3 rounded flex items-center justify-center flex-shrink-0 ${
-                            feature.included 
-                              ? isWorksPlus ? 'bg-gradient-to-r from-blue-800 to-yellow-400' : 'bg-green-500'
-                              : 'bg-gray-300'
-                          }`}>
+                          <div 
+                            className={`w-3 h-3 rounded flex items-center justify-center flex-shrink-0 ${
+                              feature.included 
+                                ? isWorksPlus ? '' : 'bg-green-500'
+                                : 'bg-gray-300'
+                            }`}
+                            style={feature.included && isWorksPlus ? {
+                              background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)'
+                            } : {}}
+                          >
                             {feature.included ? (
                               <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
