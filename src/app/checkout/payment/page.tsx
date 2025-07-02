@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 import { StripeProvider } from "@/components/StripeProvider";
 import { StripePaymentForm } from "@/components/StripePaymentForm";
@@ -147,22 +148,114 @@ export default function PaymentPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-32">
-
-      <div className="max-w-4xl mx-auto p-8">
-        <h1 className="text-lg md:text-2xl font-bold text-gray-900 mb-4 md:mb-8">
-          Payment Information
-        </h1>
+    <div className="min-h-screen bg-white pb-32">
+      {/* Hero section matching home page style */}
+      <div className="fixed inset-x-0 top-0 h-48 md:h-64 z-0 overflow-hidden">
+        <Image 
+          src="/SpeedyAtDay.PNG" 
+          alt="Speedy Wash exterior" 
+          fill 
+          className="object-cover" 
+          priority 
+          sizes="100vw" 
+        />
         
-        {/* Full-width payment form - no sidebar since plan info is in persistent bar */}
-        <div className="bg-white rounded-lg shadow-md p-4 md:p-8">
-          <StripeProvider clientSecret={stripeData.clientSecret}>
-            <StripePaymentForm 
-              planName={planData.plan} 
-              period={planData.period as 'monthly' | 'yearly'}
-              subscriptionId={stripeData.subscriptionId}
-            />
-          </StripeProvider>
+        {/* Location Badge Overlay */}
+        <div className="absolute top-4 right-4 z-10">
+          <div className="bg-white/20 backdrop-blur-md rounded-full px-3 py-2 shadow-sm border border-white/30">
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+              </svg>
+              <span className="text-sm font-semibold text-white drop-shadow-sm">Round Rock, Texas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main content with header matching home page */}
+      <div className="relative z-10 pt-48 md:pt-64">
+        {/* Modern App-Style Header */}
+        <div className="relative -mt-5 z-10">
+          <div 
+            className="bg-white md:mx-8 pt-8 pb-6 px-6"
+            style={{
+              backgroundColor: '#ffffff',
+              borderTopLeftRadius: '2rem',
+              borderTopRightRadius: '2rem',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+            }}
+          >
+            {/* Header Content */}
+            <div className="text-center mb-6">
+              {/* Main Brand Logo */}
+              <div className="flex items-start justify-center gap-1 mb-4">
+                <h1 
+                  className="text-2xl sm:text-3xl font-bold uppercase tracking-tight italic"
+                  style={{ 
+                    color: '#0B2545',
+                    letterSpacing: '-0.02em'
+                  }}
+                >
+                  Speedy
+                </h1>
+                <h1 
+                  className="text-2xl sm:text-3xl font-bold uppercase tracking-tight"
+                  style={{ 
+                    color: '#0B2545',
+                    letterSpacing: '-0.02em'
+                  }}
+                >
+                  Wash
+                </h1>
+                <span 
+                  className="text-lg font-bold"
+                  style={{ 
+                    color: '#FFD60A',
+                    marginTop: '-4px',
+                    marginLeft: '2px'
+                  }}
+                >
+                  +
+                </span>
+              </div>
+              
+              {/* CTA Section */}
+              <div 
+                className="inline-block px-6 py-3 rounded-2xl mb-2"
+                style={{
+                  background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)',
+                  boxShadow: '0 4px 16px rgba(11, 37, 69, 0.15)',
+                }}
+              >
+                <h2 className="text-lg font-bold text-white mb-1">
+                  Complete Your Payment
+                </h2>
+                <p className="text-sm text-blue-100 opacity-90">
+                  Secure checkout powered by Stripe
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Pure white content area for payment form */}
+        <div style={{ backgroundColor: '#ffffff' }}>
+          {/* Payment form container */}
+          <div className="px-4 md:px-8 pb-8">
+            <div className="max-w-2xl mx-auto">
+              <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 md:p-8">
+                <StripeProvider clientSecret={stripeData.clientSecret}>
+                  <StripePaymentForm 
+                    planName={planData.plan} 
+                    period={planData.period as 'monthly' | 'yearly'}
+                    subscriptionId={stripeData.subscriptionId}
+                  />
+                </StripeProvider>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
