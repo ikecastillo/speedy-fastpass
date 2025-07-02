@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./animations.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -98,7 +99,7 @@ export default function RootLayout({
         
         {/* Subtle animated gradient accent */}
         <div 
-          className="fixed bottom-0 left-0 right-0 h-1 pointer-events-none z-50"
+          className="fixed bottom-0 left-0 right-0 h-1 pointer-events-none z-50 animate-shimmer"
           style={{
             background: `linear-gradient(
               90deg,
@@ -110,16 +111,8 @@ export default function RootLayout({
               rgba(20, 99, 180, 0.2) 80%,
               transparent 100%
             )`,
-            animation: 'shimmer 3s ease-in-out infinite alternate',
           }}
         />
-        
-        <style jsx>{`
-          @keyframes shimmer {
-            0% { opacity: 0.3; }
-            100% { opacity: 0.8; }
-          }
-        `}</style>
       </body>
     </html>
   );
