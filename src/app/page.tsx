@@ -38,7 +38,7 @@ export default function HomePage() {
             className="bg-white md:mx-8 pt-8 pb-6 px-6"
             data-id="header-glassmorphism-card"
             style={{
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.98) 100%)',
+              backgroundColor: '#ffffff',
               borderTopLeftRadius: '2rem',
               borderTopRightRadius: '2rem',
               backdropFilter: 'blur(10px)',
@@ -50,33 +50,33 @@ export default function HomePage() {
             <div className="text-center" data-id="brand-section">
               {/* Main Brand Logo */}
               <div className="mb-6" data-id="brand-logo">
-                <div className="flex items-start justify-center mb-3 relative">
-                  <div className="flex items-baseline">
-                    <h1 
-                      className="text-3xl sm:text-4xl font-bold uppercase tracking-tight italic"
-                      style={{ 
-                        color: '#0B2545',
-                        letterSpacing: '-0.02em'
-                      }}
-                      data-id="speedy-text"
-                    >
-                      Speedy
-                    </h1>
-                    <h1 
-                      className="text-3xl sm:text-4xl font-bold uppercase tracking-tight ml-1"
-                      style={{ 
-                        color: '#0B2545',
-                        letterSpacing: '-0.02em'
-                      }}
-                      data-id="wash-text"
-                    >
-                      Wash
-                    </h1>
-                  </div>
-                  <span 
-                    className="text-lg sm:text-xl font-bold absolute -top-1 -right-4"
+                <div className="flex items-start justify-center gap-1 mb-3">
+                  <h1 
+                    className="text-3xl sm:text-4xl font-bold uppercase tracking-tight italic"
                     style={{ 
-                      color: '#FFD60A'
+                      color: '#0B2545',
+                      letterSpacing: '-0.02em'
+                    }}
+                    data-id="speedy-text"
+                  >
+                    Speedy
+                  </h1>
+                  <h1 
+                    className="text-3xl sm:text-4xl font-bold uppercase tracking-tight"
+                    style={{ 
+                      color: '#0B2545',
+                      letterSpacing: '-0.02em'
+                    }}
+                    data-id="wash-text"
+                  >
+                    Wash
+                  </h1>
+                  <span 
+                    className="text-lg sm:text-xl font-bold"
+                    style={{ 
+                      color: '#FFD60A',
+                      marginTop: '-4px',
+                      marginLeft: '2px'
                     }}
                     data-id="plus-symbol"
                   >
@@ -88,10 +88,11 @@ export default function HomePage() {
               {/* Call to Action Section */}
               <div data-id="cta-section">
                 <div 
-                  className="inline-block px-6 py-3 rounded-2xl mb-3"
+                  className="inline-block px-8 py-3 rounded-2xl mb-3 max-w-sm mx-auto"
                   style={{
                     background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)',
-                    boxShadow: '0 4px 16px rgba(11, 37, 69, 0.15)'
+                    boxShadow: '0 4px 16px rgba(11, 37, 69, 0.15)',
+                    width: '100%'
                   }}
                   data-id="main-cta-badge"
                 >
@@ -114,9 +115,9 @@ export default function HomePage() {
         </div>
 
         {/* Pure white content area for pricing */}
-        <div className="bg-white pb-16" data-id="pricing-content-area">
+        <div className="pb-16" style={{ backgroundColor: '#ffffff' }} data-id="pricing-content-area">
           {/* Pricing selector container */}
-          <div className="px-4 py-8 bg-white" data-id="pricing-selector-container">
+          <div className="px-4 py-8" style={{ backgroundColor: '#ffffff' }} data-id="pricing-selector-container">
             <PricingSelector 
               activePlan={activePlan}
               setActivePlan={setActivePlan}
