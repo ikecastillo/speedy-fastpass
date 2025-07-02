@@ -219,8 +219,8 @@ export default function PaymentPage() {
                 >
                   +
                 </span>
-              </div>
-              
+          </div>
+
                              {/* CTA Section */}
                <div 
                  className="inline-block px-8 py-3 rounded-2xl mb-3 max-w-sm mx-auto"
@@ -247,16 +247,16 @@ export default function PaymentPage() {
           <div className="px-4 md:px-8 pb-8">
             <div className="max-w-2xl mx-auto">
               <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 md:p-8">
-                <StripeProvider clientSecret={stripeData.clientSecret}>
-                  <StripePaymentForm 
-                    planName={planData.plan} 
-                    period={planData.period as 'monthly' | 'yearly'}
-                    subscriptionId={stripeData.subscriptionId}
-                  />
-                </StripeProvider>
-              </div>
-            </div>
+            <StripeProvider clientSecret={stripeData.clientSecret}>
+              <StripePaymentForm 
+                planName={planData.plan} 
+                period={planData.period as 'monthly' | 'yearly'}
+                subscriptionId={stripeData.subscriptionId}
+              />
+            </StripeProvider>
           </div>
+        </div>
+      </div>
         </div>
       </div>
 

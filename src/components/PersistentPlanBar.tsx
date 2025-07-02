@@ -46,9 +46,21 @@ export function PersistentPlanBar({
   };
 
   const handleContinue = () => {
+    // Add debugging to understand what's happening
+    console.log('PersistentPlanBar handleContinue called', {
+      onContinue: !!onContinue,
+      currentStep,
+      selectedPlan: selectedPlan?.name,
+      currentPath: typeof window !== 'undefined' ? window.location.pathname : 'unknown'
+    });
+
     if (onContinue) {
+      console.log('Using provided onContinue function');
       onContinue();
     } else {
+      // Default behavior for pricing page - go to vehicle form
+      console.log('Using default navigation to /checkout/vehicle');
+      
       const selectedPlanName = selectedPlan.name.toLowerCase().replace('+', '-plus');
       const period = billingPeriod === 0 ? 'monthly' : 'yearly';
       
@@ -60,7 +72,12 @@ export function PersistentPlanBar({
         }));
       }
       
-      router.push('/checkout/vehicle');
+      // Use window.location.href for more reliable navigation
+      if (typeof window !== 'undefined') {
+        window.location.href = '/checkout/vehicle';
+      } else {
+        router.push('/checkout/vehicle');
+      }
     }
   };
 

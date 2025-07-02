@@ -61,7 +61,7 @@ export default function VehiclePage() {
           </div>
         </div>
       </div>
-
+        
       {/* Main content with header matching home page */}
       <div className="relative z-10 pt-48 md:pt-64">
         {/* Modern App-Style Header */}
@@ -128,8 +128,8 @@ export default function VehiclePage() {
               </div>
             </div>
           </div>
-        </div>
-
+          </div>
+          
         {/* Pure white content area for form */}
         <div style={{ backgroundColor: '#ffffff' }}>
           {/* Single-screen form container - optimized height */}

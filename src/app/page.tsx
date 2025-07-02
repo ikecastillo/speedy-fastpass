@@ -83,7 +83,7 @@ export default function HomePage() {
                   </span>
                 </div>
               </div>
-              
+        
               {/* Call to Action Section */}
               <div data-id="cta-section">
                 <div 
@@ -121,12 +121,12 @@ export default function HomePage() {
         >
           {/* Pricing selector container */}
           <div className="px-4 pb-8" style={{ backgroundColor: '#ffffff' }} data-id="pricing-selector-container">
-            <PricingSelector 
-              activePlan={activePlan}
-              setActivePlan={setActivePlan}
-              billingPeriod={billingPeriod}
-              setBillingPeriod={setBillingPeriod}
-            />
+          <PricingSelector 
+            activePlan={activePlan}
+            setActivePlan={setActivePlan}
+            billingPeriod={billingPeriod}
+            setBillingPeriod={setBillingPeriod}
+          />
           </div>
         </div>
       </div>

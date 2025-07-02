@@ -30,7 +30,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
       setActivePlan(null);
       setExpandedPlan(null);
     } else {
-      setActivePlan(index);
+    setActivePlan(index);
       setExpandedPlan(index);
     }
   };
@@ -54,32 +54,32 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
   return (
     <div className="w-full">
       <div className="rounded-3xl">
-
+        
         {/* Billing Period Toggle */}
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="rounded-full relative w-full max-w-md mx-auto p-1.5 flex items-center mb-6" style={{ backgroundColor: '#F5F7FA' }}>
-            <button
-              className="font-semibold rounded-full w-full p-1.5 z-20 relative text-sm"
-              style={{ color: '#474D55' }}
-              onClick={() => handleChangePeriod(0)}
-            >
-              Monthly
-            </button>
-            <button
-              className="font-semibold rounded-full w-full p-1.5 z-20 relative text-sm"
-              style={{ color: '#474D55' }}
-              onClick={() => handleChangePeriod(1)}
-            >
-              Yearly
-            </button>
-            <div
-              className={`p-1.5 flex items-center justify-center absolute inset-0 w-1/2 z-10 transition-transform duration-300 ${
-                billingPeriod === 1 ? 'translate-x-full' : 'translate-x-0'
-              }`}
-            >
-              <div className="bg-white shadow-sm rounded-full w-full h-full"></div>
-            </div>
+          <button
+            className="font-semibold rounded-full w-full p-1.5 z-20 relative text-sm"
+            style={{ color: '#474D55' }}
+            onClick={() => handleChangePeriod(0)}
+          >
+            Monthly
+          </button>
+          <button
+            className="font-semibold rounded-full w-full p-1.5 z-20 relative text-sm"
+            style={{ color: '#474D55' }}
+            onClick={() => handleChangePeriod(1)}
+          >
+            Yearly
+          </button>
+          <div
+            className={`p-1.5 flex items-center justify-center absolute inset-0 w-1/2 z-10 transition-transform duration-300 ${
+              billingPeriod === 1 ? 'translate-x-full' : 'translate-x-0'
+            }`}
+          >
+            <div className="bg-white shadow-sm rounded-full w-full h-full"></div>
           </div>
+        </div>
         </div>
 
         {/* Desktop: 2x2 Grid with Expandable Cards */}
@@ -94,27 +94,27 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
             
             return (
               <div
-                key={plan.name}
+              key={plan.name}
                 className={`relative overflow-hidden rounded-3xl border cursor-pointer transition-all duration-300 ${
                   isSelected 
                     ? 'border-blue-500 bg-gradient-to-br from-blue-50/50 to-blue-100/30 shadow-xl shadow-blue-200/40 scale-105' 
                     : isWorksPlus
                     ? 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-lg shadow-sm hover:scale-102'
                     : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-lg shadow-sm hover:scale-102'
-                }`}
-                onClick={() => handleChangePlan(index)}
-              >
+              }`}
+              onClick={() => handleChangePlan(index)}
+            >
                 {/* Premium badge for Works+ */}
                 {isWorksPlus && !isSelected && (
                   <div className="absolute top-3 right-3 z-10">
-                    <div 
+                  <div 
                       className="text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg"
                       style={{ background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)' }}
-                    >
+                  >
                       Premium
-                    </div>
                   </div>
-                )}
+                </div>
+              )}
 
                 <div className="p-6 h-full flex flex-col">
                   <div className="text-center mb-6">
@@ -131,22 +131,22 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                     
                     <div className="flex items-baseline justify-center gap-1 mb-2">
                       <span className="text-2xl font-black text-gray-900">$</span>
-                      <NumberFlow
+                    <NumberFlow
                         className="text-4xl font-black text-gray-900"
                         value={Math.floor(getPrice(plan))}
-                        format={{ minimumFractionDigits: 0, maximumFractionDigits: 0 }}
-                      />
+                      format={{ minimumFractionDigits: 0, maximumFractionDigits: 0 }}
+                    />
                       <span className="text-xl font-semibold text-gray-600">
-                        .
-                        <NumberFlow
+                      .
+                      <NumberFlow
                           className="text-xl font-semibold text-gray-600"
-                          value={Math.round((getPrice(plan) % 1) * 100)}
-                          format={{ minimumIntegerDigits: 2 }}
-                        />
-                      </span>
-                      <span className="text-sm font-medium text-gray-500 ml-1">
-                        /{billingPeriod === 0 ? 'mo' : 'yr'}
-                      </span>
+                        value={Math.round((getPrice(plan) % 1) * 100)}
+                        format={{ minimumIntegerDigits: 2 }}
+                      />
+                    </span>
+                    <span className="text-sm font-medium text-gray-500 ml-1">
+                      /{billingPeriod === 0 ? 'mo' : 'yr'}
+                    </span>
                     </div>
                   </div>
 
@@ -288,8 +288,8 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                             plan.name
                           )}
                         </h3>
-                      </div>
-                      
+                </div>
+
                       {/* Key features preview */}
                       <div className="text-xs text-gray-600 mb-2">
                         {planMeta?.features?.filter(f => f.included).slice(0, 2).map(f => f.name).join(" • ")}
@@ -325,16 +325,16 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                       </div>
 
                       {/* Selection indicator */}
-                      <div
-                        className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
+                  <div
+                    className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
                           isSelected 
-                            ? 'border-blue-500 bg-blue-500 shadow-lg shadow-blue-200/50' 
-                            : 'border-gray-300 bg-white'
-                        }`}
-                      >
+                        ? 'border-blue-500 bg-blue-500 shadow-lg shadow-blue-200/50' 
+                        : 'border-gray-300 bg-white'
+                    }`}
+                  >
                         {isSelected && (
                           <div className="w-3 h-3 bg-white rounded-full" />
-                        )}
+                    )}
                       </div>
                     </div>
                   </div>
@@ -416,7 +416,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
         {/* Get Started Button - Hidden when plan is selected */}
         {activePlan === null && (
           <div className="px-4 sm:px-6 lg:px-8">
-            <motion.button 
+        <motion.button 
               className="w-full max-w-md mx-auto block rounded-xl sm:rounded-2xl text-base sm:text-lg font-bold py-3 sm:py-4 px-4 sm:px-6 transition-all duration-300 shadow-lg bg-gray-200 text-gray-500 cursor-not-allowed shadow-gray-200/30"
               disabled={true}
             >
@@ -431,6 +431,37 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
           billingPeriod={billingPeriod}
           currentStep="pricing"
           continueText="Get Started"
+          onContinue={() => {
+            // Explicit navigation from pricing page to vehicle page
+            console.log('PricingSelector: Navigating to vehicle page', {
+              activePlan,
+              selectedPlan: activePlan !== null ? plans[activePlan]?.name : null,
+              billingPeriod,
+              currentUrl: typeof window !== 'undefined' ? window.location.href : 'unknown'
+            });
+            
+            // Save selected plan data to localStorage
+            if (activePlan !== null && typeof window !== 'undefined') {
+              const selectedPlan = plans[activePlan];
+              const selectedPlanName = selectedPlan.name.toLowerCase().replace('+', '-plus');
+              const period = billingPeriod === 0 ? 'monthly' : 'yearly';
+              const price = getPrice(selectedPlan);
+              
+              localStorage.setItem('selectedPlan', JSON.stringify({
+                plan: selectedPlanName,
+                period: period,
+                price: price
+              }));
+              
+              console.log('Plan data saved:', { plan: selectedPlanName, period, price });
+            }
+            
+            // Navigate to vehicle page
+            if (typeof window !== 'undefined') {
+              console.log('Navigating to /checkout/vehicle');
+              window.location.href = '/checkout/vehicle';
+            }
+          }}
         />
 
         {/* Footer */}

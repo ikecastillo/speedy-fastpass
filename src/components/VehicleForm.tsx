@@ -26,7 +26,7 @@ export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isValid, isDirty },
+    formState: { errors, isValid },
     trigger,
     watch
   } = useForm<VehicleForm>({
@@ -198,56 +198,56 @@ export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}
 
           {/* Email and Phone - Side by side */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Email */}
-            <div>
+          {/* Email */}
+          <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
-              </label>
-              <input
-                {...register("email")}
-                type="email"
-                id="email"
-                aria-invalid={errors.email ? "true" : "false"}
-                className={`
+              Email Address
+            </label>
+            <input
+              {...register("email")}
+              type="email"
+              id="email"
+              aria-invalid={errors.email ? "true" : "false"}
+              className={`
                   w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all
                   ${errors.email ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
-                `}
+              `}
                 placeholder="john@example.com"
-              />
-              {errors.email && (
+            />
+            {errors.email && (
                 <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert" aria-live="polite">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                   </svg>
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
+                {errors.email.message}
+              </p>
+            )}
+          </div>
 
-            {/* Phone */}
-            <div>
+          {/* Phone */}
+          <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                Phone Number
-              </label>
-              <input
-                {...register("phone")}
-                type="tel"
-                id="phone"
-                aria-invalid={errors.phone ? "true" : "false"}
-                className={`
+              Phone Number
+            </label>
+            <input
+              {...register("phone")}
+              type="tel"
+              id="phone"
+              aria-invalid={errors.phone ? "true" : "false"}
+              className={`
                   w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all
                   ${errors.phone ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
-                `}
-                placeholder="(555) 123-4567"
-              />
-              {errors.phone && (
+              `}
+              placeholder="(555) 123-4567"
+            />
+            {errors.phone && (
                 <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                   </svg>
-                  {errors.phone.message}
-                </p>
-              )}
+                {errors.phone.message}
+              </p>
+            )}
             </div>
           </div>
         </div>
@@ -299,21 +299,21 @@ export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}
                 State
               </label>
               <div className="relative">
-                <select
-                  {...register("state")}
-                  id="state"
-                  aria-invalid={errors.state ? "true" : "false"}
-                  className={`
+              <select
+                {...register("state")}
+                id="state"
+                aria-invalid={errors.state ? "true" : "false"}
+                className={`
                     w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all appearance-none bg-white pr-10
                     ${errors.state ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
-                  `}
-                >
-                  {US_STATES.map((state) => (
-                    <option key={state} value={state}>
-                      {state}
-                    </option>
-                  ))}
-                </select>
+                `}
+              >
+                {US_STATES.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3">
                   <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -340,13 +340,13 @@ export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}
               </label>
               <div className="relative">
                 <select
-                  {...register("make")}
-                  id="make"
-                  aria-invalid={errors.make ? "true" : "false"}
-                  className={`
+                {...register("make")}
+                id="make"
+                aria-invalid={errors.make ? "true" : "false"}
+                className={`
                     w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all appearance-none bg-white pr-10
                     ${errors.make ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
-                  `}
+                `}
                 >
                   <option value="">Select Make</option>
                   <option value="Acura">Acura</option>
@@ -400,13 +400,13 @@ export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}
               </label>
               <div className="relative">
                 <select
-                  {...register("model")}
-                  id="model"
-                  aria-invalid={errors.model ? "true" : "false"}
-                  className={`
+                {...register("model")}
+                id="model"
+                aria-invalid={errors.model ? "true" : "false"}
+                className={`
                     w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all appearance-none bg-white pr-10
                     ${errors.model ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
-                  `}
+                `}
                 >
                   <option value="">Select Model</option>
                   <option value="Accord">Accord</option>
@@ -463,19 +463,19 @@ export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}
                   {errors.model.message}
                 </p>
               )}
-            </div>
+          </div>
 
-            {/* Year */}
+          {/* Year */}
             <div className="col-span-2 md:col-span-1">
               <label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-2">
                 Year
-              </label>
+            </label>
               <div className="relative">
                 <select
-                  {...register("year")}
-                  id="year"
-                  aria-invalid={errors.year ? "true" : "false"}
-                  className={`
+              {...register("year")}
+              id="year"
+              aria-invalid={errors.year ? "true" : "false"}
+              className={`
                     w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all appearance-none bg-white pr-10
                     ${errors.year ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
                   `}
