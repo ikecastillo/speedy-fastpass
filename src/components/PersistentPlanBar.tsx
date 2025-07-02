@@ -71,70 +71,7 @@ export function PersistentPlanBar({
       {/* Background overlay with blur */}
       <div className="absolute inset-0 bg-white/95 backdrop-blur-xl border-t border-gray-200 shadow-2xl" />
       
-      {/* Expandable features on top */}
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden border-b border-gray-200"
-          >
-            <div className="px-4 sm:px-6 lg:px-8 py-4 bg-gray-50">
-              <div className="max-w-4xl mx-auto">
-                <h4 className="text-sm font-semibold text-gray-900 mb-3">All Features:</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                  {planMeta?.features?.map((feature, featureIndex) => (
-                    <div key={featureIndex} className={`flex items-center gap-2 text-xs ${
-                      feature.included ? 'text-gray-700' : 'text-gray-400'
-                    }`}>
-                      <div className={`w-3 h-3 rounded flex items-center justify-center flex-shrink-0 ${
-                        feature.included 
-                          ? isWorksPlus ? 'bg-gradient-to-r from-blue-800 to-yellow-400' : 'bg-green-500'
-                          : 'bg-gray-300'
-                      }`}>
-                        {feature.included ? (
-                          <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                          </svg>
-                        ) : (
-                          <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                          </svg>
-                        )}
-                      </div>
-                      <span className={`truncate ${feature.included ? '' : 'line-through'}`}>
-                        {feature.name}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
-      {/* Features toggle button on top of main bar */}
-      <div className="relative px-4 sm:px-6 lg:px-8 -mb-3">
-        <div className="max-w-4xl mx-auto flex justify-center">
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="bg-white border border-gray-200 rounded-t-xl px-4 py-2 shadow-sm flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 transition-colors"
-          >
-            <span className="hidden sm:inline">Show All Features</span>
-            <span className="sm:hidden">Features</span>
-            <svg 
-              className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-0' : 'rotate-180'}`} 
-              fill="currentColor" 
-              viewBox="0 0 20 20"
-            >
-              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
-          </button>
-        </div>
-      </div>
 
       {/* Main bar content */}
       <div className="relative px-4 sm:px-6 lg:px-8 py-4">
@@ -156,9 +93,6 @@ export function PersistentPlanBar({
                         selectedPlan.name
                       )}
                     </h3>
-                    <span className="text-sm font-medium text-gray-500">
-                      {billingPeriod === 0 ? 'Monthly' : 'Yearly'}
-                    </span>
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-xl font-black text-gray-900">$</span>
@@ -202,6 +136,69 @@ export function PersistentPlanBar({
                 )}
               </div>
             </div>
+          </div>
+
+          {/* Features button and expandable content below main bar */}
+          <div className="mt-4 border-t border-gray-100 pt-4">
+            <div className="flex justify-center">
+              <button
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+              >
+                <span className="hidden sm:inline">Show All Features</span>
+                <span className="sm:hidden">Features</span>
+                <svg 
+                  className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} 
+                  fill="currentColor" 
+                  viewBox="0 0 20 20"
+                >
+                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Expandable features */}
+            <AnimatePresence>
+              {isExpanded && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="overflow-hidden mt-4"
+                >
+                  <div className="pt-4">
+                    <h4 className="text-sm font-semibold text-gray-900 mb-3">All Features:</h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                      {planMeta?.features?.map((feature, featureIndex) => (
+                        <div key={featureIndex} className={`flex items-center gap-2 text-xs ${
+                          feature.included ? 'text-gray-700' : 'text-gray-400'
+                        }`}>
+                          <div className={`w-3 h-3 rounded flex items-center justify-center flex-shrink-0 ${
+                            feature.included 
+                              ? isWorksPlus ? 'bg-gradient-to-r from-blue-800 to-yellow-400' : 'bg-green-500'
+                              : 'bg-gray-300'
+                          }`}>
+                            {feature.included ? (
+                              <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                              </svg>
+                            ) : (
+                              <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                              </svg>
+                            )}
+                          </div>
+                          <span className={`truncate ${feature.included ? '' : 'line-through'}`}>
+                            {feature.name}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
