@@ -48,7 +48,7 @@ export default function VehiclePage() {
   return (
     <div className="min-h-screen bg-white pb-32">
       {/* Hero section matching home page style */}
-      <div className="fixed inset-x-0 top-0 h-48 md:h-64 z-0 overflow-hidden">
+      <div className="fixed inset-x-0 top-0 h-72 md:h-96 z-0 overflow-hidden">
         <Image 
           src="/SpeedyAtDay.PNG" 
           alt="Speedy Wash exterior" 
@@ -72,7 +72,7 @@ export default function VehiclePage() {
       </div>
         
       {/* Main content with header matching home page */}
-      <div className="relative z-10 pt-48 md:pt-64">
+      <div className="relative z-10 pt-72 md:pt-96">
         {/* Modern App-Style Header */}
         <div className="relative -mt-5 z-10">
           <div 

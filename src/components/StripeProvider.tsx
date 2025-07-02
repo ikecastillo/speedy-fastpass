@@ -29,16 +29,8 @@ interface StripeProviderProps {
 export function StripeProvider({ children, clientSecret }: StripeProviderProps) {
   console.log('🏗️ StripeProvider rendering with clientSecret:', clientSecret ? 'present' : 'missing');
   
-  // In development mode with mock client secret, provide a simple wrapper
-  if (isDevelopmentMode && clientSecret?.includes('mock')) {
-    console.log('🎭 Using mock Stripe provider for development');
-    return (
-      <div data-mock-stripe-provider="true">
-        {children}
-      </div>
-    );
-  }
-  
+  // Always use real Stripe Elements provider, even in development mode
+  // This ensures hooks like useStripe() and useElements() work correctly
   const options = clientSecret ? {
     clientSecret,
     appearance: {
@@ -75,6 +67,11 @@ export function StripeProvider({ children, clientSecret }: StripeProviderProps) 
       },
     },
   } : {};
+
+  // Log development mode status but always provide real Stripe provider
+  if (isDevelopmentMode && clientSecret?.includes('mock')) {
+    console.log('🎭 Development mode: Using real Stripe provider with mock client secret');
+  }
 
   return (
     <Elements stripe={stripePromise} options={options}>

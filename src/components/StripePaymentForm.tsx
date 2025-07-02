@@ -16,6 +16,7 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
   const router = useRouter();
   const [isProcessing, setIsProcessing] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+  const [isReady, setIsReady] = React.useState(false);
 
   // Check if we're in development mode with mock data
   const isDevelopmentMode = subscriptionId.includes('mock');
@@ -28,6 +29,19 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
     hasStripe: !!stripe,
     hasElements: !!elements
   });
+
+  // Set ready state when Stripe is loaded or in development mode
+  React.useEffect(() => {
+    if (isDevelopmentMode) {
+      setIsReady(true);
+      console.log('✅ Development mode - payment form ready');
+    } else if (stripe && elements) {
+      setIsReady(true);
+      console.log('✅ Stripe loaded - payment form ready');
+    } else {
+      console.log('⏳ Waiting for Stripe to load...');
+    }
+  }, [stripe, elements, isDevelopmentMode]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -57,8 +71,9 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
       return;
     }
 
-    if (!stripe || !elements) {
-      setErrorMessage('Payment system not ready. Please try again.');
+    if (!isDevelopmentMode && (!stripe || !elements)) {
+      console.error('❌ Stripe not ready:', { stripe: !!stripe, elements: !!elements });
+      setErrorMessage('Payment system not ready. Please refresh the page and try again.');
       return;
     }
 
@@ -66,6 +81,10 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
     setErrorMessage(null);
 
     try {
+      if (!stripe || !elements) {
+        throw new Error('Stripe not properly initialized');
+      }
+
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
@@ -108,6 +127,26 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
       setErrorMessage('Use test card 4242 4242 4242 4242 with any future expiry and CVC to test.');
     }
   };
+
+  // Show loading state while Stripe initializes
+  if (!isReady) {
+    return (
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-xl font-semibold text-gray-900 mb-6">
+          Payment Information
+        </h2>
+        <div className="flex items-center justify-center py-12">
+          <div className="text-center">
+            <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading payment form...</p>
+            <p className="text-sm text-gray-500 mt-2">
+              {isDevelopmentMode ? 'Initializing demo mode' : 'Connecting to Stripe'}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
