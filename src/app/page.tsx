@@ -50,54 +50,38 @@ export default function HomePage() {
             <div className="text-center" data-id="brand-section">
               {/* Main Brand Logo */}
               <div className="mb-6" data-id="brand-logo">
-                <div className="flex items-baseline justify-center gap-0.5 mb-3">
-                  <h1 
-                    className="text-3xl sm:text-4xl font-bold uppercase tracking-tight italic"
-                    style={{ 
-                      color: '#0B2545',
-                      letterSpacing: '-0.02em'
-                    }}
-                    data-id="speedy-text"
-                  >
-                    Speedy
-                  </h1>
-                  <h1 
-                    className="text-3xl sm:text-4xl font-bold uppercase tracking-tight ml-1"
-                    style={{ 
-                      color: '#0B2545',
-                      letterSpacing: '-0.02em'
-                    }}
-                    data-id="wash-text"
-                  >
-                    Wash
-                  </h1>
+                <div className="flex items-start justify-center mb-3 relative">
+                  <div className="flex items-baseline">
+                    <h1 
+                      className="text-3xl sm:text-4xl font-bold uppercase tracking-tight italic"
+                      style={{ 
+                        color: '#0B2545',
+                        letterSpacing: '-0.02em'
+                      }}
+                      data-id="speedy-text"
+                    >
+                      Speedy
+                    </h1>
+                    <h1 
+                      className="text-3xl sm:text-4xl font-bold uppercase tracking-tight ml-1"
+                      style={{ 
+                        color: '#0B2545',
+                        letterSpacing: '-0.02em'
+                      }}
+                      data-id="wash-text"
+                    >
+                      Wash
+                    </h1>
+                  </div>
                   <span 
-                    className="text-xl sm:text-2xl font-bold ml-0.5 -mt-1"
+                    className="text-lg sm:text-xl font-bold absolute -top-1 -right-4"
                     style={{ 
-                      color: '#FFD60A',
-                      verticalAlign: 'super',
-                      fontSize: '0.6em'
+                      color: '#FFD60A'
                     }}
                     data-id="plus-symbol"
                   >
                     +
                   </span>
-                </div>
-                
-                {/* Location Badge */}
-                <div 
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
-                  style={{ 
-                    backgroundColor: 'rgba(107, 114, 128, 0.1)',
-                    color: '#6B7280',
-                    border: '1px solid rgba(107, 114, 128, 0.15)'
-                  }}
-                  data-id="location-badge"
-                >
-                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                  </svg>
-                  <span>Round Rock, Texas</span>
                 </div>
               </div>
               
