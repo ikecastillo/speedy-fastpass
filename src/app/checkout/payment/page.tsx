@@ -6,7 +6,6 @@ import Image from "next/image";
 
 import { StripeProvider } from "@/components/StripeProvider";
 import { StripePaymentForm } from "@/components/StripePaymentForm";
-import { PersistentPlanBar } from "@/components/PersistentPlanBar";
 import { createCheckout, type CheckoutData } from "@/app/actions/createCheckout";
 import { 
   getCheckoutData, 
@@ -237,7 +236,7 @@ export default function PaymentPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white pb-32">
+    <div className="min-h-screen bg-white">
       {/* Hero section matching home page style */}
       <div className="fixed inset-x-0 top-0 h-48 md:h-64 z-0 overflow-hidden">
         <Image 
@@ -332,36 +331,107 @@ export default function PaymentPage() {
 
         {/* Pure white content area for payment form */}
         <div style={{ backgroundColor: '#ffffff' }}>
+          {/* Wash Details Summary */}
+          <div className="px-4 md:px-8 pb-6">
+            <div className="max-w-2xl mx-auto">
+              {(() => {
+                const checkoutData = getCheckoutData();
+                if (!checkoutData || !checkoutData.vehicle) return null;
+                
+                const isWorksPlus = checkoutData.plan.displayName === 'Works+';
+                
+                return (
+                  <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-200 p-6 mb-8">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div 
+                          className="w-12 h-12 rounded-xl flex items-center justify-center"
+                          style={{
+                            background: isWorksPlus 
+                              ? 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)'
+                              : 'linear-gradient(135deg, rgb(37 99 235) 0%, rgb(29 78 216) 100%)'
+                          }}
+                        >
+                          <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm2 6a2 2 0 114 0 2 2 0 01-4 0zm8 0a2 2 0 114 0 2 2 0 01-4 0z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-bold text-gray-900">
+                            {isWorksPlus ? (
+                              <>
+                                <span style={{ color: '#0B2545' }}>Works</span>
+                                <span style={{ color: '#fbbf24' }}>+</span>
+                              </>
+                            ) : (
+                              checkoutData.plan.displayName
+                            )}
+                          </h3>
+                          <p className="text-sm text-gray-600 capitalize">
+                            {checkoutData.plan.period} subscription
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-2xl font-bold text-gray-900">
+                          ${checkoutData.plan.price.toFixed(2)}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          per {checkoutData.plan.period === 'yearly' ? 'year' : 'month'}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="border-t border-gray-200 pt-4">
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <span className="font-medium text-gray-700">Vehicle:</span>
+                          <p className="text-gray-600">
+                            {checkoutData.vehicle.year} {checkoutData.vehicle.make} {checkoutData.vehicle.model}
+                          </p>
+                        </div>
+                        <div>
+                          <span className="font-medium text-gray-700">License Plate:</span>
+                          <p className="text-gray-600 font-mono">
+                            {checkoutData.vehicle.plate}
+                          </p>
+                        </div>
+                        <div>
+                          <span className="font-medium text-gray-700">Customer:</span>
+                          <p className="text-gray-600">
+                            {checkoutData.vehicle.firstName} {checkoutData.vehicle.lastName}
+                          </p>
+                        </div>
+                        <div>
+                          <span className="font-medium text-gray-700">Email:</span>
+                          <p className="text-gray-600">
+                            {checkoutData.vehicle.email}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
+          
           {/* Payment form container */}
           <div className="px-4 md:px-8 pb-8">
             <div className="max-w-2xl mx-auto">
-              <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 md:p-8">
-            <StripeProvider clientSecret={stripeData.clientSecret}>
-              <StripePaymentForm 
-                planName={planData.plan} 
-                period={planData.period as 'monthly' | 'yearly'}
-                subscriptionId={stripeData.subscriptionId}
-              />
-            </StripeProvider>
+              <StripeProvider clientSecret={stripeData.clientSecret}>
+                <StripePaymentForm 
+                  planName={planData.plan} 
+                  period={planData.period as 'monthly' | 'yearly'}
+                  subscriptionId={stripeData.subscriptionId}
+                />
+              </StripeProvider>
+            </div>
           </div>
         </div>
       </div>
-        </div>
-      </div>
 
-      {/* Persistent Plan Bar */}
-      <PersistentPlanBar 
-        activePlan={planData.activePlan}
-        billingPeriod={planData.billingPeriod}
-        currentStep="payment"
-        continueText="Complete Payment"
-        showContinueButton={false} // Payment form has its own submit button
-        showBackButton={true}
-        onBack={() => {
-          // Navigate back to vehicle page
-          router.push('/checkout/vehicle');
-        }}
-      />
+
     </div>
   );
 } 
