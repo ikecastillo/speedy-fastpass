@@ -1,10 +1,8 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { vehicleSchema, type VehicleForm, US_STATES } from "@/types/vehicle";
 
 interface VehicleFormProps {
@@ -12,10 +10,7 @@ interface VehicleFormProps {
 }
 
 export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}) {
-  const router = useRouter();
   const [planData, setPlanData] = React.useState<{plan: string; period: string; price: number} | null>(null);
-  const [selectedImage, setSelectedImage] = React.useState<File | null>(null);
-  const [imagePreview, setImagePreview] = React.useState<string | null>(null);
   
   // Read plan data from localStorage
   React.useEffect(() => {
@@ -83,24 +78,7 @@ export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}
     }
   }, [plateValue, setValue]);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedImage(file);
-      
-      // Create preview URL
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
 
-      // Show toast notification
-      setTimeout(() => {
-        alert('Scan coming soon! For now, we\'re just showing your selected image.');
-      }, 500);
-    }
-  };
 
   const handleSimulate = async () => {
     const simulateData = {
@@ -137,15 +115,11 @@ export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}
       localStorage.setItem('checkoutPlan', JSON.stringify(planInfo));
     }
     
-    // Navigate to payment
-    router.push('/checkout/payment');
+    // Navigate to payment - navigation is handled by the persistent bar
+    console.log('Form submitted:', data);
   };
 
-  const handleBack = () => {
-    router.push('/');
-  };
 
-  const isNextDisabled = !isValid || !isDirty;
 
   // Notify parent of form validity changes
   React.useEffect(() => {

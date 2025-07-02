@@ -33,7 +33,7 @@ export interface CheckoutData {
 }
 
 // Mock functions for development
-function createMockCheckoutResponse(data: CheckoutData) {
+function createMockCheckoutResponse(_data: CheckoutData) {
   const mockId = Date.now().toString();
   return {
     subscriptionId: `sub_mock_${mockId}`,

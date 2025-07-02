@@ -9,7 +9,7 @@ export const US_STATES = [
   "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
 ] as const;
 
-const currentYear = new Date().getFullYear();
+
 
 export const vehicleSchema = z.object({
   firstName: z.string().min(2, "First name must be at least 2 characters"),
