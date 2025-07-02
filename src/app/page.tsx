@@ -43,7 +43,6 @@ export default function HomePage() {
               borderTopRightRadius: '2rem',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)',
-              boxShadow: '0 -8px 32px rgba(0,0,0,0.08)',
             }}
           >
             {/* Speedy Wash+ Branding */}
@@ -117,7 +116,7 @@ export default function HomePage() {
         {/* Pure white content area for pricing */}
         <div className="pb-16" style={{ backgroundColor: '#ffffff' }} data-id="pricing-content-area">
           {/* Pricing selector container */}
-          <div className="px-4 py-8" style={{ backgroundColor: '#ffffff' }} data-id="pricing-selector-container">
+          <div className="px-4 pb-8" style={{ backgroundColor: '#ffffff' }} data-id="pricing-selector-container">
             <PricingSelector 
               activePlan={activePlan}
               setActivePlan={setActivePlan}
