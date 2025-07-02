@@ -27,23 +27,33 @@ export default function PaymentPage() {
 
   React.useEffect(() => {
     async function initializePayment() {
+      console.log('🚀 Payment page: Starting initialization...');
+      
       if (typeof window !== 'undefined') {
         // Get plan data
         const storedPlan = localStorage.getItem('selectedPlan') || localStorage.getItem('checkoutPlan');
+        console.log('📋 Stored plan data:', storedPlan);
+        
         if (!storedPlan) {
+          console.log('❌ No plan data found, redirecting to home');
           router.push('/');
           return;
         }
 
         // Get vehicle and customer data
         const vehicleFormData = localStorage.getItem('vehicleFormData');
+        console.log('🚗 Vehicle form data:', vehicleFormData);
+        
         if (!vehicleFormData) {
+          console.log('❌ No vehicle data found, redirecting to vehicle form');
           router.push('/checkout/vehicle');
           return;
         }
 
         const planInfo = JSON.parse(storedPlan);
         const vehicleInfo = JSON.parse(vehicleFormData);
+        
+        console.log('✅ Parsed data:', { planInfo, vehicleInfo });
 
         // Find the plan index based on the stored plan name
         const planIndex = plans.findIndex(plan => 
@@ -57,8 +67,17 @@ export default function PaymentPage() {
           billingPeriod: planInfo.period === 'yearly' ? 1 : 0
         });
 
+        console.log('📊 Set plan data:', {
+          plan: planInfo.plan,
+          period: planInfo.period,
+          activePlan: planIndex >= 0 ? planIndex : null,
+          billingPeriod: planInfo.period === 'yearly' ? 1 : 0
+        });
+
         // Create Stripe checkout session
         try {
+          console.log('💳 Creating Stripe checkout session...');
+          
           const checkoutData: CheckoutData = {
             plan: planInfo.plan,
             period: planInfo.period,
@@ -77,20 +96,33 @@ export default function PaymentPage() {
             },
           };
 
+          console.log('📤 Sending checkout data:', checkoutData);
+          
           const result = await createCheckout(checkoutData);
+          
+          console.log('📥 Received checkout result:', result);
+          
           if (result.clientSecret) {
+            console.log('✅ Successfully got client secret');
             setStripeData({
               clientSecret: result.clientSecret,
               subscriptionId: result.subscriptionId,
             });
           } else {
+            console.log('❌ No client secret in result');
             setError('Failed to get payment client secret');
           }
         } catch (err) {
-          console.error('Error creating checkout:', err);
-          setError('Failed to initialize payment. Please try again.');
+          console.error('💥 Error creating checkout:', err);
+          console.error('Error details:', {
+            message: err instanceof Error ? err.message : 'Unknown error',
+            stack: err instanceof Error ? err.stack : undefined,
+            type: typeof err
+          });
+          setError(`Failed to initialize payment: ${err instanceof Error ? err.message : 'Unknown error'}`);
         }
 
+        console.log('🏁 Payment initialization complete, setting loading to false');
         setIsLoading(false);
       }
     }
@@ -99,33 +131,81 @@ export default function PaymentPage() {
   }, [router]);
 
   if (isLoading) {
+    console.log('⏳ Payment page in loading state');
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Initializing payment...</p>
+        <div className="text-center max-w-md mx-auto p-6">
+          <div className="w-16 h-16 border-4 border-brand border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Initializing Payment</h2>
+          <p className="text-gray-600 mb-4">Setting up your secure checkout...</p>
+          
+          <div className="text-xs text-gray-500 p-3 bg-gray-100 rounded-lg">
+            <p className="font-medium mb-2">Progress:</p>
+            <p>• Validating your information ✓</p>
+            <p>• Creating secure payment session...</p>
+            <p>• Loading payment form...</p>
+          </div>
+          
+          <div className="mt-6">
+            <p className="text-xs text-gray-400">
+              This usually takes just a few seconds
+            </p>
+          </div>
         </div>
       </div>
     );
   }
 
   if (error) {
+    console.log('💔 Payment page error state:', error);
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">{error}</p>
-          <button
-            onClick={() => router.push('/checkout/vehicle')}
-            className="bg-brand text-white px-4 py-2 rounded-lg mr-2"
-          >
-            Back to Vehicle Info
-          </button>
-          <button
-            onClick={() => window.location.reload()}
-            className="border border-brand text-brand px-4 py-2 rounded-lg"
-          >
-            Try Again
-          </button>
+        <div className="text-center max-w-md mx-auto p-6">
+          <div className="mb-6">
+            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.664-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">Payment Initialization Error</h2>
+            <p className="text-red-600 mb-4 text-sm">{error}</p>
+            <div className="text-xs text-gray-500 mb-6 p-3 bg-gray-100 rounded-lg">
+              <p className="font-medium mb-2">Debug Information:</p>
+              <p>• Check browser console for detailed logs</p>
+              <p>• Ensure you completed the vehicle form</p>
+              <p>• Try refreshing the page</p>
+            </div>
+          </div>
+          
+          <div className="space-y-3">
+            <button
+              onClick={() => {
+                console.log('🔄 User clicked "Try Again"');
+                window.location.reload();
+              }}
+              className="w-full bg-brand text-white px-4 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            >
+              Try Again
+            </button>
+            <button
+              onClick={() => {
+                console.log('🔙 User clicked "Back to Vehicle Info"');
+                router.push('/checkout/vehicle');
+              }}
+              className="w-full border border-gray-300 text-gray-700 px-4 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+            >
+              Back to Vehicle Info
+            </button>
+            <button
+              onClick={() => {
+                console.log('🏠 User clicked "Start Over"');
+                router.push('/');
+              }}
+              className="w-full text-gray-500 px-4 py-2 rounded-lg font-medium hover:text-gray-700 transition-colors"
+            >
+              Start Over
+            </button>
+          </div>
         </div>
       </div>
     );

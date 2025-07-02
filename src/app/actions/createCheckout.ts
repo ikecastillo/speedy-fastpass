@@ -8,6 +8,11 @@ const isDevelopmentMode = !stripeSecretKey || stripeSecretKey.includes('fake_key
 
 if (isDevelopmentMode) {
   console.log('🔧 DEVELOPMENT MODE: Using mock Stripe functionality');
+  console.log('Environment check:', {
+    NODE_ENV: process.env.NODE_ENV,
+    hasStripeKey: !!stripeSecretKey,
+    keyType: stripeSecretKey?.includes('fake_key') ? 'fake' : 'real'
+  });
 }
 
 const stripe = isDevelopmentMode ? null : new Stripe(stripeSecretKey!, {
@@ -35,7 +40,7 @@ export interface CheckoutData {
 // Mock functions for development
 function createMockCheckoutResponse(data: CheckoutData) {
   const mockId = Date.now().toString();
-  return {
+  const response = {
     subscriptionId: `sub_mock_${mockId}`,
     clientSecret: `pi_mock_${mockId}_secret_mock`,
     customerId: `cus_mock_${mockId}`,
@@ -44,6 +49,9 @@ function createMockCheckoutResponse(data: CheckoutData) {
       period: data.period,
     }
   };
+  
+  console.log('🎭 Generated mock checkout response:', response);
+  return response;
 }
 
 function createMockPaymentConfirmation(subscriptionId: string) {
@@ -178,18 +186,25 @@ async function getOrCreateCoupon(): Promise<string> {
 
 export async function createCheckout(data: CheckoutData) {
   try {
+    console.log('🚀 createCheckout called with data:', data);
+    console.log('🔍 Environment mode:', { isDevelopmentMode, NODE_ENV: process.env.NODE_ENV });
+    
     // Development mode - return mock data
     if (isDevelopmentMode) {
-      console.log('🚀 Mock checkout for development:', data);
+      console.log('🎭 Using mock checkout for development mode');
       // Simulate async delay for realistic testing
       await new Promise(resolve => setTimeout(resolve, 1000));
-      return createMockCheckoutResponse(data);
+      const mockResponse = createMockCheckoutResponse(data);
+      console.log('✅ Mock checkout response ready:', mockResponse);
+      return mockResponse;
     }
 
     if (!stripe) {
       throw new Error('Stripe not initialized');
     }
 
+    console.log('💳 Using real Stripe API...');
+    
     // Get or create the price for this plan and period
     const priceId = await getOrCreatePrice(data.plan, data.period);
 
@@ -307,7 +322,7 @@ export async function createCheckout(data: CheckoutData) {
       customerId: customerId,
     };
   } catch (error) {
-    console.error('Error creating checkout:', error);
+    console.error('💥 Error in createCheckout:', error);
     
     // Better error reporting for debugging
     if (error instanceof Error) {
@@ -315,6 +330,8 @@ export async function createCheckout(data: CheckoutData) {
         message: error.message,
         stack: error.stack,
         data: data,
+        isDevelopmentMode,
+        NODE_ENV: process.env.NODE_ENV
       });
       throw new Error(`Checkout failed: ${error.message}`);
     }

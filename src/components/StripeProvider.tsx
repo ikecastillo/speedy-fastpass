@@ -6,9 +6,15 @@ import { ReactNode } from 'react';
 
 // Better environment variable handling with warnings
 const stripePublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+const isDevelopmentMode = !stripePublishableKey || stripePublishableKey.includes('fake_key') || process.env.NODE_ENV === 'development';
 
-if (!stripePublishableKey || stripePublishableKey.includes('fake_key')) {
-  console.warn('⚠️ STRIPE WARNING: Missing or invalid NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY environment variable');
+if (isDevelopmentMode) {
+  console.log('🔧 STRIPE PROVIDER: Running in development mode with mock Stripe');
+  console.log('Environment check:', {
+    NODE_ENV: process.env.NODE_ENV,
+    hasPublishableKey: !!stripePublishableKey,
+    keyType: stripePublishableKey?.includes('fake_key') ? 'fake' : stripePublishableKey ? 'real' : 'missing'
+  });
 }
 
 const stripePromise = loadStripe(
@@ -21,6 +27,18 @@ interface StripeProviderProps {
 }
 
 export function StripeProvider({ children, clientSecret }: StripeProviderProps) {
+  console.log('🏗️ StripeProvider rendering with clientSecret:', clientSecret ? 'present' : 'missing');
+  
+  // In development mode with mock client secret, provide a simple wrapper
+  if (isDevelopmentMode && clientSecret?.includes('mock')) {
+    console.log('🎭 Using mock Stripe provider for development');
+    return (
+      <div data-mock-stripe-provider="true">
+        {children}
+      </div>
+    );
+  }
+  
   const options = clientSecret ? {
     clientSecret,
     appearance: {

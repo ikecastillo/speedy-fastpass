@@ -17,10 +17,48 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
   const [isProcessing, setIsProcessing] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
+  // Check if we're in development mode with mock data
+  const isDevelopmentMode = subscriptionId.includes('mock');
+  
+  console.log('💳 StripePaymentForm initialized:', {
+    planName,
+    period,
+    subscriptionId,
+    isDevelopmentMode,
+    hasStripe: !!stripe,
+    hasElements: !!elements
+  });
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    console.log('💰 Payment form submitted');
+
+    // Development mode - simulate payment success
+    if (isDevelopmentMode) {
+      console.log('🎭 Simulating payment success in development mode');
+      setIsProcessing(true);
+      
+      // Simulate processing delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Store mock payment success
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('paymentSuccess', JSON.stringify({
+          subscriptionId,
+          timestamp: new Date().toISOString(),
+          planName,
+          period,
+          mockPayment: true
+        }));
+      }
+      
+      console.log('✅ Mock payment completed, redirecting to success page');
+      router.push(`/checkout/success?subscription_id=${subscriptionId}`);
+      return;
+    }
 
     if (!stripe || !elements) {
+      setErrorMessage('Payment system not ready. Please try again.');
       return;
     }
 
@@ -64,8 +102,11 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
   };
 
   const handleTestCard = () => {
-    // This will be handled by Stripe's test environment
-    setErrorMessage('Use test card 4242 4242 4242 4242 with any future expiry and CVC to test.');
+    if (isDevelopmentMode) {
+      setErrorMessage('This is a development environment. Click "Complete Payment" to simulate a successful payment.');
+    } else {
+      setErrorMessage('Use test card 4242 4242 4242 4242 with any future expiry and CVC to test.');
+    }
   };
 
   return (
@@ -75,24 +116,54 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Stripe Payment Element */}
-        <div className="p-4 border border-gray-200 rounded-lg">
-          <PaymentElement 
-            options={{
-              layout: 'tabs',
-              fields: {
-                billingDetails: {
-                  name: 'auto',
-                  email: 'auto',
+        {/* Development Mode Notice */}
+        {isDevelopmentMode && (
+          <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+              <h3 className="font-medium text-blue-900">Development Mode</h3>
+            </div>
+            <p className="text-sm text-blue-800">
+              This is a simulated payment environment. No real charges will be made. 
+              Click "Complete Payment" to simulate a successful transaction.
+            </p>
+          </div>
+        )}
+
+        {/* Stripe Payment Element or Mock Form */}
+        {!isDevelopmentMode ? (
+          <div className="p-4 border border-gray-200 rounded-lg">
+            <PaymentElement 
+              options={{
+                layout: 'tabs',
+                fields: {
+                  billingDetails: {
+                    name: 'auto',
+                    email: 'auto',
+                  },
                 },
-              },
-              wallets: {
-                applePay: 'auto',
-                googlePay: 'never',
-              },
-            }}
-          />
-        </div>
+                wallets: {
+                  applePay: 'auto',
+                  googlePay: 'never',
+                },
+              }}
+            />
+          </div>
+        ) : (
+          <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
+            <div className="text-center py-8">
+              <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+              </svg>
+              <p className="text-gray-600 font-medium">Mock Payment Form</p>
+              <p className="text-sm text-gray-500 mt-1">
+                Development environment - no payment processing
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Error Message */}
         {errorMessage && (
@@ -105,7 +176,9 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
         {isProcessing && (
           <div className="flex items-center gap-2 text-brand" role="status" aria-live="polite">
             <div className="w-4 h-4 border-2 border-brand border-t-transparent rounded-full animate-spin"></div>
-            <span>Processing payment...</span>
+            <span>
+              {isDevelopmentMode ? 'Simulating...' : 'Processing payment...'}
+            </span>
           </div>
         )}
 
@@ -118,7 +191,7 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
             disabled={isProcessing}
             className="px-6 py-3 bg-accent text-gray-800 rounded-lg font-medium hover:bg-yellow-500 transition-colors border border-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            💳 Test Card Info
+            💳 {isDevelopmentMode ? 'Dev Info' : 'Test Card Info'}
           </button>
 
           <button
@@ -132,11 +205,11 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
 
           <button
             type="submit"
-            disabled={!stripe || isProcessing}
+            disabled={isProcessing}
             className={`
               flex-1 px-8 py-3 rounded-lg font-medium transition-colors
               ${
-                !stripe || isProcessing
+                isProcessing
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                   : "bg-brand text-white hover:bg-blue-900"
               }
@@ -145,10 +218,10 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
             {isProcessing ? (
               <span className="flex items-center justify-center gap-2">
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Processing...
+                {isDevelopmentMode ? 'Simulating...' : 'Processing...'}
               </span>
             ) : (
-              "Complete Payment"
+              `Complete Payment ${isDevelopmentMode ? '(Mock)' : ''}`
             )}
           </button>
         </div>
