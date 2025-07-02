@@ -28,13 +28,15 @@ export default function HomePage() {
       </div>
 
       {/* Main content with header and pricing selector */}
-      <div className="relative z-10 pt-72 md:pt-96">
+      <div className="relative z-10 pt-72 md:pt-96" data-id="main-content-container">
         {/* Modern App-Style Header */}
         <div 
           className="relative -mt-5 z-10"
+          data-id="floating-header-wrapper"
         >
           <div 
             className="bg-white md:mx-8 pt-8 pb-6 px-6"
+            data-id="header-glassmorphism-card"
             style={{
               background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.98) 100%)',
               borderTopLeftRadius: '2rem',
@@ -45,43 +47,92 @@ export default function HomePage() {
             }}
           >
             {/* Speedy Wash+ Branding */}
-            <div className="text-center mb-4">
-              <div className="flex items-start justify-center mb-2">
-                <h1 className="text-2xl sm:text-3xl font-bold uppercase tracking-wider" style={{ color: '#0B2545' }}>
-                  Speedy Wash
+            <div className="text-center" data-id="brand-section">
+              {/* Main Brand Logo */}
+              <div className="mb-6" data-id="brand-logo">
+                <div className="flex items-baseline justify-center gap-0.5 mb-3">
+                  <h1 
+                    className="text-3xl sm:text-4xl font-bold uppercase tracking-tight italic"
+                    style={{ 
+                      color: '#0B2545',
+                      letterSpacing: '-0.02em'
+                    }}
+                    data-id="speedy-text"
+                  >
+                    Speedy
+                  </h1>
+                  <h1 
+                    className="text-3xl sm:text-4xl font-bold uppercase tracking-tight ml-1"
+                    style={{ 
+                      color: '#0B2545',
+                      letterSpacing: '-0.02em'
+                    }}
+                    data-id="wash-text"
+                  >
+                    Wash
+                  </h1>
                   <span 
-                    className="text-lg sm:text-xl font-bold ml-1"
+                    className="text-xl sm:text-2xl font-bold ml-0.5 -mt-1"
                     style={{ 
                       color: '#FFD60A',
                       verticalAlign: 'super',
-                      fontSize: '0.7em'
+                      fontSize: '0.6em'
                     }}
+                    data-id="plus-symbol"
                   >
                     +
                   </span>
-                </h1>
+                </div>
+                
+                {/* Location Badge */}
+                <div 
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
+                  style={{ 
+                    backgroundColor: 'rgba(107, 114, 128, 0.1)',
+                    color: '#6B7280',
+                    border: '1px solid rgba(107, 114, 128, 0.15)'
+                  }}
+                  data-id="location-badge"
+                >
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  </svg>
+                  <span>Round Rock, Texas</span>
+                </div>
               </div>
               
-              {/* Tagline */}
-              <div>
-                <h2 
-                  className="text-lg sm:text-xl font-bold mb-2"
-                  style={{ color: '#0B2545' }}
+              {/* Call to Action Section */}
+              <div data-id="cta-section">
+                <div 
+                  className="inline-block px-6 py-3 rounded-2xl mb-3"
+                  style={{
+                    background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)',
+                    boxShadow: '0 4px 16px rgba(11, 37, 69, 0.15)'
+                  }}
+                  data-id="main-cta-badge"
                 >
-                  Select Your Unlimited Pass
-                </h2>
-                <p className="text-sm text-gray-600 max-w-sm mx-auto">
-                  Get unlimited premium washes with your monthly membership
-                </p>
+                  <h2 
+                    className="text-lg sm:text-xl font-bold text-white mb-1"
+                    data-id="cta-title"
+                  >
+                    Select Your Unlimited Pass
+                  </h2>
+                  <p 
+                    className="text-sm text-blue-100 opacity-90"
+                    data-id="cta-subtitle"
+                  >
+                    Unlimited premium washes • Cancel anytime
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Pure white content area for pricing */}
-        <div className="bg-white">
+        <div className="bg-white pb-16" data-id="pricing-content-area">
           {/* Pricing selector container */}
-          <div className="px-4 py-8 bg-white">
+          <div className="px-4 py-8 bg-white" data-id="pricing-selector-container">
             <PricingSelector 
               activePlan={activePlan}
               setActivePlan={setActivePlan}
