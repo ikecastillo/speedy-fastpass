@@ -1,6 +1,5 @@
 "use client";
 
-import { PlanDetailsCard } from "@/components/PlanDetailsCard";
 import { PricingSelector } from "@/components/PricingSelector";
 import { useState } from "react";
 import Image from "next/image";
@@ -28,15 +27,8 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* The rest of the page now needs top padding equal to hero height */}
-      <div className="relative z-10 pt-70 md:pt-96">
-        {/* Full-width hero section */}
-        <PlanDetailsCard 
-          selectedPlanIndex={activePlan} 
-          billingPeriod={billingPeriod === 0 ? 'monthly' : 'yearly'} 
-        />
-        
-        {/* Centered pricing selector container */}
+      {/* Pricing selector with integrated details */}
+      <div className="relative z-10 pt-72 md:pt-96">
         <div className="flex items-center justify-center px-4 py-8 bg-white">
           <PricingSelector 
             activePlan={activePlan}

@@ -1,7 +1,7 @@
 "use client";
 
 import NumberFlow from '@number-flow/react'
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { plans, calculatePrice, type Plan } from "@/types/plan";
@@ -17,9 +17,24 @@ interface PricingSelectorProps {
 export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setBillingPeriod }: PricingSelectorProps) {
   const router = useRouter();
   const [expandedPlan, setExpandedPlan] = useState<number | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Auto-expand details when a plan is selected
+  useEffect(() => {
+    if (activePlan !== null) {
+      setExpandedPlan(activePlan);
+    }
+  }, [activePlan]);
+
+  // Prevent animation flicker on initial load
+  useEffect(() => {
+    setIsInitialized(true);
+  }, []);
 
   const handleChangePlan = (index: number) => {
     setActivePlan(index);
+    // Auto-expand details when plan is selected
+    setExpandedPlan(index);
   };
 
   const handleChangePeriod = (index: number) => {
@@ -89,7 +104,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
             );
             
             return (
-              <motion.div
+              <div
                 key={plan.name}
                 className={`relative overflow-hidden rounded-3xl border-2 cursor-pointer transition-all duration-300 ${
                   activePlan === index 
@@ -97,11 +112,6 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                     : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-lg shadow-sm hover:scale-102'
                 }`}
                 onClick={() => handleChangePlan(index)}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
               >
                 {plan.popular && (
                   <div className="absolute top-0 right-0 z-10">
@@ -192,22 +202,17 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                       }`}
                     >
                       {activePlan === index && (
-                        <motion.div
-                          className="w-4 h-4 bg-white rounded-full"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ duration: 0.2 }}
-                        />
+                        <div className="w-4 h-4 bg-white rounded-full" />
                       )}
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
 
-        {/* Mobile: Vertical List with Expandable Details */}
+        {/* Mobile: Vertical List with Auto-Expanding Details */}
         <div className="sm:hidden space-y-3 mb-6">
           {plans.map((plan, index) => {
             const planMeta = plansMeta.find(meta => 
@@ -217,16 +222,13 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
             const isSelected = activePlan === index;
             
             return (
-              <motion.div
+              <div
                 key={plan.name}
                 className={`relative overflow-hidden rounded-2xl border-2 transition-all duration-300 ${
                   isSelected 
                     ? 'border-blue-500 bg-gradient-to-r from-blue-50/50 to-blue-100/30 shadow-lg shadow-blue-200/30' 
                     : 'border-gray-200 bg-white shadow-sm'
                 }`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
               >
                 {/* Main card content */}
                 <div 
@@ -311,76 +313,56 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                         }`}
                       >
                         {isSelected && (
-                          <motion.div
-                            className="w-3 h-3 bg-white rounded-full"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ duration: 0.2 }}
-                          />
+                          <div className="w-3 h-3 bg-white rounded-full" />
                         )}
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Expandable details button */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleExpanded(index);
-                  }}
-                  className="w-full px-4 py-2 border-t border-gray-100 bg-gray-50/50 text-xs font-medium text-gray-600 hover:bg-gray-100/50 transition-colors flex items-center justify-center gap-1"
-                >
-                  {isExpanded ? 'Hide Details' : 'Show All Features'}
-                  <svg 
-                    className={`w-3 h-3 transition-transform ${isExpanded ? 'rotate-180' : ''}`} 
-                    fill="currentColor" 
-                    viewBox="0 0 20 20"
-                  >
-                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </button>
-
-                {/* Expandable content */}
+                {/* Auto-expanding details */}
                 <AnimatePresence>
                   {isExpanded && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <div className="p-4 pt-0 border-t border-gray-100">
-                        <div className="grid grid-cols-1 gap-2">
-                          {planMeta?.features?.map((feature, featureIndex) => (
-                            <div key={featureIndex} className={`flex items-center gap-2 text-xs ${
-                              feature.included ? 'text-gray-700' : 'text-gray-400'
-                            }`}>
-                              <div className={`w-3 h-3 rounded flex items-center justify-center flex-shrink-0 ${
-                                feature.included ? 'bg-green-500' : 'bg-gray-300'
+                      <div className="border-t border-gray-100">
+                        <div className="p-4">
+                          <h4 className="text-sm font-semibold text-gray-900 mb-3">All Features:</h4>
+                          <div className="grid grid-cols-1 gap-2">
+                            {planMeta?.features?.map((feature, featureIndex) => (
+                              <div key={featureIndex} className={`flex items-center gap-2 text-xs ${
+                                feature.included ? 'text-gray-700' : 'text-gray-400'
                               }`}>
-                                {feature.included ? (
-                                  <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                  </svg>
-                                ) : (
-                                  <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                                  </svg>
-                                )}
+                                <div className={`w-3 h-3 rounded flex items-center justify-center flex-shrink-0 ${
+                                  feature.included ? 'bg-green-500' : 'bg-gray-300'
+                                }`}>
+                                  {feature.included ? (
+                                    <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                    </svg>
+                                  ) : (
+                                    <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                                    </svg>
+                                  )}
+                                </div>
+                                <span className={feature.included ? '' : 'line-through'}>
+                                  {feature.name}
+                                </span>
                               </div>
-                              <span className={feature.included ? '' : 'line-through'}>
-                                {feature.name}
-                              </span>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </motion.div>
+              </div>
             );
           })}
         </div>
