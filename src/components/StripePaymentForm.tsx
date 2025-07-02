@@ -127,7 +127,7 @@ export function StripePaymentForm({ planName, period, subscriptionId }: StripePa
             </div>
             <p className="text-sm text-blue-800">
               This is a simulated payment environment. No real charges will be made. 
-              Click "Complete Payment" to simulate a successful transaction.
+              Click &quot;Complete Payment&quot; to simulate a successful transaction.
             </p>
           </div>
         )}
