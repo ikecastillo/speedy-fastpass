@@ -29,58 +29,59 @@ export default function HomePage() {
 
       {/* Main content with header and pricing selector */}
       <div className="relative z-10 pt-72 md:pt-96">
-        <div className="bg-white">
-          {/* Modern App-Style Header */}
+        {/* Modern App-Style Header */}
+        <div 
+          className="relative -mt-5 z-10"
+        >
           <div 
-            className="relative -mt-5 z-10"
+            className="bg-white md:mx-8 pt-8 pb-6 px-6"
+            style={{
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.98) 100%)',
+              borderTopLeftRadius: '2rem',
+              borderTopRightRadius: '2rem',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              boxShadow: '0 -8px 32px rgba(0,0,0,0.08)',
+            }}
           >
-            <div 
-              className="bg-white md:mx-8 pt-8 pb-6 px-6"
-              style={{
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.98) 100%)',
-                borderTopLeftRadius: '2rem',
-                borderTopRightRadius: '2rem',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
-                boxShadow: '0 -8px 32px rgba(0,0,0,0.08), 0 -4px 16px rgba(0,0,0,0.04)',
-              }}
-            >
-              {/* Speedy Wash+ Branding */}
-              <div className="text-center mb-4">
-                <div className="flex items-start justify-center mb-2">
-                  <h1 className="text-2xl sm:text-3xl font-bold uppercase tracking-wider" style={{ color: '#0B2545' }}>
-                    Speedy Wash
-                    <span 
-                      className="text-lg sm:text-xl font-bold ml-1"
-                      style={{ 
-                        color: '#FFD60A',
-                        verticalAlign: 'super',
-                        fontSize: '0.7em'
-                      }}
-                    >
-                      +
-                    </span>
-                  </h1>
-                </div>
-                
-                {/* Tagline */}
-                <div>
-                  <h2 
-                    className="text-lg sm:text-xl font-bold mb-2"
-                    style={{ color: '#0B2545' }}
+            {/* Speedy Wash+ Branding */}
+            <div className="text-center mb-4">
+              <div className="flex items-start justify-center mb-2">
+                <h1 className="text-2xl sm:text-3xl font-bold uppercase tracking-wider" style={{ color: '#0B2545' }}>
+                  Speedy Wash
+                  <span 
+                    className="text-lg sm:text-xl font-bold ml-1"
+                    style={{ 
+                      color: '#FFD60A',
+                      verticalAlign: 'super',
+                      fontSize: '0.7em'
+                    }}
                   >
-                    Select Your Unlimited Pass
-                  </h2>
-                  <p className="text-sm text-gray-600 max-w-sm mx-auto">
-                    Get unlimited premium washes with your monthly membership
-                  </p>
-                </div>
+                    +
+                  </span>
+                </h1>
+              </div>
+              
+              {/* Tagline */}
+              <div>
+                <h2 
+                  className="text-lg sm:text-xl font-bold mb-2"
+                  style={{ color: '#0B2545' }}
+                >
+                  Select Your Unlimited Pass
+                </h2>
+                <p className="text-sm text-gray-600 max-w-sm mx-auto">
+                  Get unlimited premium washes with your monthly membership
+                </p>
               </div>
             </div>
           </div>
+        </div>
 
+        {/* Pure white content area for pricing */}
+        <div className="bg-white">
           {/* Pricing selector container */}
-          <div className="flex items-center justify-center px-4 py-8 bg-white">
+          <div className="px-4 py-8 bg-white">
             <PricingSelector 
               activePlan={activePlan}
               setActivePlan={setActivePlan}
