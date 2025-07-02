@@ -61,6 +61,59 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
     <div className="w-full max-w-6xl mx-auto px-4">
       <div className="rounded-3xl">
         
+        {/* Modern App-Style Header */}
+        <div 
+          className="relative -mt-8 mb-6 mx-4 sm:mx-8 pt-8 pb-6 px-6"
+          style={{
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.98) 100%)',
+            borderTopLeftRadius: '2rem',
+            borderTopRightRadius: '2rem',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            boxShadow: '0 -8px 32px rgba(0,0,0,0.08), 0 -4px 16px rgba(0,0,0,0.04)',
+          }}
+        >
+          {/* Speedy Wash+ Branding */}
+          <div className="text-center mb-4">
+            <div className="flex items-start justify-center mb-2">
+              <h1 className="text-2xl sm:text-3xl font-bold uppercase tracking-wider" style={{ color: '#0B2545' }}>
+                Speedy Wash
+                <span 
+                  className="text-lg sm:text-xl font-bold ml-1"
+                  style={{ 
+                    color: '#FFD60A',
+                    verticalAlign: 'super',
+                    fontSize: '0.7em'
+                  }}
+                >
+                  +
+                </span>
+              </h1>
+            </div>
+            
+            {/* Location with icon */}
+            <div className="flex items-center justify-center gap-1.5 text-sm font-medium mb-3" style={{ color: '#6F7780' }}>
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+              </svg>
+              <span>Round Rock, Texas</span>
+            </div>
+            
+            {/* Tagline */}
+            <div>
+              <h2 
+                className="text-lg sm:text-xl font-bold mb-2"
+                style={{ color: '#0B2545' }}
+              >
+                Select Your Unlimited Pass
+              </h2>
+              <p className="text-sm text-gray-600 max-w-sm mx-auto">
+                Get unlimited premium washes with your monthly membership
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Billing Period Toggle */}
         <div className="rounded-full relative w-full max-w-md mx-auto p-1.5 flex items-center mb-6" style={{ backgroundColor: '#F5F7FA' }}>
           <button
