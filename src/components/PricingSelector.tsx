@@ -25,12 +25,17 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
   }, [activePlan]);
 
   const handleChangePlan = (index: number) => {
-    // Toggle functionality - unselect if clicking the same plan
+    console.log('handleChangePlan called with index:', index, 'current activePlan:', activePlan);
+    
     if (activePlan === index) {
+      // Toggle: if clicking the same plan, unselect it
+      console.log('Unselecting plan');
       setActivePlan(null);
       setExpandedPlan(null);
     } else {
-    setActivePlan(index);
+      // Select the new plan
+      console.log('Selecting plan:', plans[index]?.name);
+      setActivePlan(index);
       setExpandedPlan(index);
     }
   };

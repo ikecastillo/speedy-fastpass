@@ -158,8 +158,15 @@ export function PersistentPlanBar({
                   {/* Continue/Next Button */}
                   {showContinueButton && (
                     <motion.button
-                      onClick={handleContinue}
+                      onClick={(event) => {
+                        // Prevent any form submission or default behavior
+                        event.preventDefault();
+                        event.stopPropagation();
+                        console.log('Button clicked, calling handleContinue');
+                        handleContinue();
+                      }}
                       disabled={!isFormValid}
+                      type="button"
                       className={`px-8 py-2.5 rounded-lg font-bold transition-all duration-300 shadow-lg flex items-center gap-2 min-w-[140px] justify-center ${
                         !isFormValid ? 'bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300' : 'text-white'
                       }`}
