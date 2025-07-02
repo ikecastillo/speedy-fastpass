@@ -80,16 +80,14 @@ export default function RootLayout({
         
         {/* Modern 2025 Bottom Fade Effect */}
         <div 
-          className="fixed bottom-0 left-0 right-0 h-32 pointer-events-none z-50"
+          className="fixed bottom-0 left-0 right-0 h-12 pointer-events-none z-50"
           style={{
             background: `linear-gradient(
               to top,
-              rgba(255, 255, 255, 0.95) 0%,
-              rgba(255, 255, 255, 0.85) 15%,
-              rgba(255, 255, 255, 0.6) 30%,
-              rgba(255, 255, 255, 0.3) 50%,
-              rgba(255, 255, 255, 0.1) 70%,
-              rgba(255, 255, 255, 0.05) 85%,
+              rgba(255, 255, 255, 0.9) 0%,
+              rgba(255, 255, 255, 0.7) 25%,
+              rgba(255, 255, 255, 0.4) 50%,
+              rgba(255, 255, 255, 0.2) 75%,
               transparent 100%
             )`,
             backdropFilter: 'blur(1px)',
