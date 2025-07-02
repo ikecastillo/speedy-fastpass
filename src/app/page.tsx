@@ -114,7 +114,11 @@ export default function HomePage() {
         </div>
 
         {/* Pure white content area for pricing */}
-        <div className="pb-16" style={{ backgroundColor: '#ffffff' }} data-id="pricing-content-area">
+        <div 
+          className={`${activePlan !== null ? 'pb-32' : 'pb-16'} transition-all duration-500`} 
+          style={{ backgroundColor: '#ffffff' }} 
+          data-id="pricing-content-area"
+        >
           {/* Pricing selector container */}
           <div className="px-4 pb-8" style={{ backgroundColor: '#ffffff' }} data-id="pricing-selector-container">
             <PricingSelector 

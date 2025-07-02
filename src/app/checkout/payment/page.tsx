@@ -3,14 +3,20 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Stepper } from "@/components/Stepper";
-import { PackageSummary } from "@/components/PackageSummary";
 import { StripeProvider } from "@/components/StripeProvider";
 import { StripePaymentForm } from "@/components/StripePaymentForm";
+import { PersistentPlanBar } from "@/components/PersistentPlanBar";
 import { createCheckout, type CheckoutData } from "@/app/actions/createCheckout";
+import { plans } from "@/types/plan";
 
 export default function PaymentPage() {
   const router = useRouter();
-  const [planData, setPlanData] = React.useState<{plan: string; period: string} | null>(null);
+  const [planData, setPlanData] = React.useState<{
+    plan: string; 
+    period: string;
+    activePlan: number | null;
+    billingPeriod: number;
+  } | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [stripeData, setStripeData] = React.useState<{
     clientSecret: string;
@@ -38,9 +44,16 @@ export default function PaymentPage() {
         const planInfo = JSON.parse(storedPlan);
         const vehicleInfo = JSON.parse(vehicleFormData);
 
+        // Find the plan index based on the stored plan name
+        const planIndex = plans.findIndex(plan => 
+          plan.name.toLowerCase().replace('+', '-plus') === planInfo.plan.toLowerCase()
+        );
+
         setPlanData({
           plan: planInfo.plan,
-          period: planInfo.period
+          period: planInfo.period,
+          activePlan: planIndex >= 0 ? planIndex : null,
+          billingPeriod: planInfo.period === 'yearly' ? 1 : 0
         });
 
         // Create Stripe checkout session
@@ -134,30 +147,33 @@ export default function PaymentPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-32">
       <Stepper currentStep={3} />
-      <div className="max-w-6xl mx-auto p-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left Column - Package Summary */}
-          <div className="order-2 lg:order-1">
-            <PackageSummary 
+      <div className="max-w-4xl mx-auto p-8">
+        <h1 className="text-lg md:text-2xl font-bold text-gray-900 mb-4 md:mb-8">
+          Payment Information
+        </h1>
+        
+        {/* Full-width payment form - no sidebar since plan info is in persistent bar */}
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-8">
+          <StripeProvider clientSecret={stripeData.clientSecret}>
+            <StripePaymentForm 
               planName={planData.plan} 
-              period={planData.period as 'monthly' | 'yearly'} 
+              period={planData.period as 'monthly' | 'yearly'}
+              subscriptionId={stripeData.subscriptionId}
             />
-          </div>
-
-          {/* Right Column - Stripe Payment Form */}
-          <div className="order-1 lg:order-2">
-            <StripeProvider clientSecret={stripeData.clientSecret}>
-              <StripePaymentForm 
-                planName={planData.plan} 
-                period={planData.period as 'monthly' | 'yearly'}
-                subscriptionId={stripeData.subscriptionId}
-              />
-            </StripeProvider>
-          </div>
+          </StripeProvider>
         </div>
       </div>
+
+      {/* Persistent Plan Bar */}
+      <PersistentPlanBar 
+        activePlan={planData.activePlan}
+        billingPeriod={planData.billingPeriod}
+        currentStep="payment"
+        continueText="Complete Payment"
+        showContinueButton={false} // Payment form has its own submit button
+      />
     </div>
   );
 } 

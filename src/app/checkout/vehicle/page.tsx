@@ -3,56 +3,63 @@
 import React from "react";
 import { Stepper } from "@/components/Stepper";
 import { VehicleFormComponent } from "@/components/VehicleForm";
-import { PlanSummary } from "@/components/PlanSummary";
+import { PersistentPlanBar } from "@/components/PersistentPlanBar";
+import { plans } from "@/types/plan";
 
 export default function VehiclePage() {
-  const [planData, setPlanData] = React.useState<{name: string; period: 'monthly' | 'yearly'} | null>(null);
+  const [planData, setPlanData] = React.useState<{
+    activePlan: number | null;
+    billingPeriod: number;
+  }>({
+    activePlan: null,
+    billingPeriod: 0
+  });
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedPlan = localStorage.getItem('selectedPlan');
       if (storedPlan) {
         const parsed = JSON.parse(storedPlan);
+        const planName = parsed.name || parsed.plan;
+        
+        // Find the plan index based on the stored plan name
+        const planIndex = plans.findIndex(plan => 
+          plan.name.toLowerCase().replace('+', '-plus') === planName.toLowerCase()
+        );
+        
         setPlanData({
-          name: parsed.name || parsed.plan,
-          period: parsed.period
+          activePlan: planIndex >= 0 ? planIndex : null,
+          billingPeriod: parsed.period === 'yearly' ? 1 : 0
         });
       }
     }
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-32">
       <Stepper currentStep={2} />
-      <div className="max-w-6xl mx-auto px-4 py-4 md:p-8">
+      <div className="max-w-4xl mx-auto px-4 py-4 md:p-8">
         <h1 className="text-lg md:text-2xl font-bold text-gray-900 mb-4 md:mb-8">
           Vehicle & Personal Information
         </h1>
         
-        {/* Mobile-first: Plan Summary at top, then form */}
-        <div className="space-y-4 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8">
-          {/* Plan Summary - Mobile: full width at top, Desktop: 1/3 width sidebar */}
-          <div className="lg:col-span-1 lg:order-2">
-            {planData ? (
-              <div className="sticky top-4">
-                <PlanSummary planName={planData.name} period={planData.period} />
-              </div>
-            ) : (
-              <div className="bg-white rounded-lg shadow-md p-4 md:p-6">
-                <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-4">Selected Plan</h3>
-                <p className="text-gray-600">Loading plan information...</p>
-              </div>
-            )}
-          </div>
-          
-          {/* Main Form - Mobile: below summary, Desktop: 2/3 width */}
-          <div className="lg:col-span-2 lg:order-1">
-            <div className="bg-white rounded-lg shadow-md p-4 md:p-8">
-              <VehicleFormComponent />
-            </div>
-          </div>
+        {/* Full-width form - no sidebar since plan info is in persistent bar */}
+        <div className="bg-white rounded-lg shadow-md p-4 md:p-8">
+          <VehicleFormComponent />
         </div>
       </div>
+
+      {/* Persistent Plan Bar */}
+      <PersistentPlanBar 
+        activePlan={planData.activePlan}
+        billingPeriod={planData.billingPeriod}
+        currentStep="vehicle"
+        continueText="Continue to Payment"
+        onContinue={() => {
+          // Navigate to payment page
+          window.location.href = '/checkout/payment';
+        }}
+      />
     </div>
   );
 } 

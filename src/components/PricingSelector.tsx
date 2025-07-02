@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { plans, calculatePrice, type Plan } from "@/types/plan";
 import { plansMeta } from "@/lib/plans";
+import { PersistentPlanBar } from "./PersistentPlanBar";
 
 interface PricingSelectorProps {
   activePlan: number | null;
@@ -376,31 +377,25 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
           })}
         </div>
 
-        {/* Get Started Button */}
-        <div className="px-4 sm:px-6 lg:px-8">
-          <motion.button 
-            className={`w-full max-w-md mx-auto block rounded-xl sm:rounded-2xl text-base sm:text-lg font-bold py-3 sm:py-4 px-4 sm:px-6 transition-all duration-300 shadow-lg ${
-              activePlan !== null 
-                ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-blue-200/50 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl hover:shadow-blue-200/60' 
-                : 'bg-gray-200 text-gray-500 cursor-not-allowed shadow-gray-200/30'
-            }`}
-            whileTap={activePlan !== null ? { scale: 0.98 } : {}}
-            whileHover={activePlan !== null ? { y: -1 } : {}}
-            onClick={handleGetStarted}
-            disabled={activePlan === null}
-          >
-            {activePlan !== null ? (
-              <span className="flex items-center justify-center gap-2">
-                Get Started
-                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </span>
-            ) : (
-              'Select a plan to continue'
-            )}
-          </motion.button>
-        </div>
+        {/* Get Started Button - Hidden when plan is selected */}
+        {activePlan === null && (
+          <div className="px-4 sm:px-6 lg:px-8">
+            <motion.button 
+              className="w-full max-w-md mx-auto block rounded-xl sm:rounded-2xl text-base sm:text-lg font-bold py-3 sm:py-4 px-4 sm:px-6 transition-all duration-300 shadow-lg bg-gray-200 text-gray-500 cursor-not-allowed shadow-gray-200/30"
+              disabled={true}
+            >
+              Select a plan to continue
+            </motion.button>
+          </div>
+        )}
+
+        {/* Persistent Plan Bar */}
+        <PersistentPlanBar 
+          activePlan={activePlan}
+          billingPeriod={billingPeriod}
+          currentStep="pricing"
+          continueText="Get Started"
+        />
 
         {/* Footer */}
         <div className="text-center mt-4 sm:mt-6 space-y-1 px-4 sm:px-6 lg:px-8">
