@@ -107,7 +107,10 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                 {/* Premium badge for Works+ */}
                 {isWorksPlus && !isSelected && (
                   <div className="absolute top-3 right-3 z-10">
-                    <div className="bg-gradient-to-r from-blue-800 to-yellow-400 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+                    <div 
+                      className="text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg"
+                      style={{ background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)' }}
+                    >
                       Premium
                     </div>
                   </div>
@@ -209,16 +212,11 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                       className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
                         isSelected 
                           ? 'border-blue-500 bg-blue-500 shadow-lg shadow-blue-200/50' 
-                          : isWorksPlus
-                          ? 'border-blue-400 bg-gradient-to-r from-blue-800 to-yellow-400'
                           : 'border-gray-300 bg-white'
                       }`}
                     >
                       {isSelected && (
                         <div className="w-4 h-4 bg-white rounded-full" />
-                      )}
-                      {!isSelected && isWorksPlus && (
-                        <div className="w-4 h-4 bg-white rounded-full opacity-80" />
                       )}
                     </div>
                   </div>
@@ -252,7 +250,10 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                 {/* Premium badge for Works+ mobile */}
                 {isWorksPlus && !isSelected && (
                   <div className="absolute top-2 right-2 z-10">
-                    <div className="bg-gradient-to-r from-blue-800 to-yellow-400 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg">
+                    <div 
+                      className="text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg"
+                      style={{ background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)' }}
+                    >
                       Premium
                     </div>
                   </div>
@@ -318,16 +319,11 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                         className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
                           isSelected 
                             ? 'border-blue-500 bg-blue-500 shadow-lg shadow-blue-200/50' 
-                            : isWorksPlus
-                            ? 'border-blue-400 bg-gradient-to-r from-blue-800 to-yellow-400'
                             : 'border-gray-300 bg-white'
                         }`}
                       >
                         {isSelected && (
                           <div className="w-3 h-3 bg-white rounded-full" />
-                        )}
-                        {!isSelected && isWorksPlus && (
-                          <div className="w-3 h-3 bg-white rounded-full opacity-80" />
                         )}
                       </div>
                     </div>
