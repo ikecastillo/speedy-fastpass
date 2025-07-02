@@ -17,7 +17,6 @@ interface PricingSelectorProps {
 export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setBillingPeriod }: PricingSelectorProps) {
   const router = useRouter();
   const [expandedPlan, setExpandedPlan] = useState<number | null>(null);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   // Auto-expand details when a plan is selected
   useEffect(() => {
@@ -25,11 +24,6 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
       setExpandedPlan(activePlan);
     }
   }, [activePlan]);
-
-  // Prevent animation flicker on initial load
-  useEffect(() => {
-    setIsInitialized(true);
-  }, []);
 
   const handleChangePlan = (index: number) => {
     setActivePlan(index);
@@ -61,10 +55,6 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
   const getPrice = (plan: Plan) => {
     const period = billingPeriod === 0 ? 'monthly' : 'yearly';
     return calculatePrice(plan, period);
-  };
-
-  const toggleExpanded = (index: number) => {
-    setExpandedPlan(expandedPlan === index ? null : index);
   };
 
   return (
