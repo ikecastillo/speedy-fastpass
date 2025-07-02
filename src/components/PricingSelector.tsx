@@ -3,7 +3,6 @@
 import NumberFlow from '@number-flow/react'
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation";
 import { plans, calculatePrice, type Plan } from "@/types/plan";
 import { plansMeta } from "@/lib/plans";
 import { PersistentPlanBar } from "./PersistentPlanBar";
@@ -16,7 +15,6 @@ interface PricingSelectorProps {
 }
 
 export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setBillingPeriod }: PricingSelectorProps) {
-  const router = useRouter();
   const [expandedPlan, setExpandedPlan] = useState<number | null>(null);
 
   // Auto-expand details when a plan is selected
@@ -41,22 +39,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
     setBillingPeriod(index);
   };
 
-  const handleGetStarted = () => {
-    if (activePlan === null) return;
-    
-    const selectedPlan = plans[activePlan as number].name.toLowerCase().replace('+', '-plus');
-    const period = billingPeriod === 0 ? 'monthly' : 'yearly';
-    
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('selectedPlan', JSON.stringify({
-        plan: selectedPlan,
-        period: period,
-        price: getPrice(plans[activePlan as number])
-      }));
-    }
-    
-    router.push('/checkout/vehicle');
-  };
+
 
   const getPrice = (plan: Plan) => {
     const period = billingPeriod === 0 ? 'monthly' : 'yearly';
@@ -129,11 +112,18 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                     
                     <div className="flex items-baseline justify-center gap-1 mb-2">
                       <span className={`text-2xl font-black ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-900'}`}>$</span>
-                      <span className={`text-4xl font-black ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-900'}`}>
-                        {Math.floor(getPrice(plan))}
-                      </span>
+                      <NumberFlow
+                        className={`text-4xl font-black ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-900'}`}
+                        value={Math.floor(getPrice(plan))}
+                        format={{ minimumFractionDigits: 0, maximumFractionDigits: 0 }}
+                      />
                       <span className={`text-xl font-semibold ${isWorksPlus && !isSelected ? 'text-blue-100' : 'text-gray-600'}`}>
-                        .{String(Math.round((getPrice(plan) % 1) * 100)).padStart(2, '0')}
+                        .
+                        <NumberFlow
+                          className={`text-xl font-semibold ${isWorksPlus && !isSelected ? 'text-blue-100' : 'text-gray-600'}`}
+                          value={Math.round((getPrice(plan) % 1) * 100)}
+                          format={{ minimumIntegerDigits: 2 }}
+                        />
                       </span>
                       <span className={`text-sm font-medium ml-1 ${isWorksPlus && !isSelected ? 'text-blue-200' : 'text-gray-500'}`}>
                         /{billingPeriod === 0 ? 'mo' : 'yr'}
@@ -274,11 +264,18 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                       <div className="text-right">
                         <div className="flex items-baseline gap-0.5 whitespace-nowrap">
                           <span className={`text-lg font-black ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-900'}`}>$</span>
-                          <span className={`text-2xl font-black ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-900'}`}>
-                            {Math.floor(getPrice(plan))}
-                          </span>
+                          <NumberFlow
+                            className={`text-2xl font-black ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-900'}`}
+                            value={Math.floor(getPrice(plan))}
+                            format={{ minimumFractionDigits: 0, maximumFractionDigits: 0 }}
+                          />
                           <span className={`text-base font-semibold ${isWorksPlus && !isSelected ? 'text-blue-100' : 'text-gray-600'}`}>
-                            .{String(Math.round((getPrice(plan) % 1) * 100)).padStart(2, '0')}
+                            .
+                            <NumberFlow
+                              className={`text-base font-semibold ${isWorksPlus && !isSelected ? 'text-blue-100' : 'text-gray-600'}`}
+                              value={Math.round((getPrice(plan) % 1) * 100)}
+                              format={{ minimumIntegerDigits: 2 }}
+                            />
                           </span>
                           <span className={`text-xs font-medium ${isWorksPlus && !isSelected ? 'text-blue-200' : 'text-gray-500'}`}>
                             /{billingPeriod === 0 ? 'mo' : 'yr'}

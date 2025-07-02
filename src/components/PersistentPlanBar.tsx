@@ -1,5 +1,6 @@
 "use client";
 
+import NumberFlow from '@number-flow/react'
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -101,10 +102,19 @@ export function PersistentPlanBar({
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-xl font-black text-gray-900">
-                        ${Math.floor(getPrice(selectedPlan))}.{String(Math.round((getPrice(selectedPlan) % 1) * 100)).padStart(2, '0')}
-                      </span>
-                      <span className="text-sm font-medium text-gray-500">
+                      <span className="text-xl font-black text-gray-900">$</span>
+                      <NumberFlow
+                        className="text-xl font-black text-gray-900"
+                        value={Math.floor(getPrice(selectedPlan))}
+                        format={{ minimumFractionDigits: 0, maximumFractionDigits: 0 }}
+                      />
+                      <span className="text-xl font-black text-gray-900">.</span>
+                      <NumberFlow
+                        className="text-xl font-black text-gray-900"
+                        value={Math.round((getPrice(selectedPlan) % 1) * 100)}
+                        format={{ minimumIntegerDigits: 2 }}
+                      />
+                      <span className="text-sm font-medium text-gray-500 ml-1">
                         /{billingPeriod === 0 ? 'mo' : 'yr'}
                       </span>
                     </div>
