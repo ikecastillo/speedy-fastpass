@@ -99,19 +99,15 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                   isSelected 
                     ? 'border-blue-500 bg-gradient-to-br from-blue-50/50 to-blue-100/30 shadow-xl shadow-blue-200/40 scale-105' 
                     : isWorksPlus
-                    ? 'border-2 border-gradient-to-r from-blue-500 via-blue-600 to-yellow-400 bg-white hover:shadow-xl hover:shadow-blue-200/40 hover:scale-102 relative'
+                    ? 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-lg shadow-sm hover:scale-102'
                     : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-lg shadow-sm hover:scale-102'
                 }`}
                 onClick={() => handleChangePlan(index)}
-                style={isWorksPlus && !isSelected ? {
-                  borderImage: 'linear-gradient(135deg, #3b82f6, #2563eb, #fbbf24) 1',
-                  borderImageSlice: 1
-                } : {}}
               >
                 {/* Premium badge for Works+ */}
                 {isWorksPlus && !isSelected && (
                   <div className="absolute top-3 right-3 z-10">
-                    <div className="bg-gradient-to-r from-blue-600 to-yellow-400 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+                    <div className="bg-gradient-to-r from-blue-800 to-yellow-400 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
                       Premium
                     </div>
                   </div>
@@ -122,7 +118,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                     <h3 className="font-bold text-2xl mb-2 text-gray-900">
                       {isWorksPlus ? (
                         <>
-                          <span style={{ color: '#2563eb' }}>Works</span>
+                          <span style={{ color: '#1e40af' }}>Works</span>
                           <span style={{ color: '#fbbf24' }}>+</span>
                         </>
                       ) : (
@@ -156,7 +152,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                       {planMeta?.features?.filter(f => f.included).slice(0, 3).map((feature, featureIndex) => (
                         <div key={featureIndex} className="flex items-center gap-3">
                           <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                            isWorksPlus ? 'bg-gradient-to-r from-blue-500 to-yellow-400' : 'bg-green-500'
+                            isWorksPlus ? 'bg-gradient-to-r from-blue-800 to-yellow-400' : 'bg-green-500'
                           }`}>
                             <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -191,7 +187,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                             {planMeta.features.filter(f => f.included).slice(3).map((feature, featureIndex) => (
                               <div key={featureIndex} className="flex items-center gap-3">
                                 <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                  isWorksPlus ? 'bg-gradient-to-r from-blue-500 to-yellow-400' : 'bg-green-500'
+                                  isWorksPlus ? 'bg-gradient-to-r from-blue-800 to-yellow-400' : 'bg-green-500'
                                 }`}>
                                   <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -214,7 +210,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                         isSelected 
                           ? 'border-blue-500 bg-blue-500 shadow-lg shadow-blue-200/50' 
                           : isWorksPlus
-                          ? 'border-blue-400 bg-gradient-to-r from-blue-500 to-yellow-400'
+                          ? 'border-blue-400 bg-gradient-to-r from-blue-800 to-yellow-400'
                           : 'border-gray-300 bg-white'
                       }`}
                     >
@@ -249,18 +245,14 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                   isSelected 
                     ? 'border-blue-500 bg-gradient-to-r from-blue-50/50 to-blue-100/30 shadow-lg shadow-blue-200/30' 
                     : isWorksPlus
-                    ? 'border-2 bg-white shadow-lg shadow-blue-200/40'
+                    ? 'border-gray-200 bg-white shadow-sm'
                     : 'border-gray-200 bg-white shadow-sm'
                 }`}
-                style={isWorksPlus && !isSelected ? {
-                  borderImage: 'linear-gradient(135deg, #3b82f6, #2563eb, #fbbf24) 1',
-                  borderImageSlice: 1
-                } : {}}
                               >
                 {/* Premium badge for Works+ mobile */}
                 {isWorksPlus && !isSelected && (
                   <div className="absolute top-2 right-2 z-10">
-                    <div className="bg-gradient-to-r from-blue-600 to-yellow-400 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg">
+                    <div className="bg-gradient-to-r from-blue-800 to-yellow-400 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg">
                       Premium
                     </div>
                   </div>
@@ -278,7 +270,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                         <h3 className="font-bold text-lg text-gray-900">
                           {isWorksPlus ? (
                             <>
-                              <span style={{ color: '#2563eb' }}>Works</span>
+                              <span style={{ color: '#1e40af' }}>Works</span>
                               <span style={{ color: '#fbbf24' }}>+</span>
                             </>
                           ) : (
@@ -327,7 +319,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                           isSelected 
                             ? 'border-blue-500 bg-blue-500 shadow-lg shadow-blue-200/50' 
                             : isWorksPlus
-                            ? 'border-blue-400 bg-gradient-to-r from-blue-500 to-yellow-400'
+                            ? 'border-blue-400 bg-gradient-to-r from-blue-800 to-yellow-400'
                             : 'border-gray-300 bg-white'
                         }`}
                       >
@@ -374,14 +366,14 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                       <div className="border-t border-gray-100">
                         <div className={`p-4 ${isWorksPlus ? 'bg-blue-50/30' : ''}`}>
                           <h4 className="text-sm font-semibold text-gray-900 mb-3">All Features:</h4>
-                          <div className="grid grid-cols-1 gap-2">
+                          <div className="grid grid-cols-2 gap-2">
                             {planMeta?.features?.map((feature, featureIndex) => (
                               <div key={featureIndex} className={`flex items-center gap-2 text-xs ${
                                 feature.included ? 'text-gray-700' : 'text-gray-400'
                               }`}>
                                 <div className={`w-3 h-3 rounded flex items-center justify-center flex-shrink-0 ${
                                   feature.included 
-                                    ? isWorksPlus ? 'bg-gradient-to-r from-blue-500 to-yellow-400' : 'bg-green-500'
+                                    ? isWorksPlus ? 'bg-gradient-to-r from-blue-800 to-yellow-400' : 'bg-green-500'
                                     : 'bg-gray-300'
                                 }`}>
                                   {feature.included ? (
