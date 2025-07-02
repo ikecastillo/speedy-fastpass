@@ -73,8 +73,8 @@ export function PersistentPlanBar({
       
 
 
-      {/* Main bar content */}
-      <div className="relative px-4 sm:px-6 lg:px-8 py-4">
+      {/* Main bar content - thinner */}
+      <div className="relative px-4 sm:px-6 lg:px-8 py-3">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-between gap-4">
             {/* Left: Plan info (no icon) */}
@@ -82,7 +82,7 @@ export function PersistentPlanBar({
               <div className="flex items-center justify-between">
                 {/* Plan details */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-3 mb-1">
                     <h3 className="font-bold text-lg text-gray-900 truncate">
                       {isWorksPlus ? (
                         <>
@@ -93,31 +93,34 @@ export function PersistentPlanBar({
                         selectedPlan.name
                       )}
                     </h3>
-                  </div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-xl font-black text-gray-900">$</span>
-                    <NumberFlow
-                      className="text-xl font-black text-gray-900"
-                      value={Math.floor(getPrice(selectedPlan))}
-                      format={{ minimumFractionDigits: 0, maximumFractionDigits: 0 }}
-                    />
-                    <span className="text-xl font-black text-gray-900">.</span>
-                    <NumberFlow
-                      className="text-xl font-black text-gray-900"
-                      value={Math.round((getPrice(selectedPlan) % 1) * 100)}
-                      format={{ minimumIntegerDigits: 2 }}
-                    />
-                    <span className="text-sm font-medium text-gray-500 ml-1">
-                      /{billingPeriod === 0 ? 'mo' : 'yr'}
-                    </span>
+                    {/* Enhanced price styling */}
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-baseline">
+                        <span className="text-lg font-medium text-gray-500">$</span>
+                        <NumberFlow
+                          className="text-2xl font-black text-gray-900"
+                          value={Math.floor(getPrice(selectedPlan))}
+                          format={{ minimumFractionDigits: 0, maximumFractionDigits: 0 }}
+                        />
+                        <span className="text-lg font-semibold text-gray-600">.</span>
+                        <NumberFlow
+                          className="text-lg font-semibold text-gray-600"
+                          value={Math.round((getPrice(selectedPlan) % 1) * 100)}
+                          format={{ minimumIntegerDigits: 2 }}
+                        />
+                      </div>
+                      <div className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-md">
+                        /{billingPeriod === 0 ? 'mo' : 'yr'}
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                {/* Right: CTA Button */}
+                {/* Right: CTA Button - less rounded, more width */}
                 {showContinueButton && (
                   <motion.button
                     onClick={handleContinue}
-                    className={`px-6 py-3 rounded-xl font-bold text-white transition-all duration-300 shadow-lg flex items-center gap-2 ${
+                    className={`px-8 py-2.5 rounded-lg font-bold text-white transition-all duration-300 shadow-lg flex items-center gap-2 min-w-[140px] justify-center ${
                       isWorksPlus
                         ? 'bg-gradient-to-r from-blue-800 to-yellow-400 hover:from-blue-900 hover:to-yellow-500 shadow-blue-200/50 hover:shadow-blue-300/60'
                         : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-blue-200/50 hover:shadow-blue-200/60'
@@ -139,7 +142,7 @@ export function PersistentPlanBar({
           </div>
 
           {/* Features button and expandable content below main bar */}
-          <div className="mt-4 border-t border-gray-100 pt-4">
+          <div className="mt-3 border-t border-gray-100 pt-3">
             <div className="flex justify-center">
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
@@ -165,9 +168,9 @@ export function PersistentPlanBar({
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="overflow-hidden mt-4"
+                  className="overflow-hidden mt-3"
                 >
-                  <div className="pt-4">
+                  <div className="pt-3">
                     <h4 className="text-sm font-semibold text-gray-900 mb-3">All Features:</h4>
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
                       {planMeta?.features?.map((feature, featureIndex) => (
