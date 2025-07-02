@@ -282,7 +282,7 @@ export default function PaymentPage() {
                 <h1 
                   className="text-2xl sm:text-3xl font-bold uppercase tracking-tight italic"
                   style={{ 
-                    color: '#22c55e',
+                    color: '#0B2545',
                     letterSpacing: '-0.02em'
                   }}
                 >
@@ -291,11 +291,11 @@ export default function PaymentPage() {
                 <h1 
                   className="text-2xl sm:text-3xl font-bold uppercase tracking-tight"
                   style={{ 
-                    color: '#FFD60A',
+                    color: '#0B2545',
                     letterSpacing: '-0.02em'
                   }}
                 >
-                  Stop
+                  Wash
                 </h1>
                 <span 
                   className="text-lg font-bold"
@@ -307,13 +307,6 @@ export default function PaymentPage() {
                 >
                   +
                 </span>
-              </div>
-              
-              {/* Powered by auzi badge */}
-              <div className="flex justify-center mb-4">
-                <div className="bg-gray-100 px-3 py-1 rounded-full">
-                  <span className="text-xs font-medium text-gray-600">powered by auzi</span>
-                </div>
               </div>
 
               {/* CTA Section */}

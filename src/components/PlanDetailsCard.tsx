@@ -36,8 +36,8 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                   <div className="mb-6">
                     <div className="flex items-start justify-center mb-2">
                       <h2 className="text-2xl md:text-3xl font-bold uppercase tracking-wider">
-                        <span style={{ color: '#22c55e' }}>Speedy</span>{' '}
-                        <span style={{ color: '#FFD60A' }}>Stop</span>
+                        <span style={{ color: '#0B2545' }}>Speedy</span>{' '}
+                        <span style={{ color: '#0B2545' }}>Wash</span>
                         <span 
                           className="text-lg md:text-xl font-bold ml-1"
                           style={{ 
@@ -49,13 +49,6 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                           +
                         </span>
                       </h2>
-                    </div>
-                    
-                    {/* Powered by auzi badge */}
-                    <div className="flex justify-center mb-2">
-                      <div className="bg-gray-100 px-3 py-1 rounded-full">
-                        <span className="text-xs font-medium text-gray-600">powered by auzi</span>
-                      </div>
                     </div>
                     
                     {/* Location subtitle */}
@@ -120,8 +113,8 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                     style={{ backgroundColor: '#F5F7FA' }}
                   >
                     <span className="text-xs font-bold uppercase tracking-widest">
-                      <span style={{ color: '#22c55e' }}>Speedy</span>{' '}
-                      <span style={{ color: '#FFD60A' }}>Stop</span>
+                      <span style={{ color: '#0B2545' }}>Speedy</span>{' '}
+                      <span style={{ color: '#0B2545' }}>Wash</span>
                       <span 
                         className="text-xs font-bold ml-1"
                         style={{ 
@@ -133,13 +126,6 @@ export function PlanDetailsCard({ selectedPlanIndex, billingPeriod }: PlanDetail
                         +
                       </span>
                     </span>
-                  </div>
-                  
-                  {/* Powered by auzi badge */}
-                  <div className="mt-2">
-                    <div className="bg-gray-100 px-2 py-1 rounded-full inline-block">
-                      <span className="text-xs font-medium text-gray-600">powered by auzi</span>
-                    </div>
                   </div>
                 </div>
                 

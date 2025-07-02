@@ -53,7 +53,7 @@ export default function HomePage() {
                   <h1 
                     className="text-3xl sm:text-4xl font-bold uppercase tracking-tight italic"
                     style={{ 
-                      color: '#22c55e',
+                      color: '#0B2545',
                       letterSpacing: '-0.02em'
                     }}
                     data-id="speedy-text"
@@ -63,12 +63,12 @@ export default function HomePage() {
                   <h1 
                     className="text-3xl sm:text-4xl font-bold uppercase tracking-tight"
                     style={{ 
-                      color: '#FFD60A',
+                      color: '#0B2545',
                       letterSpacing: '-0.02em'
                     }}
-                    data-id="stop-text"
+                    data-id="wash-text"
                   >
-                    Stop
+                    Wash
                   </h1>
                   <span 
                     className="text-lg sm:text-xl font-bold"
@@ -81,13 +81,6 @@ export default function HomePage() {
                   >
                     +
                   </span>
-                </div>
-                
-                {/* Powered by auzi badge */}
-                <div className="flex justify-center mb-3">
-                  <div className="bg-gray-100 px-3 py-1 rounded-full">
-                    <span className="text-xs font-medium text-gray-600">powered by auzi</span>
-                  </div>
                 </div>
               </div>
         
