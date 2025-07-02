@@ -33,12 +33,16 @@ export interface CheckoutData {
 }
 
 // Mock functions for development
-function createMockCheckoutResponse(_data: CheckoutData) {
+function createMockCheckoutResponse(data: CheckoutData) {
   const mockId = Date.now().toString();
   return {
     subscriptionId: `sub_mock_${mockId}`,
     clientSecret: `pi_mock_${mockId}_secret_mock`,
     customerId: `cus_mock_${mockId}`,
+    planInfo: {
+      plan: data.plan,
+      period: data.period,
+    }
   };
 }
 
