@@ -26,9 +26,14 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
   }, [activePlan]);
 
   const handleChangePlan = (index: number) => {
-    setActivePlan(index);
-    // Auto-expand details when plan is selected
-    setExpandedPlan(index);
+    // Toggle functionality - unselect if clicking the same plan
+    if (activePlan === index) {
+      setActivePlan(null);
+      setExpandedPlan(null);
+    } else {
+      setActivePlan(index);
+      setExpandedPlan(index);
+    }
   };
 
   const handleChangePeriod = (index: number) => {
@@ -58,89 +63,87 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4">
+    <div className="w-full">
       <div className="rounded-3xl">
         
         {/* Modern App-Style Header */}
         <div 
-          className="relative -mt-8 mb-6 mx-4 sm:mx-8 pt-8 pb-6 px-6"
-          style={{
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.98) 100%)',
-            borderTopLeftRadius: '2rem',
-            borderTopRightRadius: '2rem',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
-            boxShadow: '0 -8px 32px rgba(0,0,0,0.08), 0 -4px 16px rgba(0,0,0,0.04)',
-          }}
+          className="relative -mt-5 z-10"
         >
-          {/* Speedy Wash+ Branding */}
-          <div className="text-center mb-4">
-            <div className="flex items-start justify-center mb-2">
-              <h1 className="text-2xl sm:text-3xl font-bold uppercase tracking-wider" style={{ color: '#0B2545' }}>
-                Speedy Wash
-                <span 
-                  className="text-lg sm:text-xl font-bold ml-1"
-                  style={{ 
-                    color: '#FFD60A',
-                    verticalAlign: 'super',
-                    fontSize: '0.7em'
-                  }}
+          <div 
+            className="bg-white md:mx-8 pt-8 pb-6 px-6"
+            style={{
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.98) 100%)',
+              borderTopLeftRadius: '2rem',
+              borderTopRightRadius: '2rem',
+              backdropFilter: 'blur(10px)',
+              WebkitBackdropFilter: 'blur(10px)',
+              boxShadow: '0 -8px 32px rgba(0,0,0,0.08), 0 -4px 16px rgba(0,0,0,0.04)',
+            }}
+          >
+            {/* Speedy Wash+ Branding */}
+            <div className="text-center mb-4">
+              <div className="flex items-start justify-center mb-2">
+                <h1 className="text-2xl sm:text-3xl font-bold uppercase tracking-wider" style={{ color: '#0B2545' }}>
+                  Speedy Wash
+                  <span 
+                    className="text-lg sm:text-xl font-bold ml-1"
+                    style={{ 
+                      color: '#FFD60A',
+                      verticalAlign: 'super',
+                      fontSize: '0.7em'
+                    }}
+                  >
+                    +
+                  </span>
+                </h1>
+              </div>
+              
+              {/* Tagline */}
+              <div>
+                <h2 
+                  className="text-lg sm:text-xl font-bold mb-2"
+                  style={{ color: '#0B2545' }}
                 >
-                  +
-                </span>
-              </h1>
-            </div>
-            
-            {/* Location with icon */}
-            <div className="flex items-center justify-center gap-1.5 text-sm font-medium mb-3" style={{ color: '#6F7780' }}>
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-              </svg>
-              <span>Round Rock, Texas</span>
-            </div>
-            
-            {/* Tagline */}
-            <div>
-              <h2 
-                className="text-lg sm:text-xl font-bold mb-2"
-                style={{ color: '#0B2545' }}
-              >
-                Select Your Unlimited Pass
-              </h2>
-              <p className="text-sm text-gray-600 max-w-sm mx-auto">
-                Get unlimited premium washes with your monthly membership
-              </p>
+                  Select Your Unlimited Pass
+                </h2>
+                <p className="text-sm text-gray-600 max-w-sm mx-auto">
+                  Get unlimited premium washes with your monthly membership
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Billing Period Toggle */}
-        <div className="rounded-full relative w-full max-w-md mx-auto p-1.5 flex items-center mb-6" style={{ backgroundColor: '#F5F7FA' }}>
-          <button
-            className="font-semibold rounded-full w-full p-1.5 z-20 relative text-sm"
-            style={{ color: '#474D55' }}
-            onClick={() => handleChangePeriod(0)}
-          >
-            Monthly
-          </button>
-          <button
-            className="font-semibold rounded-full w-full p-1.5 z-20 relative text-sm"
-            style={{ color: '#474D55' }}
-            onClick={() => handleChangePeriod(1)}
-          >
-            Yearly
-          </button>
-          <div
-            className={`p-1.5 flex items-center justify-center absolute inset-0 w-1/2 z-10 transition-transform duration-300 ${
-              billingPeriod === 1 ? 'translate-x-full' : 'translate-x-0'
-            }`}
-          >
-            <div className="bg-white shadow-sm rounded-full w-full h-full"></div>
+        <div className="px-4 sm:px-6 lg:px-8">
+          <div className="rounded-full relative w-full max-w-md mx-auto p-1.5 flex items-center mb-6" style={{ backgroundColor: '#F5F7FA' }}>
+            <button
+              className="font-semibold rounded-full w-full p-1.5 z-20 relative text-sm"
+              style={{ color: '#474D55' }}
+              onClick={() => handleChangePeriod(0)}
+            >
+              Monthly
+            </button>
+            <button
+              className="font-semibold rounded-full w-full p-1.5 z-20 relative text-sm"
+              style={{ color: '#474D55' }}
+              onClick={() => handleChangePeriod(1)}
+            >
+              Yearly
+            </button>
+            <div
+              className={`p-1.5 flex items-center justify-center absolute inset-0 w-1/2 z-10 transition-transform duration-300 ${
+                billingPeriod === 1 ? 'translate-x-full' : 'translate-x-0'
+              }`}
+            >
+              <div className="bg-white shadow-sm rounded-full w-full h-full"></div>
+            </div>
           </div>
         </div>
 
         {/* Desktop: 2x2 Grid */}
-        <div className="hidden sm:grid sm:grid-cols-2 gap-4 mb-8">
+        <div className="hidden sm:grid sm:grid-cols-2 gap-4 mb-8 px-4 sm:px-6 lg:px-8">
           {plans.map((plan, index) => {
             const planMeta = plansMeta.find(meta => 
               meta.label.toLowerCase().replace('+', '-plus') === plan.name.toLowerCase().replace('+', '-plus')
@@ -256,7 +259,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
         </div>
 
         {/* Mobile: Vertical List with Auto-Expanding Details */}
-        <div className="sm:hidden space-y-3 mb-6">
+        <div className="sm:hidden space-y-3 mb-6 px-4 sm:px-6 lg:px-8">
           {plans.map((plan, index) => {
             const planMeta = plansMeta.find(meta => 
               meta.label.toLowerCase().replace('+', '-plus') === plan.name.toLowerCase().replace('+', '-plus')
@@ -411,31 +414,33 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
         </div>
 
         {/* Get Started Button */}
-        <motion.button 
-          className={`w-full max-w-md mx-auto block rounded-xl sm:rounded-2xl text-base sm:text-lg font-bold py-3 sm:py-4 px-4 sm:px-6 transition-all duration-300 shadow-lg ${
-            activePlan !== null 
-              ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-blue-200/50 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl hover:shadow-blue-200/60' 
-              : 'bg-gray-200 text-gray-500 cursor-not-allowed shadow-gray-200/30'
-          }`}
-          whileTap={activePlan !== null ? { scale: 0.98 } : {}}
-          whileHover={activePlan !== null ? { y: -1 } : {}}
-          onClick={handleGetStarted}
-          disabled={activePlan === null}
-        >
-          {activePlan !== null ? (
-            <span className="flex items-center justify-center gap-2">
-              Get Started
-              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </span>
-          ) : (
-            'Select a plan to continue'
-          )}
-        </motion.button>
+        <div className="px-4 sm:px-6 lg:px-8">
+          <motion.button 
+            className={`w-full max-w-md mx-auto block rounded-xl sm:rounded-2xl text-base sm:text-lg font-bold py-3 sm:py-4 px-4 sm:px-6 transition-all duration-300 shadow-lg ${
+              activePlan !== null 
+                ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-blue-200/50 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl hover:shadow-blue-200/60' 
+                : 'bg-gray-200 text-gray-500 cursor-not-allowed shadow-gray-200/30'
+            }`}
+            whileTap={activePlan !== null ? { scale: 0.98 } : {}}
+            whileHover={activePlan !== null ? { y: -1 } : {}}
+            onClick={handleGetStarted}
+            disabled={activePlan === null}
+          >
+            {activePlan !== null ? (
+              <span className="flex items-center justify-center gap-2">
+                Get Started
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+            ) : (
+              'Select a plan to continue'
+            )}
+          </motion.button>
+        </div>
 
         {/* Footer */}
-        <div className="text-center mt-4 sm:mt-6 space-y-1">
+        <div className="text-center mt-4 sm:mt-6 space-y-1 px-4 sm:px-6 lg:px-8">
           <p className="text-[10px] sm:text-xs text-gray-500">
             Cancel anytime • No setup fees • 30-day guarantee
           </p>
