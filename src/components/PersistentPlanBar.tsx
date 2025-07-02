@@ -171,20 +171,20 @@ export function PersistentPlanBar({
                         console.log('Button clicked, calling handleContinue');
                         handleContinue();
                       }}
-                      disabled={!isFormValid || isNavigating}
+                      disabled={isNavigating}
                       type="button"
                       className={`px-8 py-2.5 rounded-lg font-bold transition-all duration-300 shadow-lg flex items-center gap-2 min-w-[140px] justify-center ${
-                        !isFormValid || isNavigating ? 'bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300' : 'text-white'
+                        isNavigating ? 'bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300' : 'text-white'
                       }`}
-                      style={(isFormValid && !isNavigating) ? (isWorksPlus ? {
+                      style={!isNavigating ? (isWorksPlus ? {
                         background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)',
                         boxShadow: '0 4px 16px rgba(11, 37, 69, 0.15)'
                       } : {
                         background: 'linear-gradient(135deg, rgb(37 99 235) 0%, rgb(29 78 216) 100%)',
                         boxShadow: '0 4px 16px rgba(37, 99, 235, 0.15)'
                       }) : {}}
-                      whileTap={(isFormValid && !isNavigating) ? { scale: 0.98 } : {}}
-                      whileHover={(isFormValid && !isNavigating) ? { y: -1 } : {}}
+                      whileTap={!isNavigating ? { scale: 0.98 } : {}}
+                      whileHover={!isNavigating ? { y: -1 } : {}}
                     >
                       {isNavigating ? (
                         <>

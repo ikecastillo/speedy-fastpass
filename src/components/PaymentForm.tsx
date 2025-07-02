@@ -83,7 +83,7 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
   const handleSimulate = async () => {
     const simulateData = {
       nameOnCard: "John Doe",
-      cardNumber: "4532123456789012",
+      cardNumber: "4242424242424242",
       expiry: "12/26",
       cvc: "123"
     };
@@ -168,7 +168,7 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
               autoComplete="cc-number"
               aria-invalid={errors.cardNumber ? "true" : "false"}
               className={errors.cardNumber ? "border-red-500 pr-12" : "pr-12"}
-              placeholder="1234 5678 9012 3456"
+              placeholder="4242 4242 4242 4242"
               maxLength={19}
               disabled={isProcessing}
               onChange={(e) => {
@@ -266,11 +266,11 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
 
           <button
             type="submit"
-            disabled={!isValid || isProcessing}
+            disabled={isProcessing}
             className={`
               flex-1 px-8 py-3 rounded-lg font-medium transition-colors
               ${
-                !isValid || isProcessing
+                isProcessing
                   ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                   : "bg-brand text-white hover:bg-blue-900"
               }
