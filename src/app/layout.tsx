@@ -77,40 +77,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        
-        {/* Modern 2025 Bottom Fade Effect */}
-        <div 
-          className="fixed bottom-0 left-0 right-0 h-12 pointer-events-none z-50"
-          style={{
-            background: `linear-gradient(
-              to top,
-              rgba(255, 255, 255, 0.9) 0%,
-              rgba(255, 255, 255, 0.7) 25%,
-              rgba(255, 255, 255, 0.4) 50%,
-              rgba(255, 255, 255, 0.2) 75%,
-              transparent 100%
-            )`,
-            backdropFilter: 'blur(1px)',
-            WebkitBackdropFilter: 'blur(1px)',
-          }}
-        />
-        
-        {/* Subtle animated gradient accent */}
-        <div 
-          className="fixed bottom-0 left-0 right-0 h-1 pointer-events-none z-50 animate-shimmer"
-          style={{
-            background: `linear-gradient(
-              90deg,
-              transparent 0%,
-              rgba(20, 99, 180, 0.2) 20%,
-              rgba(20, 99, 180, 0.4) 40%,
-              rgba(20, 99, 180, 0.6) 50%,
-              rgba(20, 99, 180, 0.4) 60%,
-              rgba(20, 99, 180, 0.2) 80%,
-              transparent 100%
-            )`,
-          }}
-        />
       </body>
     </html>
   );

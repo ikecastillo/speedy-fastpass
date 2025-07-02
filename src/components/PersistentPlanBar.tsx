@@ -94,7 +94,14 @@ export function PersistentPlanBar({
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="font-bold text-lg text-gray-900 truncate">
-                      {selectedPlan.name}
+                      {isWorksPlus ? (
+                        <>
+                          <span style={{ color: '#2563eb' }}>Works</span>
+                          <span style={{ color: '#fbbf24' }}>+</span>
+                        </>
+                      ) : (
+                        selectedPlan.name
+                      )}
                     </h3>
                     <span className="text-sm font-medium text-gray-500">
                       {billingPeriod === 0 ? 'Monthly' : 'Yearly'}

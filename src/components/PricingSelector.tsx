@@ -99,33 +99,53 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                   isSelected 
                     ? 'border-blue-500 bg-gradient-to-br from-blue-50/50 to-blue-100/30 shadow-xl shadow-blue-200/40 scale-105' 
                     : isWorksPlus
-                    ? 'border-gradient bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 hover:from-blue-700 hover:via-blue-800 hover:to-purple-800 shadow-lg shadow-blue-200/50 hover:shadow-xl hover:shadow-blue-300/60 hover:scale-102'
+                    ? 'border-2 border-gradient-to-r from-blue-500 via-blue-600 to-yellow-400 bg-white hover:shadow-xl hover:shadow-blue-200/40 hover:scale-102 relative'
                     : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-lg shadow-sm hover:scale-102'
                 }`}
                 onClick={() => handleChangePlan(index)}
+                style={isWorksPlus && !isSelected ? {
+                  borderImage: 'linear-gradient(135deg, #3b82f6, #2563eb, #fbbf24) 1',
+                  borderImageSlice: 1
+                } : {}}
               >
-                <div className={`p-6 h-full flex flex-col ${isWorksPlus && !isSelected ? 'text-white' : ''}`}>
+                {/* Premium badge for Works+ */}
+                {isWorksPlus && !isSelected && (
+                  <div className="absolute top-3 right-3 z-10">
+                    <div className="bg-gradient-to-r from-blue-600 to-yellow-400 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+                      Premium
+                    </div>
+                  </div>
+                )}
+
+                <div className="p-6 h-full flex flex-col">
                   <div className="text-center mb-6">
-                    <h3 className={`font-bold text-2xl mb-2 ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-900'}`}>
-                      {plan.name}
+                    <h3 className="font-bold text-2xl mb-2 text-gray-900">
+                      {isWorksPlus ? (
+                        <>
+                          <span style={{ color: '#2563eb' }}>Works</span>
+                          <span style={{ color: '#fbbf24' }}>+</span>
+                        </>
+                      ) : (
+                        plan.name
+                      )}
                     </h3>
                     
                     <div className="flex items-baseline justify-center gap-1 mb-2">
-                      <span className={`text-2xl font-black ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-900'}`}>$</span>
+                      <span className="text-2xl font-black text-gray-900">$</span>
                       <NumberFlow
-                        className={`text-4xl font-black ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-900'}`}
+                        className="text-4xl font-black text-gray-900"
                         value={Math.floor(getPrice(plan))}
                         format={{ minimumFractionDigits: 0, maximumFractionDigits: 0 }}
                       />
-                      <span className={`text-xl font-semibold ${isWorksPlus && !isSelected ? 'text-blue-100' : 'text-gray-600'}`}>
+                      <span className="text-xl font-semibold text-gray-600">
                         .
                         <NumberFlow
-                          className={`text-xl font-semibold ${isWorksPlus && !isSelected ? 'text-blue-100' : 'text-gray-600'}`}
+                          className="text-xl font-semibold text-gray-600"
                           value={Math.round((getPrice(plan) % 1) * 100)}
                           format={{ minimumIntegerDigits: 2 }}
                         />
                       </span>
-                      <span className={`text-sm font-medium ml-1 ${isWorksPlus && !isSelected ? 'text-blue-200' : 'text-gray-500'}`}>
+                      <span className="text-sm font-medium text-gray-500 ml-1">
                         /{billingPeriod === 0 ? 'mo' : 'yr'}
                       </span>
                     </div>
@@ -136,13 +156,13 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                       {planMeta?.features?.filter(f => f.included).slice(0, 3).map((feature, featureIndex) => (
                         <div key={featureIndex} className="flex items-center gap-3">
                           <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                            isWorksPlus && !isSelected ? 'bg-blue-300' : 'bg-green-500'
+                            isWorksPlus ? 'bg-gradient-to-r from-blue-500 to-yellow-400' : 'bg-green-500'
                           }`}>
                             <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                           </div>
-                          <span className={`text-sm font-medium ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-700'}`}>
+                          <span className="text-sm font-medium text-gray-700">
                             {feature.name}
                           </span>
                         </div>
@@ -150,9 +170,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                       {planMeta?.features && planMeta.features.filter(f => f.included).length > 3 && (
                         <button
                           onClick={(e) => toggleExpanded(index, e)}
-                          className={`text-xs font-medium hover:opacity-80 transition-all ${
-                            isWorksPlus && !isSelected ? 'text-blue-200 hover:text-white' : 'text-blue-500 hover:text-blue-600'
-                          }`}
+                          className="text-xs font-medium text-blue-500 hover:text-blue-600 transition-colors"
                         >
                           {isExpanded ? 'Show Less' : `+${planMeta.features.filter(f => f.included).length - 3} more features`}
                         </button>
@@ -169,17 +187,17 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                           transition={{ duration: 0.3, ease: "easeInOut" }}
                           className="overflow-hidden mt-3"
                         >
-                          <div className={`space-y-3 pt-3 border-t ${isWorksPlus && !isSelected ? 'border-blue-400' : 'border-gray-100'}`}>
+                          <div className="space-y-3 pt-3 border-t border-gray-100">
                             {planMeta.features.filter(f => f.included).slice(3).map((feature, featureIndex) => (
                               <div key={featureIndex} className="flex items-center gap-3">
                                 <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                  isWorksPlus && !isSelected ? 'bg-blue-300' : 'bg-green-500'
+                                  isWorksPlus ? 'bg-gradient-to-r from-blue-500 to-yellow-400' : 'bg-green-500'
                                 }`}>
                                   <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                   </svg>
                                 </div>
-                                <span className={`text-sm font-medium ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-700'}`}>
+                                <span className="text-sm font-medium text-gray-700">
                                   {feature.name}
                                 </span>
                               </div>
@@ -196,7 +214,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                         isSelected 
                           ? 'border-blue-500 bg-blue-500 shadow-lg shadow-blue-200/50' 
                           : isWorksPlus
-                          ? 'border-white bg-white/20 backdrop-blur-sm'
+                          ? 'border-blue-400 bg-gradient-to-r from-blue-500 to-yellow-400'
                           : 'border-gray-300 bg-white'
                       }`}
                     >
@@ -204,7 +222,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                         <div className="w-4 h-4 bg-white rounded-full" />
                       )}
                       {!isSelected && isWorksPlus && (
-                        <div className="w-4 h-4 bg-white rounded-full opacity-60" />
+                        <div className="w-4 h-4 bg-white rounded-full opacity-80" />
                       )}
                     </div>
                   </div>
@@ -231,10 +249,23 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                   isSelected 
                     ? 'border-blue-500 bg-gradient-to-r from-blue-50/50 to-blue-100/30 shadow-lg shadow-blue-200/30' 
                     : isWorksPlus
-                    ? 'bg-gradient-to-r from-blue-600 via-blue-700 to-purple-700 border-blue-500 shadow-lg shadow-blue-200/50'
+                    ? 'border-2 bg-white shadow-lg shadow-blue-200/40'
                     : 'border-gray-200 bg-white shadow-sm'
                 }`}
-              >
+                style={isWorksPlus && !isSelected ? {
+                  borderImage: 'linear-gradient(135deg, #3b82f6, #2563eb, #fbbf24) 1',
+                  borderImageSlice: 1
+                } : {}}
+                              >
+                {/* Premium badge for Works+ mobile */}
+                {isWorksPlus && !isSelected && (
+                  <div className="absolute top-2 right-2 z-10">
+                    <div className="bg-gradient-to-r from-blue-600 to-yellow-400 text-white text-[10px] font-bold px-2 py-1 rounded-full shadow-lg">
+                      Premium
+                    </div>
+                  </div>
+                )}
+
                 {/* Main card content */}
                 <div 
                   className="p-4 cursor-pointer"
@@ -244,16 +275,23 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                     {/* Left: Plan info */}
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-1">
-                        <h3 className={`font-bold text-lg ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-900'}`}>
-                          {plan.name}
+                        <h3 className="font-bold text-lg text-gray-900">
+                          {isWorksPlus ? (
+                            <>
+                              <span style={{ color: '#2563eb' }}>Works</span>
+                              <span style={{ color: '#fbbf24' }}>+</span>
+                            </>
+                          ) : (
+                            plan.name
+                          )}
                         </h3>
                       </div>
                       
                       {/* Key features preview */}
-                      <div className={`text-xs mb-2 ${isWorksPlus && !isSelected ? 'text-blue-100' : 'text-gray-600'}`}>
+                      <div className="text-xs text-gray-600 mb-2">
                         {planMeta?.features?.filter(f => f.included).slice(0, 2).map(f => f.name).join(" • ")}
                         {planMeta?.features && planMeta.features.filter(f => f.included).length > 2 && (
-                          <span className={isWorksPlus && !isSelected ? 'text-blue-200' : 'text-gray-400'}> • +{planMeta.features.filter(f => f.included).length - 2} more</span>
+                          <span className="text-gray-400"> • +{planMeta.features.filter(f => f.included).length - 2} more</span>
                         )}
                       </div>
                     </div>
@@ -263,21 +301,21 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                       {/* Price */}
                       <div className="text-right">
                         <div className="flex items-baseline gap-0.5 whitespace-nowrap">
-                          <span className={`text-lg font-black ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-900'}`}>$</span>
+                          <span className="text-lg font-black text-gray-900">$</span>
                           <NumberFlow
-                            className={`text-2xl font-black ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-900'}`}
+                            className="text-2xl font-black text-gray-900"
                             value={Math.floor(getPrice(plan))}
                             format={{ minimumFractionDigits: 0, maximumFractionDigits: 0 }}
                           />
-                          <span className={`text-base font-semibold ${isWorksPlus && !isSelected ? 'text-blue-100' : 'text-gray-600'}`}>
+                          <span className="text-base font-semibold text-gray-600">
                             .
                             <NumberFlow
-                              className={`text-base font-semibold ${isWorksPlus && !isSelected ? 'text-blue-100' : 'text-gray-600'}`}
+                              className="text-base font-semibold text-gray-600"
                               value={Math.round((getPrice(plan) % 1) * 100)}
                               format={{ minimumIntegerDigits: 2 }}
                             />
                           </span>
-                          <span className={`text-xs font-medium ${isWorksPlus && !isSelected ? 'text-blue-200' : 'text-gray-500'}`}>
+                          <span className="text-xs font-medium text-gray-500">
                             /{billingPeriod === 0 ? 'mo' : 'yr'}
                           </span>
                         </div>
@@ -289,7 +327,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                           isSelected 
                             ? 'border-blue-500 bg-blue-500 shadow-lg shadow-blue-200/50' 
                             : isWorksPlus
-                            ? 'border-white bg-white/20 backdrop-blur-sm'
+                            ? 'border-blue-400 bg-gradient-to-r from-blue-500 to-yellow-400'
                             : 'border-gray-300 bg-white'
                         }`}
                       >
@@ -297,7 +335,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                           <div className="w-3 h-3 bg-white rounded-full" />
                         )}
                         {!isSelected && isWorksPlus && (
-                          <div className="w-3 h-3 bg-white rounded-full opacity-60" />
+                          <div className="w-3 h-3 bg-white rounded-full opacity-80" />
                         )}
                       </div>
                     </div>
@@ -308,8 +346,8 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                 <button
                   onClick={(e) => toggleExpanded(index, e)}
                   className={`w-full px-4 py-2 border-t text-xs font-medium transition-colors flex items-center justify-center gap-1 ${
-                    isWorksPlus && !isSelected 
-                      ? 'border-blue-400 bg-blue-800/30 text-blue-100 hover:bg-blue-800/50' 
+                    isWorksPlus
+                      ? 'border-blue-200 bg-blue-50/50 text-blue-600 hover:bg-blue-100/50' 
                       : 'border-gray-100 bg-gray-50/50 text-gray-600 hover:bg-gray-100/50'
                   }`}
                 >
@@ -333,19 +371,17 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <div className={`border-t ${isWorksPlus && !isSelected ? 'border-blue-400' : 'border-gray-100'}`}>
-                        <div className={`p-4 ${isWorksPlus && !isSelected ? 'bg-blue-800/20' : ''}`}>
-                          <h4 className={`text-sm font-semibold mb-3 ${isWorksPlus && !isSelected ? 'text-white' : 'text-gray-900'}`}>All Features:</h4>
+                      <div className="border-t border-gray-100">
+                        <div className={`p-4 ${isWorksPlus ? 'bg-blue-50/30' : ''}`}>
+                          <h4 className="text-sm font-semibold text-gray-900 mb-3">All Features:</h4>
                           <div className="grid grid-cols-1 gap-2">
                             {planMeta?.features?.map((feature, featureIndex) => (
                               <div key={featureIndex} className={`flex items-center gap-2 text-xs ${
-                                feature.included 
-                                  ? isWorksPlus && !isSelected ? 'text-white' : 'text-gray-700'
-                                  : isWorksPlus && !isSelected ? 'text-blue-300' : 'text-gray-400'
+                                feature.included ? 'text-gray-700' : 'text-gray-400'
                               }`}>
                                 <div className={`w-3 h-3 rounded flex items-center justify-center flex-shrink-0 ${
                                   feature.included 
-                                    ? isWorksPlus && !isSelected ? 'bg-blue-300' : 'bg-green-500'
+                                    ? isWorksPlus ? 'bg-gradient-to-r from-blue-500 to-yellow-400' : 'bg-green-500'
                                     : 'bg-gray-300'
                                 }`}>
                                   {feature.included ? (
