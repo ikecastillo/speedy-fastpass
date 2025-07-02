@@ -27,14 +27,9 @@ export const vehicleSchema = z.object({
   state: z.enum(US_STATES, {
     errorMap: () => ({ message: "Please select a valid US state" })
   }),
-  make: z.string().min(2, "Vehicle make must be at least 2 characters"),
-  model: z.string().min(1, "Vehicle model is required"),
-  year: z.string()
-    .regex(/^\d{4}$/, "Year must be a 4-digit number")
-    .refine(val => {
-      const numYear = parseInt(val, 10);
-      return numYear >= 1900 && numYear <= currentYear;
-    }, `Year must be between 1900 and ${currentYear}`),
+  make: z.string().min(1, "Please select a vehicle make"),
+  model: z.string().min(1, "Please select a vehicle model"),
+  year: z.string().min(1, "Please select a vehicle year"),
   agreeTos: z.boolean().refine(val => val === true, {
     message: "You must agree to the Terms of Service"
   })

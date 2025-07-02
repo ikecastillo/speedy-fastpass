@@ -173,6 +173,11 @@ export default function PaymentPage() {
         currentStep="payment"
         continueText="Complete Payment"
         showContinueButton={false} // Payment form has its own submit button
+        showBackButton={true}
+        onBack={() => {
+          // Navigate back to vehicle page
+          router.push('/checkout/vehicle');
+        }}
       />
     </div>
   );

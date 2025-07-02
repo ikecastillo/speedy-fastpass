@@ -7,7 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { vehicleSchema, type VehicleForm, US_STATES } from "@/types/vehicle";
 
-export function VehicleFormComponent() {
+interface VehicleFormProps {
+  onValidityChange?: (isValid: boolean) => void;
+}
+
+export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}) {
   const router = useRouter();
   const [planData, setPlanData] = React.useState<{plan: string; period: string; price: number} | null>(null);
   const [selectedImage, setSelectedImage] = React.useState<File | null>(null);
@@ -142,6 +146,13 @@ export function VehicleFormComponent() {
   };
 
   const isNextDisabled = !isValid || !isDirty;
+
+  // Notify parent of form validity changes
+  React.useEffect(() => {
+    if (onValidityChange) {
+      onValidityChange(isValid && isDirty);
+    }
+  }, [isValid, isDirty, onValidityChange]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -313,21 +324,28 @@ export function VehicleFormComponent() {
               <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-2">
                 State
               </label>
-              <select
-                {...register("state")}
-                id="state"
-                aria-invalid={errors.state ? "true" : "false"}
-                className={`
-                  w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all
-                  ${errors.state ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
-                `}
-              >
-                {US_STATES.map((state) => (
-                  <option key={state} value={state}>
-                    {state}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  {...register("state")}
+                  id="state"
+                  aria-invalid={errors.state ? "true" : "false"}
+                  className={`
+                    w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all appearance-none bg-white pr-10
+                    ${errors.state ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
+                  `}
+                >
+                  {US_STATES.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3">
+                  <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
               {errors.state && (
                 <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -346,17 +364,51 @@ export function VehicleFormComponent() {
               <label htmlFor="make" className="block text-sm font-medium text-gray-700 mb-2">
                 Make
               </label>
-              <input
-                {...register("make")}
-                type="text"
-                id="make"
-                aria-invalid={errors.make ? "true" : "false"}
-                className={`
-                  w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all
-                  ${errors.make ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
-                `}
-                placeholder="Toyota"
-              />
+              <div className="relative">
+                <select
+                  {...register("make")}
+                  id="make"
+                  aria-invalid={errors.make ? "true" : "false"}
+                  className={`
+                    w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all appearance-none bg-white pr-10
+                    ${errors.make ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
+                  `}
+                >
+                  <option value="">Select Make</option>
+                  <option value="Acura">Acura</option>
+                  <option value="Audi">Audi</option>
+                  <option value="BMW">BMW</option>
+                  <option value="Buick">Buick</option>
+                  <option value="Cadillac">Cadillac</option>
+                  <option value="Chevrolet">Chevrolet</option>
+                  <option value="Chrysler">Chrysler</option>
+                  <option value="Dodge">Dodge</option>
+                  <option value="Ford">Ford</option>
+                  <option value="GMC">GMC</option>
+                  <option value="Honda">Honda</option>
+                  <option value="Hyundai">Hyundai</option>
+                  <option value="Infiniti">Infiniti</option>
+                  <option value="Jeep">Jeep</option>
+                  <option value="Kia">Kia</option>
+                  <option value="Lexus">Lexus</option>
+                  <option value="Lincoln">Lincoln</option>
+                  <option value="Mazda">Mazda</option>
+                  <option value="Mercedes-Benz">Mercedes-Benz</option>
+                  <option value="Mitsubishi">Mitsubishi</option>
+                  <option value="Nissan">Nissan</option>
+                  <option value="Ram">Ram</option>
+                  <option value="Subaru">Subaru</option>
+                  <option value="Tesla">Tesla</option>
+                  <option value="Toyota">Toyota</option>
+                  <option value="Volkswagen">Volkswagen</option>
+                  <option value="Volvo">Volvo</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3">
+                  <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
               {errors.make && (
                 <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -372,17 +424,63 @@ export function VehicleFormComponent() {
               <label htmlFor="model" className="block text-sm font-medium text-gray-700 mb-2">
                 Model
               </label>
-              <input
-                {...register("model")}
-                type="text"
-                id="model"
-                aria-invalid={errors.model ? "true" : "false"}
-                className={`
-                  w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all
-                  ${errors.model ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
-                `}
-                placeholder="Camry"
-              />
+              <div className="relative">
+                <select
+                  {...register("model")}
+                  id="model"
+                  aria-invalid={errors.model ? "true" : "false"}
+                  className={`
+                    w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all appearance-none bg-white pr-10
+                    ${errors.model ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
+                  `}
+                >
+                  <option value="">Select Model</option>
+                  <option value="Accord">Accord</option>
+                  <option value="Altima">Altima</option>
+                  <option value="Camaro">Camaro</option>
+                  <option value="Camry">Camry</option>
+                  <option value="Civic">Civic</option>
+                  <option value="Corolla">Corolla</option>
+                  <option value="CR-V">CR-V</option>
+                  <option value="Cruze">Cruze</option>
+                  <option value="Elantra">Elantra</option>
+                  <option value="Escape">Escape</option>
+                  <option value="Explorer">Explorer</option>
+                  <option value="F-150">F-150</option>
+                  <option value="Focus">Focus</option>
+                  <option value="Forester">Forester</option>
+                  <option value="Fusion">Fusion</option>
+                  <option value="Grand Cherokee">Grand Cherokee</option>
+                  <option value="Highlander">Highlander</option>
+                  <option value="Impala">Impala</option>
+                  <option value="Malibu">Malibu</option>
+                  <option value="Model 3">Model 3</option>
+                  <option value="Model S">Model S</option>
+                  <option value="Model X">Model X</option>
+                  <option value="Model Y">Model Y</option>
+                  <option value="Mustang">Mustang</option>
+                  <option value="Outback">Outback</option>
+                  <option value="Pathfinder">Pathfinder</option>
+                  <option value="Pilot">Pilot</option>
+                  <option value="Prius">Prius</option>
+                  <option value="RAV4">RAV4</option>
+                  <option value="Rogue">Rogue</option>
+                  <option value="Santa Fe">Santa Fe</option>
+                  <option value="Sentra">Sentra</option>
+                  <option value="Silverado">Silverado</option>
+                  <option value="Sonata">Sonata</option>
+                  <option value="Sorento">Sorento</option>
+                  <option value="Suburban">Suburban</option>
+                  <option value="Tahoe">Tahoe</option>
+                  <option value="Taurus">Taurus</option>
+                  <option value="Wrangler">Wrangler</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3">
+                  <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
               {errors.model && (
                 <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -398,18 +496,27 @@ export function VehicleFormComponent() {
               <label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-2">
                 Year
               </label>
-              <input
-                {...register("year")}
-                type="text"
-                id="year"
-                aria-invalid={errors.year ? "true" : "false"}
-                className={`
-                  w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all
-                  ${errors.year ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
-                `}
-                placeholder="2022"
-                maxLength={4}
-              />
+              <div className="relative">
+                <select
+                  {...register("year")}
+                  id="year"
+                  aria-invalid={errors.year ? "true" : "false"}
+                  className={`
+                    w-full px-4 py-3 border rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-[16px] transition-all appearance-none bg-white pr-10
+                    ${errors.year ? "border-red-500 bg-red-50" : "border-gray-300 hover:border-gray-400"}
+                  `}
+                >
+                  <option value="">Year</option>
+                  {Array.from({ length: 25 }, (_, i) => 2024 - i).map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3">
+                  <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
               {errors.year && (
                 <p className="mt-1 text-sm text-red-600 flex items-center gap-1" role="alert">
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -454,57 +561,18 @@ export function VehicleFormComponent() {
         )}
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex flex-col gap-3 pt-4">
-        {/* Auto-fill Button */}
+      {/* Auto-fill Button - Updated for new dropdowns */}
+      <div className="flex justify-center pt-4">
         <button
           type="button"
           onClick={handleSimulate}
-          className="w-full px-4 py-3 bg-yellow-100 text-yellow-800 rounded-xl font-medium hover:bg-yellow-200 transition-colors border border-yellow-300 flex items-center justify-center gap-2"
+          className="px-6 py-3 bg-yellow-100 text-yellow-800 rounded-xl font-medium hover:bg-yellow-200 transition-colors border border-yellow-300 flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
           </svg>
           Auto-fill Demo Data
         </button>
-
-        {/* Navigation Buttons Row */}
-        <div className="flex gap-3">
-          {/* Back Button */}
-          <button
-            type="button"
-            onClick={handleBack}
-            className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Plans
-          </button>
-
-          {/* Next Button */}
-          <button
-            type="submit"
-            disabled={isNextDisabled}
-            className={`
-              flex-1 px-4 py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2
-              ${
-                isNextDisabled
-                  ? "bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300"
-                  : "text-white shadow-lg hover:shadow-xl"
-              }
-            `}
-            style={!isNextDisabled ? {
-              background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)',
-              boxShadow: '0 4px 16px rgba(11, 37, 69, 0.15)'
-            } : {}}
-          >
-            Continue
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
       </div>
     </form>
   );

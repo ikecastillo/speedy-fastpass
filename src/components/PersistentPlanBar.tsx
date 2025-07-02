@@ -11,18 +11,24 @@ interface PersistentPlanBarProps {
   activePlan: number | null;
   billingPeriod: number;
   onContinue?: () => void;
+  onBack?: () => void;
   showContinueButton?: boolean;
+  showBackButton?: boolean;
   continueText?: string;
   currentStep?: 'pricing' | 'vehicle' | 'payment';
+  isFormValid?: boolean;
 }
 
 export function PersistentPlanBar({ 
   activePlan, 
   billingPeriod, 
   onContinue,
+  onBack,
   showContinueButton = true,
+  showBackButton = false,
   continueText = "Get Started",
-  currentStep = 'pricing'
+  currentStep = 'pricing',
+  isFormValid = true
 }: PersistentPlanBarProps) {
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -116,30 +122,50 @@ export function PersistentPlanBar({
                   </div>
                 </div>
 
-                {/* Right: CTA Button - less rounded, more width */}
-                {showContinueButton && (
-                  <motion.button
-                    onClick={handleContinue}
-                    className="px-8 py-2.5 rounded-lg font-bold text-white transition-all duration-300 shadow-lg flex items-center gap-2 min-w-[140px] justify-center"
-                    style={isWorksPlus ? {
-                      background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)',
-                      boxShadow: '0 4px 16px rgba(11, 37, 69, 0.15)'
-                    } : {
-                      background: 'linear-gradient(135deg, rgb(37 99 235) 0%, rgb(29 78 216) 100%)',
-                      boxShadow: '0 4px 16px rgba(37, 99, 235, 0.15)'
-                    }}
-                    whileTap={{ scale: 0.98 }}
-                    whileHover={{ y: -1 }}
-                  >
-                    <span className="hidden sm:inline">{continueText}</span>
-                    <span className="sm:hidden">
-                      {currentStep === 'pricing' ? 'Start' : currentStep === 'vehicle' ? 'Next' : 'Pay'}
-                    </span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  </motion.button>
-                )}
+                {/* Right: Navigation Buttons */}
+                <div className="flex items-center gap-3">
+                  {/* Back Button */}
+                  {showBackButton && onBack && (
+                    <motion.button
+                      onClick={onBack}
+                      className="px-6 py-2.5 rounded-lg font-medium text-gray-700 border border-gray-300 hover:bg-gray-50 transition-all duration-300 flex items-center gap-2"
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                      <span className="hidden sm:inline">Back</span>
+                    </motion.button>
+                  )}
+
+                  {/* Continue/Next Button */}
+                  {showContinueButton && (
+                    <motion.button
+                      onClick={handleContinue}
+                      disabled={!isFormValid}
+                      className={`px-8 py-2.5 rounded-lg font-bold transition-all duration-300 shadow-lg flex items-center gap-2 min-w-[140px] justify-center ${
+                        !isFormValid ? 'bg-gray-200 text-gray-400 cursor-not-allowed border border-gray-300' : 'text-white'
+                      }`}
+                      style={isFormValid ? (isWorksPlus ? {
+                        background: 'linear-gradient(135deg, #0B2545 0%, #1463B4 100%)',
+                        boxShadow: '0 4px 16px rgba(11, 37, 69, 0.15)'
+                      } : {
+                        background: 'linear-gradient(135deg, rgb(37 99 235) 0%, rgb(29 78 216) 100%)',
+                        boxShadow: '0 4px 16px rgba(37, 99, 235, 0.15)'
+                      }) : {}}
+                      whileTap={isFormValid ? { scale: 0.98 } : {}}
+                      whileHover={isFormValid ? { y: -1 } : {}}
+                    >
+                      <span className="hidden sm:inline">{continueText}</span>
+                      <span className="sm:hidden">
+                        {currentStep === 'pricing' ? 'Start' : currentStep === 'vehicle' ? 'Next' : 'Pay'}
+                      </span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </motion.button>
+                  )}
+                </div>
               </div>
             </div>
           </div>

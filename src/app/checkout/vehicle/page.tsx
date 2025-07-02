@@ -14,6 +14,7 @@ export default function VehiclePage() {
     activePlan: null,
     billingPeriod: 0
   });
+  const [isFormValid, setIsFormValid] = React.useState(false);
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -133,7 +134,7 @@ export default function VehiclePage() {
           {/* Single-screen form container - optimized height */}
           <div className="px-4 md:px-8 pb-8">
             <div className="max-w-2xl mx-auto">
-              <VehicleFormComponent />
+              <VehicleFormComponent onValidityChange={setIsFormValid} />
             </div>
           </div>
         </div>
@@ -145,6 +146,12 @@ export default function VehiclePage() {
         billingPeriod={planData.billingPeriod}
         currentStep="vehicle"
         continueText="Continue to Payment"
+        showBackButton={true}
+        isFormValid={isFormValid}
+        onBack={() => {
+          // Navigate back to home page
+          window.location.href = '/';
+        }}
         onContinue={() => {
           // Navigate to payment page
           window.location.href = '/checkout/payment';
