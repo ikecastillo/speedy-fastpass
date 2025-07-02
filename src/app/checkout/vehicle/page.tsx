@@ -21,7 +21,7 @@ export default function VehiclePage() {
     activePlan: null,
     billingPeriod: 0
   });
-  const [isFormValid, setIsFormValid] = React.useState(false);
+
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -151,7 +151,7 @@ export default function VehiclePage() {
           {/* Single-screen form container - optimized height */}
           <div className="px-4 md:px-8 pb-8">
             <div className="max-w-2xl mx-auto">
-              <VehicleFormComponent onValidityChange={setIsFormValid} />
+              <VehicleFormComponent />
             </div>
           </div>
         </div>
@@ -164,7 +164,6 @@ export default function VehiclePage() {
         currentStep="vehicle"
         continueText="Continue to Payment"
         showBackButton={true}
-        isFormValid={isFormValid}
         onBack={() => {
           console.log('🔙 Navigating back to home page');
           router.push('/');

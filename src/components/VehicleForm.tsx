@@ -10,11 +10,7 @@ import {
   migrateOldCheckoutData 
 } from "@/lib/checkout-data";
 
-interface VehicleFormProps {
-  onValidityChange?: (isValid: boolean) => void;
-}
-
-export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}) {
+export function VehicleFormComponent() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   
   const {
@@ -137,13 +133,8 @@ export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}
 
 
 
-  // Notify parent of form validity changes and auto-save when valid
+  // Auto-save form data when valid (so navigation can proceed immediately)
   React.useEffect(() => {
-    if (onValidityChange) {
-      onValidityChange(isValid);
-    }
-    
-    // Auto-save form data when valid (so navigation can proceed immediately)
     if (isValid && !isSubmitting) {
       const formData = watch();
       try {
@@ -153,7 +144,7 @@ export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}
         console.error('❌ Failed to auto-save vehicle data:', error);
       }
     }
-  }, [isValid, onValidityChange, isSubmitting, watch]);
+  }, [isValid, isSubmitting, watch]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

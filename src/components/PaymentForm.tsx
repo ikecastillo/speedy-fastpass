@@ -35,7 +35,7 @@ export function PaymentFormComponent({ planName, period }: PaymentFormComponentP
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     watch,
     setValue,
     trigger

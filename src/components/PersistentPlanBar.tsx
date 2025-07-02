@@ -18,7 +18,6 @@ interface PersistentPlanBarProps {
   showBackButton?: boolean;
   continueText?: string;
   currentStep?: 'pricing' | 'vehicle' | 'payment';
-  isFormValid?: boolean;
 }
 
 export function PersistentPlanBar({ 
@@ -29,8 +28,7 @@ export function PersistentPlanBar({
   showContinueButton = true,
   showBackButton = false,
   continueText = "Get Started",
-  currentStep = 'pricing',
-  isFormValid = true
+  currentStep = 'pricing'
 }: PersistentPlanBarProps) {
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(false);
