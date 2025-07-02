@@ -124,9 +124,9 @@ export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}
   // Notify parent of form validity changes
   React.useEffect(() => {
     if (onValidityChange) {
-      onValidityChange(isValid && isDirty);
+      onValidityChange(isValid);
     }
-  }, [isValid, isDirty, onValidityChange]);
+  }, [isValid, onValidityChange]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
