@@ -4,12 +4,13 @@ import Stripe from 'stripe';
 
 // Initialize Stripe with secret key and better error handling
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+const isDevelopmentMode = !stripeSecretKey || stripeSecretKey.includes('fake_key') || process.env.NODE_ENV === 'development';
 
-if (!stripeSecretKey || stripeSecretKey.includes('fake_key')) {
-  console.error('🚨 STRIPE ERROR: Missing or invalid STRIPE_SECRET_KEY environment variable');
+if (isDevelopmentMode) {
+  console.log('🔧 DEVELOPMENT MODE: Using mock Stripe functionality');
 }
 
-const stripe = new Stripe(stripeSecretKey || 'sk_test_fake_key_replace_with_real_stripe_secret_key', {
+const stripe = isDevelopmentMode ? null : new Stripe(stripeSecretKey!, {
   apiVersion: '2025-05-28.basil',
 });
 
@@ -28,6 +29,31 @@ export interface CheckoutData {
     year: string;
     color: string;
     plate: string;
+  };
+}
+
+// Mock functions for development
+function createMockCheckoutResponse(data: CheckoutData) {
+  const mockId = Date.now().toString();
+  return {
+    subscriptionId: `sub_mock_${mockId}`,
+    clientSecret: `pi_mock_${mockId}_secret_mock`,
+    customerId: `cus_mock_${mockId}`,
+  };
+}
+
+function createMockPaymentConfirmation(subscriptionId: string) {
+  return {
+    success: true,
+    subscription: {
+      id: subscriptionId,
+      status: 'active' as const,
+      metadata: { plan: 'deluxe', period: 'monthly' }
+    },
+    paymentMethod: {
+      card: { last4: '4242' },
+      type: 'card' as const
+    },
   };
 }
 
@@ -56,6 +82,14 @@ const planPricing = {
 };
 
 async function getOrCreatePrice(planKey: string, period: 'monthly' | 'yearly'): Promise<string> {
+  if (isDevelopmentMode) {
+    return `price_mock_${planKey}_${period}`;
+  }
+  
+  if (!stripe) {
+    throw new Error('Stripe not initialized');
+  }
+
   const planInfo = planPricing[planKey as keyof typeof planPricing];
   if (!planInfo) {
     throw new Error(`Invalid plan: ${planKey}`);
@@ -110,12 +144,20 @@ async function getOrCreatePrice(planKey: string, period: 'monthly' | 'yearly'): 
 }
 
 async function getOrCreateCoupon(): Promise<string> {
+  if (isDevelopmentMode) {
+    return 'coupon_mock_first_month_five';
+  }
+  
+  if (!stripe) {
+    throw new Error('Stripe not initialized');
+  }
+  
   try {
     // Check if coupon already exists
     await stripe.coupons.retrieve('first-month-five');
     return 'first-month-five';
-      } catch {
-      // Create coupon if it doesn't exist
+  } catch {
+    // Create coupon if it doesn't exist
     await stripe.coupons.create({
       id: 'first-month-five',
       name: 'First Month $5 Off',
@@ -132,6 +174,18 @@ async function getOrCreateCoupon(): Promise<string> {
 
 export async function createCheckout(data: CheckoutData) {
   try {
+    // Development mode - return mock data
+    if (isDevelopmentMode) {
+      console.log('🚀 Mock checkout for development:', data);
+      // Simulate async delay for realistic testing
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return createMockCheckoutResponse(data);
+    }
+
+    if (!stripe) {
+      throw new Error('Stripe not initialized');
+    }
+
     // Get or create the price for this plan and period
     const priceId = await getOrCreatePrice(data.plan, data.period);
 
@@ -229,9 +283,9 @@ export async function createCheckout(data: CheckoutData) {
             clientSecret: newPaymentIntent.client_secret,
             customerId: customerId,
           };
-                  } catch {
-            // Failed to create manual payment intent, will throw error below
-          }
+        } catch {
+          // Failed to create manual payment intent, will throw error below
+        }
       }
       
       throw new Error(`Payment intent not found or not expanded. Type: ${typeof paymentIntentRaw}, Invoice ID: ${invoice.id}`);
@@ -267,6 +321,17 @@ export async function createCheckout(data: CheckoutData) {
 
 export async function confirmPayment(subscriptionId: string) {
   try {
+    if (isDevelopmentMode) {
+      console.log('🚀 Mock payment confirmation for:', subscriptionId);
+      // Simulate async delay for realistic testing
+      await new Promise(resolve => setTimeout(resolve, 500));
+      return createMockPaymentConfirmation(subscriptionId);
+    }
+
+    if (!stripe) {
+      throw new Error('Stripe not initialized');
+    }
+
     const subscription = await stripe.subscriptions.retrieve(subscriptionId);
     
     if (subscription.status === 'active') {
