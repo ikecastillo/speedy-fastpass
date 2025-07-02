@@ -17,24 +17,6 @@ interface VehicleFormProps {
 export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}) {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   
-  // Initialize form with any existing data and migrate old data if needed
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Migrate old data format if it exists
-      migrateOldCheckoutData();
-      
-      // Load existing vehicle data if available
-      const checkoutData = getCheckoutData();
-      if (checkoutData?.vehicle) {
-        console.log('Loading existing vehicle data:', checkoutData.vehicle);
-        // Populate form with existing data
-        Object.entries(checkoutData.vehicle).forEach(([key, value]) => {
-          setValue(key as keyof VehicleForm, value, { shouldValidate: true });
-        });
-      }
-    }
-  }, []);
-  
   const {
     register,
     handleSubmit,
@@ -58,6 +40,24 @@ export function VehicleFormComponent({ onValidityChange }: VehicleFormProps = {}
       agreeTos: false
     }
   });
+
+  // Initialize form with any existing data and migrate old data if needed
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Migrate old data format if it exists
+      migrateOldCheckoutData();
+      
+      // Load existing vehicle data if available
+      const checkoutData = getCheckoutData();
+      if (checkoutData?.vehicle) {
+        console.log('Loading existing vehicle data:', checkoutData.vehicle);
+        // Populate form with existing data
+        Object.entries(checkoutData.vehicle).forEach(([key, value]) => {
+          setValue(key as keyof VehicleForm, value, { shouldValidate: true });
+        });
+      }
+    }
+  }, [setValue]);
 
   // Watch phone field to format as (###) ###-####
   const phoneValue = watch("phone");

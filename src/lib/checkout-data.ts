@@ -153,7 +153,7 @@ export function migrateOldCheckoutData(): void {
     if (oldPlanData || oldVehicleData) {
       console.log('🔄 Migrating old checkout data...');
       
-      let migratedData: Partial<CheckoutData> = {};
+      const migratedData: Partial<CheckoutData> = {};
       
       // Migrate plan data
       if (oldPlanData) {
