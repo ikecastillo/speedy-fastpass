@@ -62,6 +62,11 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
     return calculatePrice(plan, period);
   };
 
+  const toggleExpanded = (index: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedPlan(expandedPlan === index ? null : index);
+  };
+
   return (
     <div className="w-full">
       <div className="rounded-3xl">
@@ -93,42 +98,25 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
           </div>
         </div>
 
-        {/* Desktop: 2x2 Grid */}
+        {/* Desktop: 2x2 Grid with Expandable Cards */}
         <div className="hidden sm:grid sm:grid-cols-2 gap-4 mb-8 px-4 sm:px-6 lg:px-8">
           {plans.map((plan, index) => {
             const planMeta = plansMeta.find(meta => 
               meta.label.toLowerCase().replace('+', '-plus') === plan.name.toLowerCase().replace('+', '-plus')
             );
+            const isExpanded = expandedPlan === index;
+            const isSelected = activePlan === index;
             
             return (
               <div
                 key={plan.name}
-                className={`relative overflow-hidden rounded-3xl border-2 cursor-pointer transition-all duration-300 ${
-                  activePlan === index 
+                className={`relative overflow-hidden rounded-3xl border cursor-pointer transition-all duration-300 ${
+                  isSelected 
                     ? 'border-blue-500 bg-gradient-to-br from-blue-50/50 to-blue-100/30 shadow-xl shadow-blue-200/40 scale-105' 
                     : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-lg shadow-sm hover:scale-102'
                 }`}
                 onClick={() => handleChangePlan(index)}
               >
-                {plan.popular && (
-                  <div className="absolute top-0 right-0 z-10">
-                    <div 
-                      className="px-4 py-2 text-white text-xs font-bold rounded-bl-2xl rounded-tr-3xl shadow-lg"
-                      style={{ background: `linear-gradient(135deg, #1463B4, #12579C)` }}
-                    >
-                      Most Popular
-                    </div>
-                  </div>
-                )}
-
-                {(plan.name === 'Works+' || plan.name === 'Works') && (
-                  <div className="absolute top-4 left-4 z-10">
-                    <div className="bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border border-red-700/20">
-                      $5 First Month!
-                    </div>
-                  </div>
-                )}
-
                 <div className="p-6 h-full flex flex-col">
                   <div className="text-center mb-6">
                     <h3 className="font-bold text-2xl text-gray-900 mb-2">
@@ -154,18 +142,6 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                         /{billingPeriod === 0 ? 'mo' : 'yr'}
                       </span>
                     </div>
-
-                    {(plan.name === 'Works+' || plan.name === 'Works') && (
-                      <div className="text-sm text-gray-400 line-through">
-                        Regular: $
-                        <NumberFlow
-                          className="text-sm text-gray-400"
-                          value={billingPeriod === 0 ? (plan.name === 'Works+' ? 39.99 : 34.99) : (plan.name === 'Works+' ? 399.99 : 349.99)}
-                          format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
-                        />
-                        /{billingPeriod === 0 ? 'mo' : 'yr'}
-                      </div>
-                    )}
                   </div>
 
                   <div className="flex-grow mb-6">
@@ -183,22 +159,53 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                         </div>
                       ))}
                       {planMeta?.features && planMeta.features.filter(f => f.included).length > 3 && (
-                        <div className="text-xs text-gray-500 font-medium">
-                          +{planMeta.features.filter(f => f.included).length - 3} more features
-                        </div>
+                        <button
+                          onClick={(e) => toggleExpanded(index, e)}
+                          className="text-xs text-blue-500 font-medium hover:text-blue-600 transition-colors"
+                        >
+                          {isExpanded ? 'Show Less' : `+${planMeta.features.filter(f => f.included).length - 3} more features`}
+                        </button>
                       )}
                     </div>
+                    
+                    {/* Expandable features for desktop */}
+                    <AnimatePresence>
+                      {isExpanded && planMeta?.features && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                          className="overflow-hidden mt-3"
+                        >
+                          <div className="space-y-3 pt-3 border-t border-gray-100">
+                            {planMeta.features.filter(f => f.included).slice(3).map((feature, featureIndex) => (
+                              <div key={featureIndex} className="flex items-center gap-3">
+                                <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                  </svg>
+                                </div>
+                                <span className="text-sm font-medium text-gray-700">
+                                  {feature.name}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
 
                   <div className="flex justify-center">
                     <div
                       className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
-                        activePlan === index 
+                        isSelected 
                           ? 'border-blue-500 bg-blue-500 shadow-lg shadow-blue-200/50' 
                           : 'border-gray-300 bg-white'
                       }`}
                     >
-                      {activePlan === index && (
+                      {isSelected && (
                         <div className="w-4 h-4 bg-white rounded-full" />
                       )}
                     </div>
@@ -221,7 +228,7 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
             return (
               <div
                 key={plan.name}
-                className={`relative overflow-hidden rounded-2xl border-2 transition-all duration-300 ${
+                className={`relative overflow-hidden rounded-2xl border transition-all duration-300 ${
                   isSelected 
                     ? 'border-blue-500 bg-gradient-to-r from-blue-50/50 to-blue-100/30 shadow-lg shadow-blue-200/30' 
                     : 'border-gray-200 bg-white shadow-sm'
@@ -239,19 +246,6 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                         <h3 className="font-bold text-lg text-gray-900">
                           {plan.name}
                         </h3>
-                        {plan.popular && (
-                          <span 
-                            className="px-2 py-1 text-white text-[10px] font-bold rounded-full"
-                            style={{ background: `linear-gradient(135deg, #1463B4, #12579C)` }}
-                          >
-                            Popular
-                          </span>
-                        )}
-                        {(plan.name === 'Works+' || plan.name === 'Works') && (
-                          <span className="bg-gradient-to-r from-red-500 to-red-600 text-white text-[10px] font-bold px-2 py-1 rounded-full">
-                            $5 First Month!
-                          </span>
-                        )}
                       </div>
                       
                       {/* Key features preview */}
@@ -261,19 +255,6 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                           <span className="text-gray-400"> • +{planMeta.features.filter(f => f.included).length - 2} more</span>
                         )}
                       </div>
-
-                      {/* Special offer pricing */}
-                      {(plan.name === 'Works+' || plan.name === 'Works') && (
-                        <div className="text-xs text-gray-400 line-through">
-                          Regular: $
-                          <NumberFlow
-                            className="text-xs text-gray-400"
-                            value={billingPeriod === 0 ? (plan.name === 'Works+' ? 39.99 : 34.99) : (plan.name === 'Works+' ? 399.99 : 349.99)}
-                            format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
-                          />
-                          /{billingPeriod === 0 ? 'mo' : 'yr'}
-                        </div>
-                      )}
                     </div>
 
                     {/* Right: Price and selection */}
@@ -316,6 +297,21 @@ export function PricingSelector({ activePlan, setActivePlan, billingPeriod, setB
                     </div>
                   </div>
                 </div>
+
+                {/* Expandable details button */}
+                <button
+                  onClick={(e) => toggleExpanded(index, e)}
+                  className="w-full px-4 py-2 border-t border-gray-100 bg-gray-50/50 text-xs font-medium text-gray-600 hover:bg-gray-100/50 transition-colors flex items-center justify-center gap-1"
+                >
+                  {isExpanded ? 'Hide Details' : 'Show All Features'}
+                  <svg 
+                    className={`w-3 h-3 transition-transform ${isExpanded ? 'rotate-180' : ''}`} 
+                    fill="currentColor" 
+                    viewBox="0 0 20 20"
+                  >
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
 
                 {/* Auto-expanding details */}
                 <AnimatePresence>
